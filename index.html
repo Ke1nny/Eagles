@@ -1,0 +1,2064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eagles AI & Robotics Research Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #020810;
+    --bg2: #050f1f;
+    --neon: #00f5ff;
+    --neon2: #7b2fff;
+    --neon3: #ff6b00;
+    --text: #e0f0ff;
+    --muted: #6a8aaa;
+    --card: rgba(0,245,255,0.04);
+    --border: rgba(0,245,255,0.15);
+    --font-head: 'Orbitron', monospace;
+    --font-body: 'Exo 2', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  #cursor {
+    width: 12px; height: 12px;
+    background: var(--neon);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s;
+    box-shadow: 0 0 10px var(--neon), 0 0 20px var(--neon);
+  }
+  #cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(0,245,255,0.5);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.15s, width 0.2s, height 0.2s;
+  }
+
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: rgba(2,8,16,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-family: var(--font-head);
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: var(--neon);
+    text-shadow: 0 0 16px var(--neon);
+    letter-spacing: 2px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .nav-logo span { color: var(--text); }
+
+  .eagle-icon {
+    width: 36px; height: 36px;
+    filter: drop-shadow(0 0 8px var(--neon));
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 0.2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--font-head);
+    font-size: 0.62rem;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    transition: color 0.2s, background 0.2s;
+    text-transform: uppercase;
+  }
+
+  .nav-links a:hover {
+    color: var(--neon);
+    background: rgba(0,245,255,0.07);
+  }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 8px;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--neon);
+    transition: all 0.3s;
+  }
+
+  /* HERO */
+  #home {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 80px 2rem 2rem;
+  }
+
+  .hero-content {
+    text-align: center;
+    z-index: 2;
+    max-width: 900px;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    font-family: var(--font-head);
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    color: var(--neon);
+    border: 1px solid var(--neon);
+    padding: 6px 16px;
+    border-radius: 2px;
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.6s ease both;
+    text-shadow: 0 0 8px var(--neon);
+    box-shadow: 0 0 16px rgba(0,245,255,0.1), inset 0 0 16px rgba(0,245,255,0.05);
+  }
+
+  h1.hero-title {
+    font-family: var(--font-head);
+    font-size: clamp(2.2rem, 6vw, 5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin-bottom: 1.5rem;
+    animation: fadeInUp 0.8s 0.1s ease both;
+  }
+
+  .hero-title .line1 { color: var(--text); }
+  .hero-title .line2 {
+    color: var(--neon);
+    text-shadow: 0 0 30px var(--neon), 0 0 60px rgba(0,245,255,0.3);
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 620px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+    animation: fadeInUp 0.8s 0.2s ease both;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeInUp 0.8s 0.3s ease both;
+  }
+
+  .btn {
+    font-family: var(--font-head);
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    padding: 14px 28px;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s;
+    text-transform: uppercase;
+  }
+
+  .btn-primary {
+    background: var(--neon);
+    color: var(--bg);
+    font-weight: 700;
+    box-shadow: 0 0 20px rgba(0,245,255,0.4);
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 0 40px rgba(0,245,255,0.7);
+    transform: translateY(-2px);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--neon);
+    border: 1px solid var(--neon);
+  }
+
+  .btn-outline:hover {
+    background: rgba(0,245,255,0.08);
+    transform: translateY(-2px);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid rgba(106,138,170,0.3);
+  }
+
+  .btn-ghost:hover {
+    color: var(--text);
+    border-color: var(--muted);
+  }
+
+  /* Hero visual elements */
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+
+  .orb1 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(0,245,255,0.12), transparent 70%);
+    top: -100px; right: -100px;
+    animation: pulse 6s ease-in-out infinite;
+  }
+
+  .orb2 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(123,47,255,0.1), transparent 70%);
+    bottom: -80px; left: -80px;
+    animation: pulse 8s 2s ease-in-out infinite;
+  }
+
+  .orb3 {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(255,107,0,0.07), transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse 10s 1s ease-in-out infinite;
+  }
+
+  /* Floating particles */
+  .particles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .particle {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: var(--neon);
+    border-radius: 50%;
+    animation: float linear infinite;
+    opacity: 0;
+  }
+
+  /* Stats */
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+    margin-top: 4rem;
+    animation: fadeInUp 0.8s 0.4s ease both;
+  }
+
+  .stat-item { text-align: center; }
+
+  .stat-num {
+    font-family: var(--font-head);
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--neon);
+    text-shadow: 0 0 20px var(--neon);
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* SECTIONS */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 6rem 2rem;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: var(--font-head);
+    font-size: 0.6rem;
+    letter-spacing: 5px;
+    color: var(--neon);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--neon);
+    box-shadow: 0 0 8px var(--neon);
+  }
+
+  h2.section-title {
+    font-family: var(--font-head);
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-desc {
+    color: var(--muted);
+    max-width: 600px;
+    line-height: 1.8;
+    font-size: 1rem;
+  }
+
+  /* ABOUT */
+  #about { background: var(--bg2); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    margin-top: 3rem;
+  }
+
+  .about-visual {
+    position: relative;
+    height: 400px;
+  }
+
+  .about-box {
+    position: absolute;
+    border: 1px solid var(--border);
+    background: var(--card);
+    border-radius: 8px;
+    padding: 1.5rem;
+    backdrop-filter: blur(10px);
+  }
+
+  .about-box-main {
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .about-box-main .big-icon {
+    font-size: 5rem;
+    filter: drop-shadow(0 0 20px var(--neon));
+    animation: float2 4s ease-in-out infinite;
+  }
+
+  .about-box-corner {
+    width: 160px;
+    right: -20px;
+    bottom: 40px;
+    border-color: rgba(123,47,255,0.3);
+    background: rgba(123,47,255,0.06);
+  }
+
+  .about-box-corner2 {
+    width: 140px;
+    left: -20px;
+    top: 40px;
+    border-color: rgba(255,107,0,0.3);
+    background: rgba(255,107,0,0.06);
+  }
+
+  .mini-stat {
+    font-family: var(--font-head);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--neon2);
+  }
+
+  .mini-label { font-size: 0.7rem; color: var(--muted); margin-top: 4px; }
+
+  .values-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .values-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--card);
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .values-list li:hover {
+    border-color: var(--neon);
+    transform: translateX(6px);
+  }
+
+  .val-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
+
+  .val-text strong {
+    display: block;
+    font-family: var(--font-head);
+    font-size: 0.8rem;
+    color: var(--neon);
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .val-text span { font-size: 0.85rem; color: var(--muted); }
+
+  /* RESEARCH */
+  #research { }
+
+  .research-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    font-family: var(--font-head);
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+
+  .tab-btn.active, .tab-btn:hover {
+    border-color: var(--neon);
+    color: var(--neon);
+    background: rgba(0,245,255,0.07);
+  }
+
+  .research-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .research-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.8rem;
+    background: var(--card);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .research-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--neon), var(--neon2));
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    transform-origin: left;
+  }
+
+  .research-card:hover::before { transform: scaleX(1); }
+
+  .research-card:hover {
+    border-color: rgba(0,245,255,0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,245,255,0.08);
+  }
+
+  .card-icon { font-size: 2.2rem; margin-bottom: 1rem; }
+
+  .card-title {
+    font-family: var(--font-head);
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    color: var(--neon);
+    margin-bottom: 0.8rem;
+  }
+
+  .card-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+
+  .card-tag {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    color: var(--neon2);
+    border: 1px solid rgba(123,47,255,0.3);
+    padding: 3px 10px;
+    border-radius: 2px;
+    text-transform: uppercase;
+  }
+
+  /* TRAINING */
+  #training { background: var(--bg2); }
+
+  .training-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .training-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    background: var(--card);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .training-card:hover {
+    border-color: var(--neon);
+    box-shadow: 0 0 30px rgba(0,245,255,0.06);
+    transform: translateY(-3px);
+  }
+
+  .training-num {
+    font-family: var(--font-head);
+    font-size: 3rem;
+    font-weight: 900;
+    color: rgba(0,245,255,0.08);
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    line-height: 1;
+  }
+
+  .training-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+
+  .training-title {
+    font-family: var(--font-head);
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    color: var(--text);
+    margin-bottom: 0.8rem;
+  }
+
+  .training-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.2rem; }
+
+  .training-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .meta-item { display: flex; align-items: center; gap: 4px; }
+
+  /* PRODUCTS */
+  #products { }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .product-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--card);
+    transition: all 0.3s;
+  }
+
+  .product-card:hover {
+    border-color: rgba(0,245,255,0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 50px rgba(0,0,0,0.4);
+  }
+
+  .product-visual {
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-visual::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent, var(--card));
+  }
+
+  .pv1 { background: linear-gradient(135deg, rgba(0,245,255,0.1), rgba(123,47,255,0.1)); }
+  .pv2 { background: linear-gradient(135deg, rgba(123,47,255,0.1), rgba(255,107,0,0.1)); }
+  .pv3 { background: linear-gradient(135deg, rgba(255,107,0,0.1), rgba(0,245,255,0.1)); }
+  .pv4 { background: linear-gradient(135deg, rgba(0,245,255,0.08), rgba(0,100,100,0.15)); }
+  .pv5 { background: linear-gradient(135deg, rgba(123,47,255,0.08), rgba(50,0,100,0.15)); }
+  .pv6 { background: linear-gradient(135deg, rgba(255,107,0,0.08), rgba(100,30,0,0.15)); }
+
+  .product-body { padding: 1.5rem; }
+
+  .product-title {
+    font-family: var(--font-head);
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  .product-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+
+  .product-cta {
+    display: inline-block;
+    margin-top: 1rem;
+    font-family: var(--font-head);
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    color: var(--neon);
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: text-shadow 0.2s;
+  }
+
+  .product-cta:hover { text-shadow: 0 0 12px var(--neon); }
+
+  /* INNOVATION HUB */
+  #innovation { background: var(--bg2); }
+
+  .hub-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    margin-top: 3rem;
+  }
+
+  .hub-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .hub-step {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--card);
+    transition: all 0.3s;
+  }
+
+  .hub-step:hover {
+    border-color: var(--neon2);
+    transform: translateX(6px);
+  }
+
+  .step-num {
+    font-family: var(--font-head);
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--neon2);
+    text-shadow: 0 0 16px var(--neon2);
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  .step-title {
+    font-family: var(--font-head);
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+  }
+
+  .step-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+
+  .hub-cta-box {
+    border: 1px solid rgba(123,47,255,0.4);
+    border-radius: 12px;
+    padding: 3rem;
+    background: linear-gradient(135deg, rgba(123,47,255,0.08), rgba(0,245,255,0.04));
+    text-align: center;
+  }
+
+  .hub-icon { font-size: 4rem; margin-bottom: 1.5rem; display: block; }
+
+  /* PARTNERS */
+  #partners { }
+
+  .partners-logos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 3rem;
+  }
+
+  .partner-logo {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.2rem 2rem;
+    background: var(--card);
+    font-family: var(--font-head);
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    color: var(--muted);
+    transition: all 0.3s;
+    text-transform: uppercase;
+  }
+
+  .partner-logo:hover {
+    border-color: var(--neon);
+    color: var(--neon);
+    box-shadow: 0 0 20px rgba(0,245,255,0.08);
+  }
+
+  /* MEDIA */
+  #media { background: var(--bg2); }
+
+  .media-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 200px 200px;
+    gap: 1rem;
+    margin-top: 3rem;
+  }
+
+  .media-item {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .media-item:hover { border-color: var(--neon); }
+  .media-item.span2 { grid-row: span 2; font-size: 4rem; }
+
+  .media-label {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    font-family: var(--font-head);
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    color: var(--text);
+    text-transform: uppercase;
+  }
+
+  /* TESTIMONIALS */
+  .testimonials {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .testimonial {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    background: var(--card);
+    position: relative;
+  }
+
+  .testimonial::before {
+    content: '"';
+    font-size: 5rem;
+    font-family: Georgia, serif;
+    color: var(--neon);
+    opacity: 0.15;
+    position: absolute;
+    top: -10px;
+    left: 1.5rem;
+    line-height: 1;
+  }
+
+  .testimonial-text {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .author-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--neon), var(--neon2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-head);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--bg);
+    flex-shrink: 0;
+  }
+
+  .author-name {
+    font-family: var(--font-head);
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    color: var(--text);
+  }
+
+  .author-role { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+
+  /* CONTACT */
+  #contact { }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-top: 3rem;
+  }
+
+  .contact-info { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--card);
+    transition: all 0.3s;
+  }
+
+  .contact-item:hover { border-color: var(--neon); }
+
+  .contact-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+
+  .contact-label {
+    font-family: var(--font-head);
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    color: var(--neon);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  .contact-value { font-size: 0.9rem; color: var(--text); line-height: 1.6; }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+
+  .form-label {
+    font-family: var(--font-head);
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .form-input, .form-textarea, .form-select {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 12px 16px;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+    outline: none;
+    width: 100%;
+  }
+
+  .form-input:focus, .form-textarea:focus, .form-select:focus {
+    border-color: var(--neon);
+    box-shadow: 0 0 0 2px rgba(0,245,255,0.1);
+  }
+
+  .form-textarea { resize: vertical; min-height: 120px; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  /* PORTAL */
+  #portal { background: var(--bg2); }
+
+  .portal-box {
+    max-width: 500px;
+    margin: 3rem auto 0;
+    border: 1px solid rgba(123,47,255,0.3);
+    border-radius: 12px;
+    padding: 3rem;
+    background: linear-gradient(135deg, rgba(123,47,255,0.06), rgba(0,245,255,0.04));
+    text-align: center;
+  }
+
+  .portal-icon { font-size: 3rem; margin-bottom: 1.5rem; display: block; }
+
+  .portal-title {
+    font-family: var(--font-head);
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+
+  .portal-desc { color: var(--muted); margin-bottom: 2rem; font-size: 0.9rem; line-height: 1.7; }
+
+  .portal-form { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 4rem 2rem 2rem;
+    background: var(--bg);
+  }
+
+  .footer-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .footer-brand p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-top: 1rem;
+    max-width: 280px;
+  }
+
+  .footer-col h4 {
+    font-family: var(--font-head);
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    color: var(--neon);
+    margin-bottom: 1.2rem;
+    text-transform: uppercase;
+  }
+
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+
+  .footer-col ul li a {
+    font-size: 0.85rem;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-col ul li a:hover { color: var(--neon); }
+
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  /* NEWS TICKER */
+  .news-ticker {
+    background: rgba(0,245,255,0.06);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .ticker-inner {
+    display: inline-flex;
+    gap: 4rem;
+    animation: ticker 30s linear infinite;
+    font-size: 0.78rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  .ticker-item { display: flex; align-items: center; gap: 8px; }
+  .ticker-dot { width: 6px; height: 6px; background: var(--neon); border-radius: 50%; box-shadow: 0 0 6px var(--neon); }
+
+  /* MOBILE NAV */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(2,8,16,0.97);
+    z-index: 999;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    backdrop-filter: blur(20px);
+  }
+
+  .mobile-menu.open { display: flex; }
+
+  .mobile-menu a {
+    font-family: var(--font-head);
+    font-size: 1.2rem;
+    letter-spacing: 4px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+    text-transform: uppercase;
+  }
+
+  .mobile-menu a:hover { color: var(--neon); }
+
+  .mobile-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 1.5rem;
+    color: var(--neon);
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
+
+  /* SCROLL INDICATOR */
+  .scroll-progress {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--neon), var(--neon2));
+    z-index: 1001;
+    transition: width 0.1s;
+    box-shadow: 0 0 8px var(--neon);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
+  }
+
+  @keyframes float {
+    0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-100px) translateX(40px); opacity: 0; }
+  }
+
+  @keyframes float2 {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(5deg); }
+  }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @keyframes scanline {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100vh); }
+  }
+
+  .scanline {
+    position: fixed;
+    left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(0,245,255,0.06), transparent);
+    pointer-events: none;
+    z-index: 1;
+    animation: scanline 8s linear infinite;
+  }
+
+  /* REVEAL animations on scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .about-grid, .hub-grid, .contact-grid { grid-template-columns: 1fr; }
+    .products-grid { grid-template-columns: 1fr 1fr; }
+    .testimonials { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .media-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .media-item.span2 { grid-row: span 1; }
+  }
+
+  @media (max-width: 600px) {
+    .products-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .stats-row { gap: 2rem; }
+    .hero-ctas { flex-direction: column; align-items: center; }
+    .research-tabs { gap: 0.3rem; }
+  }
+
+  /* Glitch text effect */
+  .glitch {
+    position: relative;
+  }
+  .glitch::before, .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .glitch::before {
+    color: var(--neon2);
+    animation: glitch1 3s infinite;
+    clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+  }
+  .glitch::after {
+    color: var(--neon3);
+    animation: glitch2 3s infinite;
+    clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+  }
+  @keyframes glitch1 {
+    0%, 90%, 100% { transform: translate(0); opacity: 0; }
+    91% { transform: translate(-2px, 1px); opacity: 0.7; }
+    93% { transform: translate(2px, -1px); opacity: 0.7; }
+    95% { transform: translate(0); opacity: 0; }
+  }
+  @keyframes glitch2 {
+    0%, 92%, 100% { transform: translate(0); opacity: 0; }
+    93% { transform: translate(2px, 2px); opacity: 0.7; }
+    96% { transform: translate(-2px, -1px); opacity: 0.7; }
+    98% { transform: translate(0); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div class="scanline"></div>
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="closeMobile()">✕</button>
+  <a href="#home" onclick="closeMobile()">Home</a>
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#research" onclick="closeMobile()">Research</a>
+  <a href="#training" onclick="closeMobile()">Training</a>
+  <a href="#products" onclick="closeMobile()">Products</a>
+  <a href="#innovation" onclick="closeMobile()">Innovation Hub</a>
+  <a href="#partners" onclick="closeMobile()">Partners</a>
+  <a href="#media" onclick="closeMobile()">Media</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+  <a href="#portal" onclick="closeMobile()">Portal</a>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">
+    <svg class="eagle-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 4L28 14L36 10L30 22L36 28L20 24L4 28L10 22L4 10L12 14Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      <circle cx="20" cy="20" r="3" fill="currentColor"/>
+      <path d="M20 17V8M20 23V32M17 20H8M23 20H32" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+    </svg>
+    EAGLES <span>AI LAB</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#training">Training</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#innovation">Innovation Hub</a></li>
+    <li><a href="#partners">Partners</a></li>
+    <li><a href="#media">Media</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#portal" style="color:var(--neon); border:1px solid var(--neon); border-radius:3px; padding:6px 12px;">Portal</a></li>
+  </ul>
+  <div class="hamburger" onclick="openMobile()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- NEWS TICKER -->
+<div class="news-ticker" style="margin-top:64px;">
+  <div class="ticker-inner">
+    <div class="ticker-item"><span class="ticker-dot"></span> Eagles AI Lab launches new Autonomous Robotics Program 2025</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> 500+ students trained in AI & Machine Learning this quarter</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> New partnership with leading tech institutions announced</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> Agricultural Robotics prototype wins national innovation award</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> Applications open for STEM Bootcamp — Apply now</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> Eagles AI Lab launches new Autonomous Robotics Program 2025</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> 500+ students trained in AI & Machine Learning this quarter</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> New partnership with leading tech institutions announced</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> Agricultural Robotics prototype wins national innovation award</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> Applications open for STEM Bootcamp — Apply now</div>
+  </div>
+</div>
+
+<!-- HOME / HERO -->
+<section id="home">
+  <div class="particles" id="particles"></div>
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+  <div class="hero-orb orb3"></div>
+  <div class="hero-content">
+    <div class="hero-badge">⚡ Nigeria's Premier AI & Robotics Research Lab</div>
+    <h1 class="hero-title">
+      <span class="line1">Inventing the Future</span><br>
+      <span class="line2 glitch" data-text="with AI & Robotics">with AI & Robotics</span>
+    </h1>
+    <p class="hero-sub">Eagles AI & Robotics Research Lab is pioneering cutting-edge artificial intelligence and robotics solutions — building Africa's next generation of tech innovators, researchers, and entrepreneurs.</p>
+    <div class="hero-ctas">
+      <a href="#training" class="btn btn-primary">Join Us</a>
+      <a href="#innovation" class="btn btn-outline">Apply Now</a>
+      <a href="#partners" class="btn btn-ghost">Partner With Us</a>
+      <a href="#contact" class="btn btn-ghost">Donate</a>
+    </div>
+    <div class="stats-row">
+      <div class="stat-item">
+        <span class="stat-num" data-count="1200">0</span>
+        <span class="stat-label">Students Trained</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num" data-count="48">0</span>
+        <span class="stat-label">Prototypes Built</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num" data-count="23">0</span>
+        <span class="stat-label">Awards Won</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num" data-count="15">0</span>
+        <span class="stat-label">Research Papers</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="section-label">Who We Are</div>
+    <h2 class="section-title">About <span style="color:var(--neon)">Eagles AI Lab</span></h2>
+    <div class="about-grid">
+      <div>
+        <p class="section-desc">We are a research-driven institution committed to advancing artificial intelligence and robotics technology across Africa. Our multidisciplinary team of engineers, researchers, and educators work together to solve real-world problems through innovation.</p>
+        <ul class="values-list reveal">
+          <li>
+            <span class="val-icon">🎯</span>
+            <div class="val-text">
+              <strong>Mission</strong>
+              <span>To democratize AI & Robotics education and drive technological innovation across Nigeria and Africa.</span>
+            </div>
+          </li>
+          <li>
+            <span class="val-icon">🔭</span>
+            <div class="val-text">
+              <strong>Vision</strong>
+              <span>To become Africa's leading hub for AI research, robotics development, and tech entrepreneurship.</span>
+            </div>
+          </li>
+          <li>
+            <span class="val-icon">💡</span>
+            <div class="val-text">
+              <strong>Innovation First</strong>
+              <span>Every solution we build is grounded in rigorous research and practical real-world application.</span>
+            </div>
+          </li>
+          <li>
+            <span class="val-icon">🌍</span>
+            <div class="val-text">
+              <strong>African Context</strong>
+              <span>We build technology that addresses Africa's unique challenges with locally relevant solutions.</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="about-visual reveal">
+        <div class="about-box about-box-main">
+          <div class="big-icon">🦅</div>
+          <div style="font-family:var(--font-head);font-size:0.8rem;letter-spacing:2px;color:var(--neon);">EAGLES AI LAB</div>
+          <div style="font-size:0.75rem;color:var(--muted);">Est. 2020 · Nigeria</div>
+        </div>
+        <div class="about-box about-box-corner">
+          <div class="mini-stat" style="color:var(--neon2);">98%</div>
+          <div class="mini-label">Research Success Rate</div>
+        </div>
+        <div class="about-box about-box-corner2">
+          <div class="mini-stat" style="color:var(--neon3);">30+</div>
+          <div class="mini-label">Expert Researchers</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research">
+  <div class="container">
+    <div class="section-label">Innovation & Discovery</div>
+    <h2 class="section-title">Our <span style="color:var(--neon)">Research Units</span></h2>
+    <p class="section-desc">Pushing the boundaries of what's possible through focused, interdisciplinary research in AI and Robotics.</p>
+    <div class="research-tabs">
+      <button class="tab-btn active" onclick="filterResearch('all', this)">All</button>
+      <button class="tab-btn" onclick="filterResearch('ai', this)">AI Research</button>
+      <button class="tab-btn" onclick="filterResearch('robotics', this)">Robotics</button>
+      <button class="tab-btn" onclick="filterResearch('publications', this)">Publications</button>
+    </div>
+    <div class="research-grid" id="researchGrid">
+      <div class="research-card reveal" data-cat="ai">
+        <div class="card-icon">🧠</div>
+        <div class="card-title">Machine Learning</div>
+        <div class="card-desc">Deep learning architectures and neural networks solving complex pattern recognition and predictive modeling tasks.</div>
+        <span class="card-tag">AI Research</span>
+      </div>
+      <div class="research-card reveal" data-cat="ai">
+        <div class="card-icon">💬</div>
+        <div class="card-title">Natural Language Processing</div>
+        <div class="card-desc">Building language models that understand and generate African languages alongside global communication systems.</div>
+        <span class="card-tag">AI Research</span>
+      </div>
+      <div class="research-card reveal" data-cat="ai">
+        <div class="card-icon">👁️</div>
+        <div class="card-title">Computer Vision</div>
+        <div class="card-desc">Advanced image recognition and video analytics systems for security, agriculture, and medical diagnostics.</div>
+        <span class="card-tag">AI Research</span>
+      </div>
+      <div class="research-card reveal" data-cat="ai">
+        <div class="card-icon">📊</div>
+        <div class="card-title">Predictive Analytics</div>
+        <div class="card-desc">Data-driven forecasting models for business intelligence, climate prediction, and public health systems.</div>
+        <span class="card-tag">AI Research</span>
+      </div>
+      <div class="research-card reveal" data-cat="robotics">
+        <div class="card-icon">🤖</div>
+        <div class="card-title">Autonomous Robots</div>
+        <div class="card-desc">Self-navigating robotic systems with real-time decision making for industrial and commercial applications.</div>
+        <span class="card-tag">Robotics</span>
+      </div>
+      <div class="research-card reveal" data-cat="robotics">
+        <div class="card-icon">🌾</div>
+        <div class="card-title">Agricultural Robotics</div>
+        <div class="card-desc">Smart farming robots that automate planting, irrigation, pest detection, and harvest operations at scale.</div>
+        <span class="card-tag">Robotics</span>
+      </div>
+      <div class="research-card reveal" data-cat="robotics">
+        <div class="card-icon">🚁</div>
+        <div class="card-title">Drone Development</div>
+        <div class="card-desc">Custom UAV systems for surveillance, delivery logistics, mapping, and emergency response operations.</div>
+        <span class="card-tag">Robotics</span>
+      </div>
+      <div class="research-card reveal" data-cat="robotics">
+        <div class="card-icon">⚙️</div>
+        <div class="card-title">Embedded Systems</div>
+        <div class="card-desc">Low-power intelligent microcontroller systems for IoT devices and smart infrastructure integration.</div>
+        <span class="card-tag">Robotics</span>
+      </div>
+      <div class="research-card reveal" data-cat="publications">
+        <div class="card-icon">📄</div>
+        <div class="card-title">Publications & Patents</div>
+        <div class="card-desc">15+ peer-reviewed papers published in international journals with 6 active patents in robotics and AI systems.</div>
+        <span class="card-tag">Publications</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRAINING -->
+<section id="training">
+  <div class="container">
+    <div class="section-label">Build Your Future</div>
+    <h2 class="section-title">Training & <span style="color:var(--neon)">Education</span></h2>
+    <p class="section-desc">From school students to working professionals — we have a program designed to elevate your skills in AI and Robotics.</p>
+    <div class="training-grid">
+      <div class="training-card reveal">
+        <div class="training-num">01</div>
+        <div class="training-icon">⚡</div>
+        <div class="training-title">Short Courses & Bootcamps</div>
+        <div class="training-desc">Intensive 2–8 week programs covering Python for AI, Machine Learning fundamentals, Robotics programming, and more.</div>
+        <div class="training-meta">
+          <span class="meta-item">⏱ 2–8 Weeks</span>
+          <span class="meta-item">🎓 Certificate</span>
+        </div>
+      </div>
+      <div class="training-card reveal">
+        <div class="training-num">02</div>
+        <div class="training-icon">🏫</div>
+        <div class="training-title">STEM for Schools</div>
+        <div class="training-desc">Bringing hands-on robotics and coding to secondary schools, inspiring the next generation of African tech leaders.</div>
+        <div class="training-meta">
+          <span class="meta-item">📚 Ages 10–18</span>
+          <span class="meta-item">🏫 In-School</span>
+        </div>
+      </div>
+      <div class="training-card reveal">
+        <div class="training-num">03</div>
+        <div class="training-icon">🚀</div>
+        <div class="training-title">AI for Youth</div>
+        <div class="training-desc">A dedicated program introducing teenagers to AI concepts, ethics, and practical application through project-based learning.</div>
+        <div class="training-meta">
+          <span class="meta-item">👦 Ages 13–22</span>
+          <span class="meta-item">🌐 Hybrid</span>
+        </div>
+      </div>
+      <div class="training-card reveal">
+        <div class="training-num">04</div>
+        <div class="training-icon">🔧</div>
+        <div class="training-title">Internship & SIWES</div>
+        <div class="training-desc">Structured industrial training for university students with real project exposure, mentorship, and industry certification.</div>
+        <div class="training-meta">
+          <span class="meta-item">🏢 On-site</span>
+          <span class="meta-item">📋 SIWES Approved</span>
+        </div>
+      </div>
+      <div class="training-card reveal">
+        <div class="training-num">05</div>
+        <div class="training-icon">🤖</div>
+        <div class="training-title">Robotics Clubs for Teens</div>
+        <div class="training-desc">Weekend robotics clubs where teens design, build, and compete with robots while developing engineering thinking.</div>
+        <div class="training-meta">
+          <span class="meta-item">📅 Weekends</span>
+          <span class="meta-item">🏆 Competitions</span>
+        </div>
+      </div>
+      <div class="training-card reveal">
+        <div class="training-num">06</div>
+        <div class="training-icon">💻</div>
+        <div class="training-title">Hackathons</div>
+        <div class="training-desc">24–72 hour innovation challenges where teams build AI and robotics solutions for real African problems, with prizes.</div>
+        <div class="training-meta">
+          <span class="meta-item">🗓 Quarterly</span>
+          <span class="meta-item">🥇 Cash Prizes</span>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:3rem;">
+      <a href="#contact" class="btn btn-primary">Register for a Program</a>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="container">
+    <div class="section-label">What We Build</div>
+    <h2 class="section-title">Products & <span style="color:var(--neon)">Solutions</span></h2>
+    <p class="section-desc">From educational kits to enterprise automation — our products are built to solve Africa's most pressing challenges.</p>
+    <div class="products-grid reveal">
+      <div class="product-card">
+        <div class="product-visual pv1">🤖</div>
+        <div class="product-body">
+          <div class="product-title">Robotics Products</div>
+          <div class="product-desc">Custom-built robotic systems for industrial, agricultural, and commercial use cases tailored for African environments.</div>
+          <div class="product-cta">Explore →</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-visual pv2">🧩</div>
+        <div class="product-body">
+          <div class="product-title">Software Solutions</div>
+          <div class="product-desc">AI-powered software platforms for business automation, analytics, and intelligent decision-support systems.</div>
+          <div class="product-cta">Explore →</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-visual pv3">🎓</div>
+        <div class="product-body">
+          <div class="product-title">Educational Kits</div>
+          <div class="product-desc">Hands-on STEM kits designed for schools and youth programs, making robotics and AI tangible and fun.</div>
+          <div class="product-cta">Explore →</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-visual pv4">🏫</div>
+        <div class="product-body">
+          <div class="product-title">Smart School Solutions</div>
+          <div class="product-desc">AI-driven school management, learning analytics, and smart classroom tools for modern educational institutions.</div>
+          <div class="product-cta">Explore →</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-visual pv5">⛪</div>
+        <div class="product-body">
+          <div class="product-title">Smart Church Solutions</div>
+          <div class="product-desc">Technology solutions for faith-based organizations including attendance systems, media automation, and data management.</div>
+          <div class="product-cta">Explore →</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-visual pv6">⚙️</div>
+        <div class="product-body">
+          <div class="product-title">Automation Solutions</div>
+          <div class="product-desc">End-to-end process automation for businesses, reducing costs and increasing operational efficiency through intelligent systems.</div>
+          <div class="product-cta">Explore →</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INNOVATION HUB -->
+<section id="innovation">
+  <div class="container">
+    <div class="section-label">Startup Ecosystem</div>
+    <h2 class="section-title">Innovation & <span style="color:var(--neon2)">Incubation Hub</span></h2>
+    <p class="section-desc">We don't just train innovators — we fund, mentor, and launch them into the world.</p>
+    <div class="hub-grid">
+      <div class="hub-steps">
+        <div class="hub-step reveal">
+          <div class="step-num">01</div>
+          <div>
+            <div class="step-title">Startup Incubation</div>
+            <div class="step-desc">6–12 month incubation program with workspace, technical resources, and access to our research infrastructure.</div>
+          </div>
+        </div>
+        <div class="hub-step reveal">
+          <div class="step-num">02</div>
+          <div>
+            <div class="step-title">Accelerator Program</div>
+            <div class="step-desc">Fast-track growth program for early-stage AI & Robotics startups with investor connections and go-to-market support.</div>
+          </div>
+        </div>
+        <div class="hub-step reveal">
+          <div class="step-num">03</div>
+          <div>
+            <div class="step-title">Funding Access</div>
+            <div class="step-desc">Connect with angel investors, grants, and venture capital funds specifically focused on African tech innovation.</div>
+          </div>
+        </div>
+        <div class="hub-step reveal">
+          <div class="step-num">04</div>
+          <div>
+            <div class="step-title">Mentorship Network</div>
+            <div class="step-desc">One-on-one mentorship from seasoned entrepreneurs, engineers, and business leaders in the tech ecosystem.</div>
+          </div>
+        </div>
+      </div>
+      <div class="hub-cta-box reveal">
+        <span class="hub-icon">🚀</span>
+        <h3 style="font-family:var(--font-head);font-size:1.3rem;letter-spacing:2px;margin-bottom:1rem;">Ready to Launch?</h3>
+        <p style="color:var(--muted);font-size:0.9rem;line-height:1.8;margin-bottom:2rem;">Applications for our 2025 Incubation cohort are now open. Join a network of Africa's brightest AI & Robotics entrepreneurs.</p>
+        <a href="#contact" class="btn btn-primary" style="display:inline-block;">Apply Now</a>
+        <div style="margin-top:2rem;padding-top:2rem;border-top:1px solid var(--border);">
+          <div style="display:flex;justify-content:space-around;">
+            <div style="text-align:center;">
+              <div style="font-family:var(--font-head);font-size:1.5rem;color:var(--neon2);">12</div>
+              <div style="font-size:0.72rem;color:var(--muted);margin-top:4px;">Startups Launched</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-family:var(--font-head);font-size:1.5rem;color:var(--neon);">₦50M+</div>
+              <div style="font-size:0.72rem;color:var(--muted);margin-top:4px;">Funding Raised</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-family:var(--font-head);font-size:1.5rem;color:var(--neon3);">85%</div>
+              <div style="font-size:0.72rem;color:var(--muted);margin-top:4px;">Success Rate</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNERS -->
+<section id="partners">
+  <div class="container">
+    <div class="section-label">Collaborations</div>
+    <h2 class="section-title">Partners & <span style="color:var(--neon)">Sponsors</span></h2>
+    <p class="section-desc">We work alongside government agencies, universities, industries, and faith-based organizations to maximize our impact.</p>
+    <div class="partners-logos reveal">
+      <div class="partner-logo">Federal Ministry of Science</div>
+      <div class="partner-logo">NITDA Nigeria</div>
+      <div class="partner-logo">University of Nigeria</div>
+      <div class="partner-logo">STEM Nigeria</div>
+      <div class="partner-logo">NCC</div>
+      <div class="partner-logo">NNPC Ltd</div>
+      <div class="partner-logo">World Bank Group</div>
+      <div class="partner-logo">Tony Elumelu Foundation</div>
+      <div class="partner-logo">Google Africa</div>
+      <div class="partner-logo">Microsoft Africa</div>
+    </div>
+    <div style="text-align:center;margin-top:3rem;">
+      <p style="color:var(--muted);margin-bottom:1.5rem;font-size:0.9rem;">Interested in partnering with Eagles AI Lab?</p>
+      <a href="#contact" class="btn btn-outline">Become a Partner</a>
+    </div>
+  </div>
+</section>
+
+<!-- MEDIA -->
+<section id="media">
+  <div class="container">
+    <div class="section-label">Gallery & Resources</div>
+    <h2 class="section-title">Media & <span style="color:var(--neon)">Resources</span></h2>
+    <p class="section-desc">Stay up to date with our latest news, events, research publications, and media coverage.</p>
+    <div class="media-grid reveal">
+      <div class="media-item span2" style="background:linear-gradient(135deg,rgba(0,245,255,0.07),rgba(123,47,255,0.07));">
+        <span style="font-size:5rem;filter:drop-shadow(0 0 20px var(--neon));">🦅</span>
+        <div class="media-label">Featured: Eagles AI Annual Summit 2025</div>
+      </div>
+      <div class="media-item" style="background:rgba(123,47,255,0.06);">
+        🔬
+        <div class="media-label">Research Gallery</div>
+      </div>
+      <div class="media-item" style="background:rgba(255,107,0,0.06);">
+        🏆
+        <div class="media-label">Awards</div>
+      </div>
+      <div class="media-item" style="background:rgba(0,245,255,0.05);">
+        📰
+        <div class="media-label">Press Releases</div>
+      </div>
+      <div class="media-item" style="background:rgba(123,47,255,0.05);">
+        🎓
+        <div class="media-label">Bootcamp Highlights</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:2rem;">
+      <a href="#" class="btn btn-outline">📄 Research Papers</a>
+      <a href="#" class="btn btn-ghost">📰 Articles & Blog</a>
+      <a href="#" class="btn btn-ghost">📋 Download Brochure</a>
+      <a href="#" class="btn btn-ghost">📬 Newsletter</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section style="padding:4rem 2rem;background:var(--bg2);">
+  <div class="container">
+    <div class="section-label">What People Say</div>
+    <h2 class="section-title">Testimonials</h2>
+    <div class="testimonials">
+      <div class="testimonial reveal">
+        <p class="testimonial-text">Eagles AI Lab completely transformed how I understand robotics. The hands-on approach and expert mentorship gave me the confidence to build my own startup.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">AO</div>
+          <div>
+            <div class="author-name">Adaeze Okonkwo</div>
+            <div class="author-role">Robotics Startup Founder, Enugu</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial reveal">
+        <p class="testimonial-text">The AI bootcamp was intense, practical, and career-changing. Within 3 months I landed a machine learning role at a top fintech firm. Highly recommend.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">EI</div>
+          <div>
+            <div class="author-name">Emmanuel Ibe</div>
+            <div class="author-role">ML Engineer, Lagos</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial reveal">
+        <p class="testimonial-text">As a secondary school principal, partnering with Eagles AI Lab for our STEM program has been remarkable. Our students are now thinking like engineers and innovators.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">NC</div>
+          <div>
+            <div class="author-name">Ngozi Chukwu</div>
+            <div class="author-role">Principal, Federal Government College</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-label">Get In Touch</div>
+    <h2 class="section-title">Contact <span style="color:var(--neon)">& Location</span></h2>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="contact-item reveal">
+          <span class="contact-icon">📍</span>
+          <div>
+            <div class="contact-label">Office Address</div>
+            <div class="contact-value">Eagles AI & Robotics Research Lab<br>Innovation Drive, Tech Hub District<br>Abuja, FCT, Nigeria</div>
+          </div>
+        </div>
+        <div class="contact-item reveal">
+          <span class="contact-icon">📞</span>
+          <div>
+            <div class="contact-label">Phone</div>
+            <div class="contact-value">+234 800 EAGLES AI<br>+234 901 234 5678</div>
+          </div>
+        </div>
+        <div class="contact-item reveal">
+          <span class="contact-icon">📧</span>
+          <div>
+            <div class="contact-label">Email</div>
+            <div class="contact-value">info@eaglesailab.org<br>research@eaglesailab.org</div>
+          </div>
+        </div>
+        <div class="contact-item reveal">
+          <span class="contact-icon">🕒</span>
+          <div>
+            <div class="contact-label">Office Hours</div>
+            <div class="contact-value">Monday – Friday: 8AM – 6PM<br>Saturday: 9AM – 2PM</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+          <a href="https://wa.me/2349012345678" class="btn btn-primary" style="background:#25d366;box-shadow:0 0 20px rgba(37,211,102,0.4);">💬 WhatsApp</a>
+          <a href="mailto:info@eaglesailab.org" class="btn btn-outline">✉️ Email Us</a>
+        </div>
+      </div>
+      <div>
+        <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">First Name</label>
+              <input class="form-input" type="text" placeholder="John" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Last Name</label>
+              <input class="form-input" type="text" placeholder="Doe" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input class="form-input" type="email" placeholder="john@example.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input class="form-input" type="tel" placeholder="+234 ...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Subject</label>
+            <select class="form-select">
+              <option value="">Select a topic...</option>
+              <option>Training & Enrollment</option>
+              <option>Research Collaboration</option>
+              <option>Partnership</option>
+              <option>Donation</option>
+              <option>Incubation / Startup</option>
+              <option>General Inquiry</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Message</label>
+            <textarea class="form-textarea" placeholder="Tell us how we can help you..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;">Send Message →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTAL -->
+<section id="portal">
+  <div class="container">
+    <div class="section-label">Member Access</div>
+    <h2 class="section-title" style="text-align:center;">Student <span style="color:var(--neon2)">Portal</span></h2>
+    <div class="portal-box reveal">
+      <span class="portal-icon">🔐</span>
+      <div class="portal-title">Member Login</div>
+      <div class="portal-desc">Access your courses, assignments, progress tracking, certifications, and learning resources through your personal dashboard.</div>
+      <div class="portal-form">
+        <div class="form-group">
+          <input class="form-input" type="email" placeholder="Email address">
+        </div>
+        <div class="form-group">
+          <input class="form-input" type="password" placeholder="Password">
+        </div>
+        <button class="btn btn-primary" style="width:100%" onclick="alert('Portal login coming soon!')">Login to Dashboard →</button>
+      </div>
+      <div style="display:flex;justify-content:center;gap:2rem;font-size:0.8rem;">
+        <a href="#" style="color:var(--muted);text-decoration:none;" onmouseover="this.style.color='var(--neon)'" onmouseout="this.style.color='var(--muted)'">Forgot Password?</a>
+        <a href="#contact" style="color:var(--neon);text-decoration:none;">Apply for Access</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#home" class="nav-logo" style="display:inline-flex;margin-bottom:0.5rem;">EAGLES <span>AI LAB</span></a>
+      <p>Pioneering AI & Robotics innovation across Nigeria and Africa. Training the next generation of tech leaders since 2020.</p>
+      <div style="margin-top:1.5rem;display:flex;gap:0.8rem;flex-wrap:wrap;">
+        <a href="#" style="font-size:1.3rem;">🐦</a>
+        <a href="#" style="font-size:1.3rem;">💼</a>
+        <a href="#" style="font-size:1.3rem;">📘</a>
+        <a href="#" style="font-size:1.3rem;">▶️</a>
+        <a href="#" style="font-size:1.3rem;">📸</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Research</h4>
+      <ul>
+        <li><a href="#research">Machine Learning</a></li>
+        <li><a href="#research">NLP</a></li>
+        <li><a href="#research">Computer Vision</a></li>
+        <li><a href="#research">Autonomous Robots</a></li>
+        <li><a href="#research">Drone Development</a></li>
+        <li><a href="#media">Publications</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Training</h4>
+      <ul>
+        <li><a href="#training">Bootcamps</a></li>
+        <li><a href="#training">STEM for Schools</a></li>
+        <li><a href="#training">AI for Youth</a></li>
+        <li><a href="#training">Internship</a></li>
+        <li><a href="#training">Hackathons</a></li>
+        <li><a href="#portal">Student Portal</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Organisation</h4>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#innovation">Innovation Hub</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#partners">Partners</a></li>
+        <li><a href="#media">Media</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Eagles AI & Robotics Research Lab. All rights reserved.</span>
+    <span>Built with 🤖 in Nigeria</span>
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
+  });
+
+  function animateRing() {
+    rx += (mx - rx - 18) * 0.12;
+    ry += (my - ry - 18) * 0.12;
+    ring.style.transform = `translate(${rx}px, ${ry}px)`;
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button, .research-card, .training-card, .product-card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform += ' scale(1.5)';
+      ring.style.width = '60px'; ring.style.height = '60px';
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.style.width = '36px'; ring.style.height = '36px';
+    });
+  });
+
+  // Scroll progress
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    document.getElementById('scrollProgress').style.width = (window.scrollY / h * 100) + '%';
+  });
+
+  // Particles
+  const particlesEl = document.getElementById('particles');
+  for (let i = 0; i < 20; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText = `left:${Math.random()*100}%;animation-duration:${8+Math.random()*12}s;animation-delay:${Math.random()*10}s;opacity:${0.3+Math.random()*0.4}`;
+    particlesEl.appendChild(p);
+  }
+
+  // Counter animation
+  function animateCount(el, target) {
+    let count = 0;
+    const step = target / 60;
+    const timer = setInterval(() => {
+      count = Math.min(count + step, target);
+      el.textContent = Math.floor(count) + (target >= 100 ? '+' : '');
+      if (count >= target) clearInterval(timer);
+    }, 25);
+  }
+
+  const statsObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        document.querySelectorAll('[data-count]').forEach(el => {
+          animateCount(el, parseInt(el.dataset.count));
+        });
+        statsObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.5 });
+
+  const statsRow = document.querySelector('.stats-row');
+  if (statsRow) statsObserver.observe(statsRow);
+
+  // Scroll reveal
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  // Research filter
+  function filterResearch(cat, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.research-card').forEach(card => {
+      if (cat === 'all' || card.dataset.cat === cat) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  // Mobile menu
+  function openMobile() { document.getElementById('mobileMenu').classList.add('open'); }
+  function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
+
+  // Contact form
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type=submit]');
+    const orig = btn.textContent;
+    btn.textContent = '✅ Message Sent!';
+    btn.style.background = '#25d366';
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.style.background = '';
+      e.target.reset();
+    }, 3000);
+  }
+
+  // Active nav highlighting
+  const sections = document.querySelectorAll('section[id]');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--neon)' : '';
+    });
+  });
+</script>
+</body>
+</html>
