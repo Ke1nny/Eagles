@@ -29,7 +29,6 @@
     font-family: var(--font-body);
     font-weight: 300;
     overflow-x: hidden;
-    /* default cursor — no custom cursor */
   }
 
   /* Grid background */
@@ -45,14 +44,16 @@
     z-index: 0;
   }
 
-  /* ── CROSSHAIR CURSOR ─────────────────────────────────────────────────── */
-  #cursor {
+  /* ── ROBOT CANVAS ──────────────────────────────────────────────────────── */
+  #robot-canvas {
     position: fixed;
+    inset: 0;
     pointer-events: none;
-    z-index: 9999;
-    top: 0; left: 0;
-    /* We draw the cursor via two pseudo-lines */
+    z-index: 0;
+    opacity: 0.55;
   }
+
+  /* ── CROSSHAIR CURSOR ─────────────────────────────────────────────────── */
   #cursor-h, #cursor-v {
     position: fixed;
     pointer-events: none;
@@ -62,7 +63,6 @@
   }
   #cursor-h { height: 1px; width: 100vw; top: 0; left: 0; }
   #cursor-v { width: 1px; height: 100vh; left: 0; top: 0; }
-  /* The dot */
   #cursor-dot {
     position: fixed;
     width: 6px; height: 6px;
@@ -128,7 +128,6 @@
   }
   .nav-links a:hover { color: var(--neon); background: rgba(0,245,255,0.07); }
 
-  /* Portal nav link — highlighted */
   .nav-portal {
     color: var(--neon2) !important;
     border: 1px solid rgba(123,47,255,0.5) !important;
@@ -371,7 +370,7 @@
   .form-textarea { resize:vertical;min-height:120px; }
   .form-row { display:grid;grid-template-columns:1fr 1fr;gap:1rem; }
 
-  /* PORTAL SECTION — just a CTA, no form */
+  /* PORTAL SECTION */
   #portal { background:var(--bg2); }
   .portal-cta-box {
     max-width: 560px;
@@ -460,7 +459,8 @@
 </head>
 <body>
 
-<!-- Crosshair cursor elements -->
+<canvas id="robot-canvas"></canvas>
+
 <div id="cursor-h"></div>
 <div id="cursor-v"></div>
 <div id="cursor-dot"></div>
@@ -777,7 +777,7 @@
   </div>
 </section>
 
-<!-- PORTAL — CTA only, no login form -->
+<!-- PORTAL -->
 <section id="portal">
   <div class="container">
     <div class="section-label">Member Access</div>
@@ -855,7 +855,122 @@
 </footer>
 
 <script>
-  // ── Crosshair cursor ──────────────────────────────────────────────────────
+  (function() {
+    const canvas = document.getElementById('robot-canvas');
+    const ctx = canvas.getContext('2d');
+    const ROBOT_COUNT = 18;
+    const robots = [];
+
+    function resize() {
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function drawRobot(x, y, s, dir, frame, alpha) {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.translate(x, y);
+      ctx.scale(dir * s, s);
+
+      const c1 = '#00f5ff';
+      const c2 = '#7b2fff';
+
+      ctx.shadowColor = '#00f5ff';
+      ctx.shadowBlur  = 6 * s;
+
+      const legSwing = Math.sin(frame * 0.18) * 3;
+      ctx.fillStyle = c1;
+      ctx.fillRect(-6, 14, 4, 8 + (frame % 2 === 0 ? legSwing : -legSwing));
+      ctx.fillRect(2,  14, 4, 8 - (frame % 2 === 0 ? legSwing : -legSwing));
+      ctx.fillRect(-8, 22 + (frame % 2 === 0 ? legSwing : -legSwing), 6, 3);
+      ctx.fillRect(0,  22 - (frame % 2 === 0 ? legSwing : -legSwing), 6, 3);
+
+      ctx.fillStyle = c1;
+      ctx.fillRect(-9, 2, 18, 13);
+      ctx.strokeStyle = c1;
+      ctx.lineWidth = 0.5;
+      ctx.strokeRect(-9, 2, 18, 13);
+
+      ctx.fillStyle = c2;
+      ctx.globalAlpha = alpha * 0.7;
+      ctx.fillRect(-4, 5, 8, 5);
+      ctx.globalAlpha = alpha;
+
+      const armSwing = Math.sin(frame * 0.18 + Math.PI) * 4;
+      ctx.fillStyle = c1;
+      ctx.fillRect(-14, 3 + armSwing, 5, 3);
+      ctx.fillRect(9,   3 - armSwing, 5, 3);
+      ctx.fillRect(-15, 5 + armSwing, 3, 3);
+      ctx.fillRect(13,  5 - armSwing, 3, 3);
+
+      ctx.fillStyle = c1;
+      ctx.fillRect(-3, -2, 6, 4);
+      ctx.fillRect(-8, -12, 16, 10);
+      ctx.strokeRect(-8, -12, 16, 10);
+
+      ctx.fillRect(-1, -17, 2, 5);
+      ctx.fillStyle = c2;
+      ctx.beginPath();
+      ctx.arc(0, -18, 2, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = c2;
+      ctx.globalAlpha = alpha * (0.7 + Math.sin(frame * 0.05) * 0.3);
+      ctx.fillRect(-6, -10, 4, 4);
+      ctx.fillRect(2, -10, 4, 4);
+      ctx.globalAlpha = alpha;
+
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(-5, -9, 2, 2);
+      ctx.fillRect(3,  -9, 2, 2);
+
+      ctx.restore();
+    }
+
+    function createRobot() {
+      const side = Math.random() < 0.5 ? -1 : 1;
+      const speed = 0.3 + Math.random() * 0.5;
+      return {
+        x    : side === 1 ? -40 : canvas.width + 40,
+        y    : 80 + Math.random() * (canvas.height - 160),
+        dir  : side,
+        speed: speed * side,
+        scale: 0.6 + Math.random() * 0.9,
+        alpha: 0.12 + Math.random() * 0.18,
+        frame: Math.floor(Math.random() * 100),
+        vy   : (Math.random() - 0.5) * 0.15,
+      };
+    }
+
+    for (let i = 0; i < ROBOT_COUNT; i++) {
+      const r = createRobot();
+      r.x = Math.random() * canvas.width;
+      robots.push(r);
+    }
+
+    function tick() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      robots.forEach((r, i) => {
+        r.x     += r.speed;
+        r.y     += r.vy;
+        r.frame += 1;
+
+        if (r.y < 40)                  { r.y = 40;              r.vy *= -1; }
+        if (r.y > canvas.height - 40)  { r.y = canvas.height - 40; r.vy *= -1; }
+
+        const offRight = r.dir > 0 && r.x > canvas.width  + 60;
+        const offLeft  = r.dir < 0 && r.x < -60;
+        if (offRight || offLeft) robots[i] = createRobot();
+
+        drawRobot(r.x, r.y, r.scale, r.dir, r.frame, r.alpha);
+      });
+      requestAnimationFrame(tick);
+    }
+    tick();
+  })();
+
   const cursorH   = document.getElementById('cursor-h');
   const cursorV   = document.getElementById('cursor-v');
   const cursorDot = document.getElementById('cursor-dot');
@@ -868,13 +983,11 @@
     cursorDot.style.top  = y + 'px';
   });
 
-  // ── Scroll progress ───────────────────────────────────────────────────────
   window.addEventListener('scroll', () => {
     const h = document.documentElement.scrollHeight - window.innerHeight;
     document.getElementById('scrollProgress').style.width = (window.scrollY / h * 100) + '%';
   });
 
-  // ── Particles ─────────────────────────────────────────────────────────────
   const particlesEl = document.getElementById('particles');
   for (let i = 0; i < 20; i++) {
     const p = document.createElement('div');
@@ -883,7 +996,6 @@
     particlesEl.appendChild(p);
   }
 
-  // ── Counter animation ─────────────────────────────────────────────────────
   function animateCount(el, target) {
     let count = 0;
     const step = target / 60;
@@ -906,14 +1018,12 @@
   const statsRow = document.querySelector('.stats-row');
   if (statsRow) statsObserver.observe(statsRow);
 
-  // ── Scroll reveal ─────────────────────────────────────────────────────────
   const revealObserver = new IntersectionObserver(entries => {
     entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
   }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
   document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-  // ── Research filter ───────────────────────────────────────────────────────
   function filterResearch(cat, btn) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
@@ -922,11 +1032,9 @@
     });
   }
 
-  // ── Mobile menu ───────────────────────────────────────────────────────────
   function openMobile()  { document.getElementById('mobileMenu').classList.add('open'); }
   function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
 
-  // ── Contact form ──────────────────────────────────────────────────────────
   function handleSubmit(e) {
     e.preventDefault();
     const btn = e.target.querySelector('button[type=submit]');
@@ -936,11 +1044,9 @@
     setTimeout(() => { btn.textContent = orig; btn.style.background = ''; e.target.reset(); }, 3000);
   }
 
-  // ── Active nav highlight ──────────────────────────────────────────────────
-  const sections = document.querySelectorAll('section[id]');
   window.addEventListener('scroll', () => {
     let current = '';
-    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+    document.querySelectorAll('section[id]').forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
     document.querySelectorAll('.nav-links a').forEach(a => {
       if (!a.classList.contains('nav-portal'))
         a.style.color = a.getAttribute('href') === '#' + current ? 'var(--neon)' : '';
