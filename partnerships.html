@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
-  <title>Home — Eagles AI Lab</title>
+  <title>Partners — Eagles AI Lab</title>
 
   <style>
     :root {
@@ -210,49 +210,31 @@
       .stat-boxes { flex-direction: column; }
     }
   </style>
-
-  <style>
-    #home { min-height:100vh; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:100px 2rem 4rem; }
-    .hero-content { text-align:center; z-index:2; max-width:860px; }
-    .hero-badge { display:inline-block; font-family:var(--font-head); font-size:0.65rem; letter-spacing:4px; color:var(--neon); border:1px solid var(--neon); padding:6px 16px; border-radius:2px; margin-bottom:2rem; animation:fadeInUp 0.6s ease both; text-shadow:0 0 8px var(--neon); box-shadow:0 0 16px rgba(0,245,255,0.1),inset 0 0 16px rgba(0,245,255,0.05); }
-    h1.hero-title { font-family:var(--font-head); font-size:clamp(2.2rem,6vw,5rem); font-weight:900; line-height:1.05; letter-spacing:-1px; margin-bottom:1.5rem; animation:fadeInUp 0.8s 0.1s ease both; }
-    .hero-title .line1 { color:var(--text); }
-    .hero-title .line2 { color:var(--neon); text-shadow:0 0 30px var(--neon),0 0 60px rgba(0,245,255,0.3); }
-    .hero-sub { font-size:1.05rem; color:var(--muted); max-width:620px; margin:0 auto 2.5rem; line-height:1.8; animation:fadeInUp 0.8s 0.2s ease both; }
-    .hero-ctas { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; animation:fadeInUp 0.8s 0.3s ease both; }
-    .stats-row { display:flex; justify-content:center; gap:3rem; flex-wrap:wrap; margin-top:4rem; animation:fadeInUp 0.8s 0.4s ease both; }
-    .stat-item { text-align:center; }
-    .stat-num { font-family:var(--font-head); font-size:2.2rem; font-weight:900; color:var(--neon); text-shadow:0 0 20px var(--neon); display:block; }
-    .stat-label { font-size:0.72rem; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-top:4px; }
-    .hero-orb { position:absolute; border-radius:50%; filter:blur(80px); pointer-events:none; }
-    .quick-links { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1.2rem; margin-top:3rem; }
-    .ql-card { border:1px solid var(--border); border-radius:8px; padding:1.5rem; background:var(--card); text-decoration:none; text-align:center; transition:all 0.3s; display:block; }
-    .ql-card:hover { border-color:var(--neon); transform:translateY(-3px); box-shadow:0 8px 30px rgba(0,245,255,0.07); }
-    .ql-icon { font-size:2rem; margin-bottom:0.7rem; display:block; }
-    .ql-title { font-family:var(--font-head); font-size:0.75rem; letter-spacing:1px; color:var(--neon); margin-bottom:0.3rem; }
-    .ql-desc { font-size:0.78rem; color:var(--muted); }
-    .testimonials { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
-    .testimonial { border:1px solid var(--border); border-radius:8px; padding:2rem; background:var(--card); position:relative; }
-    .testimonial::before { content:'"'; font-size:5rem; font-family:Georgia,serif; color:var(--neon); opacity:0.12; position:absolute; top:-10px; left:1.5rem; line-height:1; }
-    .testimonial-text { font-size:0.88rem; color:var(--muted); line-height:1.8; margin-bottom:1.5rem; font-style:italic; }
-    .testimonial-author { display:flex; align-items:center; gap:12px; }
-    .author-avatar { width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,var(--neon),var(--neon2)); display:flex; align-items:center; justify-content:center; font-family:var(--font-head); font-size:0.8rem; font-weight:700; color:var(--bg); flex-shrink:0; }
-    .author-name { font-family:var(--font-head); font-size:0.75rem; letter-spacing:1px; color:var(--text); }
-    .author-role { font-size:0.72rem; color:var(--muted); margin-top:2px; }
-    .partners-logos { display:flex; flex-wrap:wrap; gap:1rem; justify-content:center; margin-top:2.5rem; }
-    .partner-logo { border:1px solid var(--border); border-radius:8px; padding:1rem 1.8rem; background:var(--card); font-family:var(--font-head); font-size:0.7rem; letter-spacing:2px; color:var(--muted); transition:all 0.3s; text-transform:uppercase; }
-    .partner-logo:hover { border-color:var(--neon); color:var(--neon); }
-    @media(max-width:900px){ .testimonials{grid-template-columns:1fr;} }
-    .featured-projects { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.5rem; margin-top:2rem; }
-    .proj-card { border:1px solid var(--border); border-radius:8px; overflow:hidden; background:var(--card); transition:all 0.3s; }
-    .proj-card:hover { border-color:var(--neon2); transform:translateY(-4px); }
-    .proj-visual { height:130px; display:flex; align-items:center; justify-content:center; font-size:3.5rem; }
-    .proj-body { padding:1.4rem; }
-    .proj-title { font-family:var(--font-head); font-size:0.82rem; letter-spacing:1px; color:var(--text); margin-bottom:0.5rem; }
-    .proj-desc { font-size:0.82rem; color:var(--muted); line-height:1.6; }
-    .proj-tag { display:inline-block; margin-top:0.8rem; font-size:0.62rem; letter-spacing:2px; color:var(--neon); border:1px solid rgba(0,245,255,0.3); padding:2px 8px; border-radius:2px; text-transform:uppercase; }
-  </style>
-
+<style>
+  .partner-tier { margin-bottom: 3rem; }
+  .tier-label { font-family:var(--font-head); font-size:0.62rem; letter-spacing:4px; color:var(--neon2); text-transform:uppercase; margin-bottom:1.2rem; display:flex; align-items:center; gap:12px; }
+  .tier-label::before { content:''; display:block; width:30px; height:1px; background:var(--neon2); box-shadow:0 0 8px var(--neon2); }
+  .partners-logos { display:flex; flex-wrap:wrap; gap:1rem; margin-top:1rem; }
+  .partner-logo { border:1px solid var(--border); border-radius:8px; padding:1.2rem 2rem; background:var(--card); font-family:var(--font-head); font-size:0.7rem; letter-spacing:2px; color:var(--muted); transition:all 0.3s; text-transform:uppercase; }
+  .partner-logo:hover { border-color:var(--neon); color:var(--neon); box-shadow:0 0 20px rgba(0,245,255,0.08); }
+  .become-partner-box { border:1px solid rgba(123,47,255,0.4); border-radius:12px; padding:3rem; background:linear-gradient(135deg,rgba(123,47,255,0.08),rgba(0,245,255,0.04)); text-align:center; margin-top:2rem; }
+  .become-partner-box h3 { font-family:var(--font-head); font-size:1.2rem; letter-spacing:2px; color:var(--text); margin-bottom:1rem; }
+  .become-partner-box p { color:var(--muted); font-size:0.9rem; line-height:1.8; margin-bottom:2rem; max-width:500px; margin-left:auto; margin-right:auto; }
+  .partner-benefits { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1.2rem; margin-top:2rem; }
+  .benefit-item { border:1px solid var(--border); border-radius:8px; padding:1.5rem; background:var(--card); text-align:left; transition:all 0.3s; }
+  .benefit-item:hover { border-color:var(--neon2); transform:translateY(-3px); }
+  .benefit-icon { font-size:1.8rem; margin-bottom:0.8rem; }
+  .benefit-title { font-family:var(--font-head); font-size:0.78rem; letter-spacing:1px; color:var(--neon); margin-bottom:0.4rem; }
+  .benefit-desc { font-size:0.8rem; color:var(--muted); line-height:1.6; }
+  .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:3rem; margin-top:2rem; }
+  .contact-info { display:flex; flex-direction:column; gap:1.5rem; }
+  .contact-item { display:flex; align-items:flex-start; gap:1rem; padding:1.5rem; border:1px solid var(--border); border-radius:8px; background:var(--card); transition:all 0.3s; }
+  .contact-item:hover { border-color:var(--neon); }
+  .contact-icon { font-size:1.5rem; flex-shrink:0; margin-top:2px; }
+  .contact-label { font-family:var(--font-head); font-size:0.65rem; letter-spacing:2px; color:var(--neon); margin-bottom:6px; text-transform:uppercase; }
+  .contact-value { font-size:0.9rem; color:var(--text); line-height:1.6; }
+  @media(max-width:900px){ .contact-grid { grid-template-columns:1fr; } }
+</style>
 </head>
 <body>
 <div class="scanline"></div>
@@ -500,117 +482,279 @@
     </div>
   </div>
 
-  <section id="home" style="position:relative;z-index:1;">
-    <div class="hero-orb orb1" style="width:500px;height:500px;background:radial-gradient(circle,rgba(0,245,255,0.12),transparent 70%);top:-100px;right:-100px;animation:pulse 6s ease-in-out infinite;"></div>
-    <div class="hero-orb orb2" style="width:400px;height:400px;background:radial-gradient(circle,rgba(123,47,255,0.1),transparent 70%);bottom:-80px;left:-80px;animation:pulse 8s 2s ease-in-out infinite;"></div>
-    <div class="hero-content">
-      <div class="hero-badge">⚡ Nigeria's Premier AI &amp; Robotics Research Lab</div>
-      <h1 class="hero-title">
-        <span class="line1">Inventing the Future</span><br>
-        <span class="line2">with AI &amp; Robotics</span>
-      </h1>
-      <p class="hero-sub">Eagles AI &amp; Robotics Research Lab is pioneering cutting-edge artificial intelligence and robotics solutions — building Africa's next generation of tech innovators, researchers, and entrepreneurs.</p>
-      <div class="hero-ctas">
-        <a href="training.html#register" class="btn btn-primary">Join Us</a>
-        <a href="contact.html" class="btn btn-outline">Donate</a>
-        <a href="partnerships.html#become-partner" class="btn btn-ghost">Partner With Us</a>
-        <a href="innovation.html#apply" class="btn btn-ghost">Apply Now</a>
+  <div class="page-hero">
+    <div class="orb orb1"></div><div class="orb orb2"></div>
+    <div class="page-hero-label">Collaborations</div>
+    <h1>Partners &amp; <span>Sponsors</span></h1>
+    <p>We work alongside government agencies, universities, industries, and faith-based organizations to maximize our impact across Nigeria and Africa.</p>
+  </div>
+
+  <!-- Government Partners -->
+  <section id="government" class="page-section">
+    <div class="container">
+      <div class="section-label">Public Sector</div>
+      <h2 class="section-title">Government <span>Partners</span></h2>
+      <p class="section-desc">We collaborate with federal and state government bodies to drive national AI policy, fund research, and deliver technology programs at scale.</p>
+      <div class="partner-tier reveal">
+        <div class="tier-label">Federal Agencies</div>
+        <div class="partners-logos">
+          <div class="partner-logo">Federal Ministry of Science</div>
+          <div class="partner-logo">NITDA Nigeria</div>
+          <div class="partner-logo">NCC</div>
+          <div class="partner-logo">NNPC Ltd</div>
+          <div class="partner-logo">TETFund</div>
+          <div class="partner-logo">NSTIF</div>
+        </div>
       </div>
-      <div class="stats-row">
-        <div class="stat-item"><span class="stat-num" data-count="1200">0</span><span class="stat-label">Students Trained</span></div>
-        <div class="stat-item"><span class="stat-num" data-count="48">0</span><span class="stat-label">Prototypes Built</span></div>
-        <div class="stat-item"><span class="stat-num" data-count="23">0</span><span class="stat-label">Awards Won</span></div>
-        <div class="stat-item"><span class="stat-num" data-count="15">0</span><span class="stat-label">Research Papers</span></div>
+      <div class="partner-tier reveal">
+        <div class="tier-label">State Governments</div>
+        <div class="partners-logos">
+          <div class="partner-logo">FCT Administration</div>
+          <div class="partner-logo">Lagos State Govt</div>
+          <div class="partner-logo">Enugu State Govt</div>
+          <div class="partner-logo">Kano State Govt</div>
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- Universities -->
+  <section id="universities" class="page-section" style="background:var(--bg2);">
+    <div class="container">
+      <div class="section-label">Academia</div>
+      <h2 class="section-title">University <span>Partners</span></h2>
+      <p class="section-desc">Academic collaborations that advance joint research, student exchange programs, and curriculum development in AI and Robotics.</p>
+      <div class="cards-grid" style="margin-top:2rem;">
+        <div class="card reveal">
+          <div class="card-icon">🎓</div>
+          <div class="card-title">University of Nigeria, Nsukka</div>
+          <div class="card-desc">Joint agricultural robotics research and SIWES industrial training program for engineering students.</div>
+          <span class="card-tag">Research Partner</span>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🎓</div>
+          <div class="card-title">University of Lagos</div>
+          <div class="card-desc">Collaborative AI curriculum development and student internship pipeline for final-year computer science students.</div>
+          <span class="card-tag">Academic Partner</span>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🎓</div>
+          <div class="card-title">Ahmadu Bello University</div>
+          <div class="card-desc">NLP research partnership focused on Hausa language AI models and northern Nigeria tech access programs.</div>
+          <span class="card-tag">Research Partner</span>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🎓</div>
+          <div class="card-title">Covenant University</div>
+          <div class="card-desc">Smart campus technology deployment and joint innovation hackathons for engineering and computing faculties.</div>
+          <span class="card-tag">Tech Partner</span>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🎓</div>
+          <div class="card-title">FUTO — Federal Univ. of Tech.</div>
+          <div class="card-desc">Embedded systems and robotics curriculum integration, with shared lab access for postgraduate research.</div>
+          <span class="card-tag">Academic Partner</span>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🎓</div>
+          <div class="card-title">Pan-Atlantic University</div>
+          <div class="card-desc">Business-AI intersection programs, entrepreneurship training, and innovation hub co-programming.</div>
+          <span class="card-tag">Innovation Partner</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Industry -->
+  <section id="industry" class="page-section">
+    <div class="container">
+      <div class="section-label">Private Sector</div>
+      <h2 class="section-title">Industry <span>Partners</span></h2>
+      <p class="section-desc">Corporate partnerships that fund research, absorb our graduates, and co-develop AI products for the Nigerian and African market.</p>
+      <div class="partner-tier reveal">
+        <div class="tier-label">Global Tech Companies</div>
+        <div class="partners-logos">
+          <div class="partner-logo">Google Africa</div>
+          <div class="partner-logo">Microsoft Africa</div>
+          <div class="partner-logo">IBM Research Africa</div>
+          <div class="partner-logo">Meta (Nigeria)</div>
+        </div>
+      </div>
+      <div class="partner-tier reveal">
+        <div class="tier-label">Nigerian Industry Leaders</div>
+        <div class="partners-logos">
+          <div class="partner-logo">Dangote Group</div>
+          <div class="partner-logo">Access Bank</div>
+          <div class="partner-logo">MTN Nigeria</div>
+          <div class="partner-logo">Flutterwave</div>
+          <div class="partner-logo">Interswitch</div>
+          <div class="partner-logo">Sterling Bank</div>
+        </div>
+      </div>
+      <div class="partner-tier reveal">
+        <div class="tier-label">Agriculture &amp; Energy Sector</div>
+        <div class="partners-logos">
+          <div class="partner-logo">NNPC Ltd</div>
+          <div class="partner-logo">Notore Chemical</div>
+          <div class="partner-logo">Flour Mills Nigeria</div>
+          <div class="partner-logo">Stallion Group</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Faith-Based -->
+  <section id="faith" class="page-section" style="background:var(--bg2);">
+    <div class="container">
+      <div class="section-label">Community &amp; Faith</div>
+      <h2 class="section-title">Faith-Based <span>Partners</span></h2>
+      <p class="section-desc">We partner with faith-based institutions to deploy Smart Church technology solutions and run STEM outreach through their wide community networks.</p>
+      <div class="cards-grid" style="margin-top:2rem;">
+        <div class="card reveal">
+          <div class="card-icon">⛪</div>
+          <div class="card-title">RCCG Directorate of Education</div>
+          <div class="card-desc">Smart Church solutions deployment across 50+ RCCG schools and STEM training for over 2,000 students annually.</div>
+          <span class="card-tag">Smart Church</span>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">⛪</div>
+          <div class="card-title">Living Faith Church</div>
+          <div class="card-desc">AI-powered school management systems across Faith Academy network and robotics clubs for secondary students.</div>
+          <span class="card-tag">Smart School</span>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🕌</div>
+          <div class="card-title">Supreme Council for Islamic Affairs</div>
+          <div class="card-desc">Technology access programs for Islamic schools in northern Nigeria, including digital literacy and AI for youth.</div>
+          <span class="card-tag">STEM Outreach</span>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">⛪</div>
+          <div class="card-title">CAC Church Network</div>
+          <div class="card-desc">Community STEM hubs hosted within CAC church premises across southwest Nigeria for grassroots tech access.</div>
+          <span class="card-tag">Community Tech</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NGOs & STEM Networks -->
+  <section id="ngos" class="page-section">
+    <div class="container">
+      <div class="section-label">Civil Society</div>
+      <h2 class="section-title">NGOs &amp; <span>STEM Networks</span></h2>
+      <p class="section-desc">We amplify our impact through partnerships with development organisations and STEM networks reaching underserved communities across Africa.</p>
+      <div class="cards-grid" style="margin-top:2rem;">
+        <div class="card reveal">
+          <div class="card-icon">🌍</div>
+          <div class="card-title">Tony Elumelu Foundation</div>
+          <div class="card-desc">Startup funding and entrepreneurship training for African innovators through our joint incubation programs.</div>
+          <span class="card-tag">Funding Partner</span>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🌍</div>
+          <div class="card-title">World Bank Group</div>
+          <div class="card-desc">Digital skills development grants for underserved youth in rural Nigeria as part of the Digital Africa Initiative.</div>
+          <span class="card-tag">Development Partner</span>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🌍</div>
+          <div class="card-title">STEM Nigeria</div>
+          <div class="card-desc">National STEM curriculum advocacy and joint school outreach programs in 12 states across Nigeria.</div>
+          <span class="card-tag">STEM Network</span>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🌍</div>
+          <div class="card-title">Aig-Imoukhuede Foundation</div>
+          <div class="card-desc">Public sector capacity building — training civil servants in AI for governance and digital service delivery.</div>
+          <span class="card-tag">Capacity Building</span>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🌍</div>
+          <div class="card-title">Co-Creation Hub (CcHUB)</div>
+          <div class="card-desc">Shared innovation infrastructure, joint hackathons, and co-mentorship for early-stage AI startups in Nigeria.</div>
+          <span class="card-tag">Innovation Network</span>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🌍</div>
+          <div class="card-title">She Code Africa</div>
+          <div class="card-desc">Gender-inclusive AI and robotics training programs for women and girls across Nigeria and the continent.</div>
+          <span class="card-tag">Inclusion Partner</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Partner -->
   <section class="page-section" style="background:var(--bg2);">
     <div class="container">
-      <div class="section-label">Latest News &amp; Achievements</div>
-      <h2 class="section-title">What's <span>Happening</span></h2>
-      <div class="cards-grid">
-        <div class="card reveal"><div class="card-icon">🏆</div><div class="card-title">National Innovation Award</div><div class="card-desc">Our Agricultural Robotics prototype won the 2025 National Innovation Award for impact in smart farming.</div><span class="card-tag">Award</span></div>
-        <div class="card reveal"><div class="card-icon">🎓</div><div class="card-title">500+ Trained This Quarter</div><div class="card-desc">We successfully trained over 500 students in AI and Machine Learning in Q1 2025 alone.</div><span class="card-tag">Milestone</span></div>
-        <div class="card reveal"><div class="card-icon">🤝</div><div class="card-title">New Tech Partnerships</div><div class="card-desc">Eagles AI Lab announces new institutional partnerships with leading universities across Nigeria.</div><span class="card-tag">Partnership</span></div>
-        <div class="card reveal"><div class="card-icon">🚀</div><div class="card-title">Autonomous Robotics Program</div><div class="card-desc">Our new 2025 Autonomous Robotics cohort is now enrolling. Applications close in April.</div><span class="card-tag">Program</span></div>
+      <div class="section-label">Partnership Value</div>
+      <h2 class="section-title">Why Partner With <span>Us</span></h2>
+      <p class="section-desc">Partnering with Eagles AI Lab connects your organisation to Nigeria's leading AI &amp; Robotics innovation ecosystem.</p>
+      <div class="partner-benefits">
+        <div class="benefit-item reveal">
+          <div class="benefit-icon">🔬</div>
+          <div class="benefit-title">R&amp;D Collaboration</div>
+          <div class="benefit-desc">Access our research infrastructure, AI models, and engineering talent for joint product development.</div>
+        </div>
+        <div class="benefit-item reveal">
+          <div class="benefit-icon">🎓</div>
+          <div class="benefit-title">Talent Pipeline</div>
+          <div class="benefit-desc">First access to our trained graduates and interns — vetted, project-experienced, and job-ready.</div>
+        </div>
+        <div class="benefit-item reveal">
+          <div class="benefit-icon">📣</div>
+          <div class="benefit-title">Brand Visibility</div>
+          <div class="benefit-desc">Featured across our platforms, events, publications, and 50,000+ community members nationwide.</div>
+        </div>
+        <div class="benefit-item reveal">
+          <div class="benefit-icon">🌍</div>
+          <div class="benefit-title">Community Impact</div>
+          <div class="benefit-desc">Demonstrate genuine social impact and CSR value by backing Africa's next generation of tech innovators.</div>
+        </div>
+        <div class="benefit-item reveal">
+          <div class="benefit-icon">🚀</div>
+          <div class="benefit-title">Innovation Access</div>
+          <div class="benefit-desc">Early access to our prototypes, AI tools, and startup products before public release.</div>
+        </div>
+        <div class="benefit-item reveal">
+          <div class="benefit-icon">🤝</div>
+          <div class="benefit-title">Network &amp; Events</div>
+          <div class="benefit-desc">Invitations to exclusive partner summits, demo days, and government stakeholder meetings.</div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="page-section">
+  <!-- Become a Partner -->
+  <section id="become-partner" class="page-section">
     <div class="container">
-      <div class="section-label">Featured Projects</div>
-      <h2 class="section-title">Our <span>Innovations</span></h2>
-      <div class="featured-projects">
-        <div class="proj-card reveal"><div class="proj-visual" style="background:linear-gradient(135deg,rgba(0,245,255,0.1),rgba(123,47,255,0.1))">🌾</div><div class="proj-body"><div class="proj-title">AgroBot — Smart Farming Robot</div><div class="proj-desc">Autonomous robot for planting, irrigation, pest detection, and harvest in Nigerian farms.</div><span class="proj-tag">Robotics</span></div></div>
-        <div class="proj-card reveal"><div class="proj-visual" style="background:linear-gradient(135deg,rgba(123,47,255,0.1),rgba(255,107,0,0.1))">💬</div><div class="proj-body"><div class="proj-title">NaijaBot — Yoruba NLP Model</div><div class="proj-desc">A language model trained on Yoruba, Hausa, and Igbo to power African-language chatbots.</div><span class="proj-tag">AI Research</span></div></div>
-        <div class="proj-card reveal"><div class="proj-visual" style="background:linear-gradient(135deg,rgba(255,107,0,0.1),rgba(0,245,255,0.1))">🚁</div><div class="proj-body"><div class="proj-title">SkyEagle — Delivery Drone</div><div class="proj-desc">Custom UAV built for last-mile delivery in underserved areas with AI-guided navigation.</div><span class="proj-tag">Drone Dev</span></div></div>
+      <div class="section-label">Join Us</div>
+      <h2 class="section-title">Become a <span>Partner</span></h2>
+      <div class="two-col">
+        <div>
+          <p class="section-desc">Whether you're a corporation, university, government agency, NGO, or faith-based institution — there's a partnership model designed for you.</p>
+          <ul class="icon-list reveal" style="margin-top:1.5rem;">
+            <li><span class="li-icon">💰</span><div><strong>Sponsorship</strong><span>Fund specific research projects, training programs, or events with full naming rights and brand visibility.</span></div></li>
+            <li><span class="li-icon">🔬</span><div><strong>Research Partnership</strong><span>Co-develop AI or robotics solutions with our research team using shared resources and IP agreements.</span></div></li>
+            <li><span class="li-icon">🎓</span><div><strong>Training Partnership</strong><span>Co-deliver training programs, provide industry content, or sponsor scholarships for our students.</span></div></li>
+            <li><span class="li-icon">🏢</span><div><strong>Technology Partnership</strong><span>License, deploy, or integrate our AI products and robotics systems into your operations.</span></div></li>
+          </ul>
+        </div>
+        <div class="become-partner-box reveal">
+          <h3>Ready to Partner?</h3>
+          <p>Reach out to our partnerships team and we'll work with you to design a collaboration that delivers mutual value.</p>
+          <a href="contact.html" class="btn btn-primary" style="display:inline-block;margin-bottom:1rem;">Contact Our Team →</a><br>
+          <a href="mailto:partnerships@eaglesailab.org" class="btn btn-ghost" style="display:inline-block;margin-top:0.5rem;">✉️ partnerships@eaglesailab.org</a>
+          <div style="margin-top:2rem;padding-top:2rem;border-top:1px solid var(--border);display:flex;justify-content:space-around;">
+            <div style="text-align:center;"><div style="font-family:var(--font-head);font-size:1.4rem;color:var(--neon);">30+</div><div style="font-size:0.7rem;color:var(--muted);margin-top:4px;">Active Partners</div></div>
+            <div style="text-align:center;"><div style="font-family:var(--font-head);font-size:1.4rem;color:var(--neon2);">12</div><div style="font-size:0.7rem;color:var(--muted);margin-top:4px;">Countries Reached</div></div>
+            <div style="text-align:center;"><div style="font-family:var(--font-head);font-size:1.4rem;color:var(--neon3);">₦50M+</div><div style="font-size:0.7rem;color:var(--muted);margin-top:4px;">Partner Funding</div></div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
-
-  <section class="page-section" style="background:var(--bg2);">
-    <div class="container">
-      <div class="section-label">What People Say</div>
-      <h2 class="section-title">Testimonials</h2>
-      <div class="testimonials">
-        <div class="testimonial reveal"><p class="testimonial-text">Eagles AI Lab completely transformed how I understand robotics. The hands-on approach gave me the confidence to build my own startup.</p><div class="testimonial-author"><div class="author-avatar">AO</div><div><div class="author-name">Adaeze Okonkwo</div><div class="author-role">Robotics Startup Founder, Enugu</div></div></div></div>
-        <div class="testimonial reveal"><p class="testimonial-text">The AI bootcamp was intense, practical, and career-changing. Within 3 months I landed a machine learning role at a top fintech firm.</p><div class="testimonial-author"><div class="author-avatar">EI</div><div><div class="author-name">Emmanuel Ibe</div><div class="author-role">ML Engineer, Lagos</div></div></div></div>
-        <div class="testimonial reveal"><p class="testimonial-text">As a school principal, partnering with Eagles AI Lab for our STEM program has been remarkable. Our students now think like engineers.</p><div class="testimonial-author"><div class="author-avatar">NC</div><div><div class="author-name">Ngozi Chukwu</div><div class="author-role">Principal, Federal Government College</div></div></div></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="page-section">
-    <div class="container">
-      <div class="section-label">Collaborations</div>
-      <h2 class="section-title">Partners &amp; <span>Sponsors</span></h2>
-      <div class="partners-logos reveal">
-        <div class="partner-logo">Federal Ministry of Science</div>
-        <div class="partner-logo">NITDA Nigeria</div>
-        <div class="partner-logo">University of Nigeria</div>
-        <div class="partner-logo">STEM Nigeria</div>
-        <div class="partner-logo">NCC</div>
-        <div class="partner-logo">NNPC Ltd</div>
-        <div class="partner-logo">World Bank Group</div>
-        <div class="partner-logo">Tony Elumelu Foundation</div>
-        <div class="partner-logo">Google Africa</div>
-        <div class="partner-logo">Microsoft Africa</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="page-section" style="background:var(--bg2);">
-    <div class="container">
-      <div class="section-label">Explore</div>
-      <h2 class="section-title">Quick <span>Links</span></h2>
-      <div class="quick-links">
-        <a href="research.html" class="ql-card reveal"><span class="ql-icon">🧠</span><div class="ql-title">Research</div><div class="ql-desc">Explore our AI &amp; Robotics research units</div></a>
-        <a href="training.html" class="ql-card reveal"><span class="ql-icon">🎓</span><div class="ql-title">Training</div><div class="ql-desc">Bootcamps, SIWES, STEM programs</div></a>
-        <a href="products.html" class="ql-card reveal"><span class="ql-icon">🤖</span><div class="ql-title">Products</div><div class="ql-desc">Our robotics and software solutions</div></a>
-        <a href="about.html" class="ql-card reveal"><span class="ql-icon">🏛️</span><div class="ql-title">About Us</div><div class="ql-desc">Our story, mission, team &amp; values</div></a>
-        <a href="innovation.html" class="ql-card reveal"><span class="ql-icon">🚀</span><div class="ql-title">Innovation Hub</div><div class="ql-desc">Incubate your startup with us</div></a>
-        <a href="contact.html" class="ql-card reveal"><span class="ql-icon">📬</span><div class="ql-title">Contact</div><div class="ql-desc">Get in touch or visit our office</div></a>
-      </div>
-    </div>
-  </section>
-
-  <script>
-    function animateCount(el, target) {
-      let count = 0; const step = target / 60;
-      const timer = setInterval(() => {
-        count = Math.min(count + step, target);
-        el.textContent = Math.floor(count) + (target >= 100 ? '+' : '');
-        if (count >= target) clearInterval(timer);
-      }, 25);
-    }
-    const statsObserver = new IntersectionObserver(entries => {
-      entries.forEach(e => { if(e.isIntersecting){ document.querySelectorAll('[data-count]').forEach(el => animateCount(el, parseInt(el.dataset.count))); statsObserver.disconnect(); } });
-    }, { threshold: 0.5 });
-    const statsRow = document.querySelector('.stats-row');
-    if(statsRow) statsObserver.observe(statsRow);
-  </script>
 
   <footer>
     <div class="footer-grid">

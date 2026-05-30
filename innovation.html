@@ -1,0 +1,1004 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Innovation & Incubation Hub — Eagles AI Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#020810; --bg2:#050f1f;
+      --neon:#00f5ff; --neon2:#7b2fff; --neon3:#ff6b00;
+      --text:#e0f0ff; --muted:#6a8aaa;
+      --card:rgba(0,245,255,0.04); --border:rgba(0,245,255,0.15);
+      --font-head:'Orbitron',monospace; --font-body:'Exo 2',sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-weight:300;overflow-x:hidden;}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,245,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0;}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(2,8,16,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;}
+    .nav-logo{font-family:var(--font-head);font-size:1.1rem;font-weight:900;color:var(--neon);text-shadow:0 0 16px var(--neon);letter-spacing:2px;text-decoration:none;display:flex;align-items:center;gap:10px;}
+    .nav-logo span{color:var(--text);}
+    .eagle-icon{width:36px;height:36px;filter:drop-shadow(0 0 8px var(--neon));}
+    .nav-links{display:flex;gap:0;list-style:none;align-items:center;}
+    .nav-links>li{position:relative;}
+    .nav-links>li>a,.nav-links>li>span.nav-link{font-family:var(--font-head);font-size:0.58rem;letter-spacing:1.2px;color:var(--muted);text-decoration:none;padding:6px 9px;border-radius:4px;transition:color 0.2s,background 0.2s;text-transform:uppercase;display:flex;align-items:center;gap:4px;white-space:nowrap;cursor:default;}
+    .nav-links>li>a{cursor:pointer;}
+    .nav-links>li>a:hover,.nav-links>li>a.active,.nav-links>li:hover>span.nav-link{color:var(--neon);background:rgba(0,245,255,0.07);}
+    .arrow{font-size:0.55rem;opacity:0.6;transition:transform 0.2s;display:inline-block;}
+    .has-dropdown:hover .arrow{transform:rotate(180deg);}
+    .dropdown{display:none;position:absolute;top:calc(100% + 4px);left:0;background:rgba(2,8,16,0.97);border:1px solid var(--border);border-radius:6px;min-width:220px;list-style:none;padding:0.5rem 0;z-index:9999;backdrop-filter:blur(20px);box-shadow:0 16px 40px rgba(0,0,0,0.6),0 0 20px rgba(0,245,255,0.04);}
+    .has-dropdown:hover .dropdown{display:block;}
+    .dropdown li a{display:block;padding:9px 18px;font-family:var(--font-body);font-size:0.82rem;color:var(--muted);text-decoration:none;transition:color 0.2s,background 0.2s,padding-left 0.2s;letter-spacing:0.5px;}
+    .dropdown li a:hover{color:var(--neon);background:rgba(0,245,255,0.06);padding-left:24px;}
+    .dropdown li:not(:last-child){border-bottom:1px solid rgba(0,245,255,0.05);}
+    .nav-portal{color:var(--neon2)!important;border:1px solid rgba(123,47,255,0.5)!important;border-radius:3px!important;padding:6px 12px!important;margin-left:4px;cursor:pointer!important;}
+    .nav-portal:hover{background:rgba(123,47,255,0.12)!important;}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;}
+    .hamburger span{display:block;width:24px;height:2px;background:var(--neon);transition:all 0.3s;}
+
+    /* MOBILE MENU */
+    .mobile-menu{display:none;position:fixed;inset:0;background:rgba(2,8,16,0.97);z-index:999;flex-direction:column;align-items:stretch;gap:0;backdrop-filter:blur(20px);overflow-y:auto;padding:72px 0 2rem;}
+    .mobile-menu.open{display:flex;}
+    .mobile-close{position:fixed;top:1.2rem;right:1.2rem;font-size:1.4rem;color:var(--neon);cursor:pointer;background:none;border:none;z-index:9999;line-height:1;padding:6px;}
+    .m-item{border-bottom:1px solid rgba(0,245,255,0.07);}
+    .m-item-home>a{font-family:var(--font-head);font-size:0.78rem;letter-spacing:2px;color:var(--muted);text-decoration:none;text-transform:uppercase;padding:14px 24px;display:block;transition:color 0.2s;}
+    .m-item-home>a:hover{color:var(--neon);}
+    .m-header{font-family:var(--font-head);font-size:0.78rem;letter-spacing:2px;color:var(--text);text-transform:uppercase;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:color 0.2s;user-select:none;}
+    .m-header:hover,.m-header.active{color:var(--neon);}
+    .m-chevron{font-size:0.7rem;opacity:0.6;transition:transform 0.25s;display:inline-block;}
+    .m-header.active .m-chevron{transform:rotate(180deg);}
+    .m-sub{display:none;background:rgba(0,245,255,0.025);border-top:1px solid rgba(0,245,255,0.06);padding:6px 0;}
+    .m-sub.open{display:block;}
+    .m-sub a{display:block;font-family:var(--font-body);font-size:0.82rem;color:var(--muted);text-decoration:none;padding:10px 24px 10px 36px;transition:color 0.2s,padding-left 0.2s;letter-spacing:0.5px;}
+    .m-sub a:hover{color:var(--neon);padding-left:42px;}
+    .m-portal{font-family:var(--font-head);font-size:0.78rem;letter-spacing:2px;color:var(--neon2);text-decoration:none;text-transform:uppercase;padding:14px 24px;display:block;border-bottom:1px solid rgba(0,245,255,0.07);}
+
+    /* UTILS */
+    .scroll-progress{position:fixed;top:64px;left:0;height:2px;background:linear-gradient(90deg,var(--neon),var(--neon2));z-index:1001;transition:width 0.1s;box-shadow:0 0 8px var(--neon);width:0;}
+    .scanline{position:fixed;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(0,245,255,0.06),transparent);pointer-events:none;z-index:1;animation:scanline 8s linear infinite;}
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease;}
+    .reveal.visible{opacity:1;transform:translateY(0);}
+    .container{max-width:1200px;margin:0 auto;}
+    .btn{font-family:var(--font-head);font-size:0.72rem;letter-spacing:2px;padding:13px 26px;border-radius:3px;border:none;cursor:pointer;text-decoration:none;transition:all 0.25s;text-transform:uppercase;display:inline-block;}
+    .btn-primary{background:var(--neon);color:var(--bg);font-weight:700;box-shadow:0 0 20px rgba(0,245,255,0.4);}
+    .btn-primary:hover{box-shadow:0 0 40px rgba(0,245,255,0.7);transform:translateY(-2px);}
+    .btn-outline{background:transparent;color:var(--neon);border:1px solid var(--neon);}
+    .btn-outline:hover{background:rgba(0,245,255,0.08);transform:translateY(-2px);}
+    .btn-purple{background:var(--neon2);color:#fff;font-weight:700;box-shadow:0 0 20px rgba(123,47,255,0.4);}
+    .btn-purple:hover{box-shadow:0 0 40px rgba(123,47,255,0.7);transform:translateY(-2px);}
+    .btn-ghost{background:transparent;color:var(--muted);border:1px solid rgba(106,138,170,0.3);}
+    .btn-ghost:hover{color:var(--text);border-color:var(--muted);}
+
+    /* TICKER */
+    .news-ticker{background:rgba(0,245,255,0.06);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:10px 0;overflow:hidden;white-space:nowrap;margin-top:64px;}
+    .ticker-inner{display:inline-flex;gap:4rem;animation:ticker 30s linear infinite;font-size:0.78rem;color:var(--muted);letter-spacing:1px;}
+    .ticker-item{display:flex;align-items:center;gap:8px;}
+    .ticker-dot{width:6px;height:6px;background:var(--neon);border-radius:50%;box-shadow:0 0 6px var(--neon);}
+
+    /* PAGE HERO */
+    .page-hero{padding:80px 2rem 60px;text-align:center;position:relative;z-index:1;border-bottom:1px solid var(--border);overflow:hidden;}
+    .orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;}
+    .orb1{width:500px;height:500px;background:radial-gradient(circle,rgba(123,47,255,0.12),transparent 70%);top:-150px;right:-100px;animation:pulse 6s ease-in-out infinite;}
+    .orb2{width:400px;height:400px;background:radial-gradient(circle,rgba(0,245,255,0.08),transparent 70%);bottom:-100px;left:-80px;animation:pulse 8s 2s ease-in-out infinite;}
+    .page-hero-label{font-family:var(--font-head);font-size:0.6rem;letter-spacing:5px;color:var(--neon2);text-transform:uppercase;margin-bottom:1rem;display:inline-flex;align-items:center;gap:12px;}
+    .page-hero-label::before,.page-hero-label::after{content:'';display:block;width:30px;height:1px;background:var(--neon2);box-shadow:0 0 8px var(--neon2);}
+    .page-hero h1{font-family:var(--font-head);font-size:clamp(2rem,5vw,3.8rem);font-weight:900;line-height:1.1;margin-bottom:1rem;position:relative;z-index:1;}
+    .page-hero h1 span{color:var(--neon2);text-shadow:0 0 30px var(--neon2),0 0 60px rgba(123,47,255,0.3);}
+    .page-hero p{color:var(--muted);max-width:620px;margin:0 auto 2rem;line-height:1.8;font-size:1rem;position:relative;z-index:1;}
+    .hero-stats{display:flex;justify-content:center;gap:3rem;flex-wrap:wrap;margin-top:2.5rem;position:relative;z-index:1;}
+    .hero-stat .sn{font-family:var(--font-head);font-size:2rem;font-weight:900;color:var(--neon2);text-shadow:0 0 20px var(--neon2);display:block;}
+    .hero-stat .sl{font-size:0.7rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:4px;}
+
+    /* SECTIONS */
+    .page-section{position:relative;z-index:1;padding:5rem 2rem;}
+    .page-section.alt{background:var(--bg2);}
+    .section-label{font-family:var(--font-head);font-size:0.6rem;letter-spacing:5px;color:var(--neon2);text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:12px;}
+    .section-label::before{content:'';display:block;width:40px;height:1px;background:var(--neon2);box-shadow:0 0 8px var(--neon2);}
+    .section-label.neon{color:var(--neon);}
+    .section-label.neon::before{background:var(--neon);box-shadow:0 0 8px var(--neon);}
+    .section-label.orange{color:var(--neon3);}
+    .section-label.orange::before{background:var(--neon3);box-shadow:0 0 8px var(--neon3);}
+    h2.section-title{font-family:var(--font-head);font-size:clamp(1.6rem,3.5vw,2.6rem);font-weight:700;line-height:1.1;margin-bottom:1.2rem;}
+    h2.section-title span{color:var(--neon2);}
+    h2.section-title span.nc{color:var(--neon);}
+    h2.section-title span.no{color:var(--neon3);}
+    .section-desc{color:var(--muted);max-width:700px;line-height:1.8;font-size:0.95rem;margin-bottom:2.5rem;}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
+
+    /* CARDS */
+    .cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem;}
+    .card{border:1px solid var(--border);border-radius:8px;padding:1.8rem;background:var(--card);transition:all 0.3s;position:relative;overflow:hidden;}
+    .card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--neon2),var(--neon));transform:scaleX(0);transition:transform 0.3s;transform-origin:left;}
+    .card:hover::before{transform:scaleX(1);}
+    .card:hover{border-color:rgba(123,47,255,0.35);transform:translateY(-4px);box-shadow:0 12px 40px rgba(123,47,255,0.07);}
+    .card-icon{font-size:2.2rem;margin-bottom:1rem;}
+    .card-title{font-family:var(--font-head);font-size:0.85rem;letter-spacing:1px;color:var(--neon2);margin-bottom:0.7rem;}
+    .card-desc{font-size:0.85rem;color:var(--muted);line-height:1.7;}
+    .card-tag{display:inline-block;margin-top:1rem;font-size:0.65rem;letter-spacing:2px;color:var(--neon);border:1px solid rgba(0,245,255,0.3);padding:3px 10px;border-radius:2px;text-transform:uppercase;}
+
+    /* ICON LIST */
+    .icon-list{list-style:none;display:flex;flex-direction:column;gap:1rem;margin-top:1.5rem;}
+    .icon-list li{display:flex;align-items:flex-start;gap:14px;padding:1rem 1.2rem;border:1px solid var(--border);border-radius:6px;background:var(--card);transition:all 0.3s;}
+    .icon-list li:hover{border-color:var(--neon2);transform:translateX(5px);}
+    .li-icon{font-size:1.3rem;flex-shrink:0;margin-top:2px;}
+    .icon-list strong{display:block;font-family:var(--font-head);font-size:0.78rem;color:var(--neon2);letter-spacing:1px;margin-bottom:4px;}
+    .icon-list span{font-size:0.84rem;color:var(--muted);line-height:1.6;}
+
+    /* STAT BOXES */
+    .stat-boxes{display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:2rem;}
+    .stat-box{flex:1;min-width:120px;border:1px solid var(--border);border-radius:8px;padding:1.5rem;background:var(--card);text-align:center;}
+    .stat-box .sn{font-family:var(--font-head);font-size:2rem;font-weight:900;color:var(--neon2);text-shadow:0 0 20px var(--neon2);display:block;}
+    .stat-box .sl{font-size:0.7rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:4px;}
+
+    /* HUB STEPS */
+    .hub-steps{display:flex;flex-direction:column;gap:1.5rem;}
+    .hub-step{display:flex;gap:1.5rem;align-items:flex-start;padding:1.5rem;border:1px solid var(--border);border-radius:8px;background:var(--card);transition:all 0.3s;}
+    .hub-step:hover{border-color:var(--neon2);transform:translateX(6px);}
+    .step-num{font-family:var(--font-head);font-size:2rem;font-weight:900;color:var(--neon2);text-shadow:0 0 16px var(--neon2);flex-shrink:0;line-height:1;min-width:3rem;}
+    .step-title{font-family:var(--font-head);font-size:0.85rem;letter-spacing:1px;color:var(--text);margin-bottom:0.5rem;}
+    .step-desc{font-size:0.84rem;color:var(--muted);line-height:1.6;}
+    .step-badge{display:inline-block;margin-top:0.7rem;font-size:0.62rem;letter-spacing:2px;color:var(--neon);border:1px solid rgba(0,245,255,0.3);padding:3px 10px;border-radius:2px;text-transform:uppercase;}
+
+    /* TIMELINE */
+    .timeline{display:flex;flex-direction:column;gap:0;position:relative;padding-left:2.5rem;margin-top:2rem;}
+    .timeline::before{content:'';position:absolute;left:0.6rem;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--neon2),var(--neon),transparent);}
+    .tl-item{position:relative;padding:0 0 2rem 1.5rem;}
+    .tl-dot{position:absolute;left:-2rem;top:0.3rem;width:14px;height:14px;border-radius:50%;background:var(--neon2);box-shadow:0 0 12px var(--neon2);border:2px solid var(--bg);}
+    .tl-label{font-family:var(--font-head);font-size:0.62rem;letter-spacing:3px;color:var(--neon2);margin-bottom:4px;}
+    .tl-title{font-family:var(--font-head);font-size:0.85rem;color:var(--text);margin-bottom:6px;}
+    .tl-desc{font-size:0.84rem;color:var(--muted);line-height:1.6;}
+
+    /* TESTIMONIALS */
+    .testimonial{border:1px solid var(--border);border-radius:8px;padding:2rem;background:var(--card);position:relative;}
+    .testimonial::before{content:'"';font-size:5rem;font-family:Georgia,serif;color:var(--neon2);opacity:0.12;position:absolute;top:-10px;left:1.5rem;line-height:1;}
+    .testimonial-text{font-size:0.88rem;color:var(--muted);line-height:1.8;margin-bottom:1.5rem;font-style:italic;}
+    .testimonial-author{display:flex;align-items:center;gap:12px;}
+    .author-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--neon2),var(--neon));display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-size:0.82rem;font-weight:700;color:#fff;flex-shrink:0;}
+    .author-name{font-family:var(--font-head);font-size:0.75rem;letter-spacing:1px;color:var(--text);}
+    .author-role{font-size:0.72rem;color:var(--muted);margin-top:2px;}
+
+    /* CTA BOX */
+    .cta-box{border:1px solid rgba(123,47,255,0.4);border-radius:12px;padding:3rem;background:linear-gradient(135deg,rgba(123,47,255,0.08),rgba(0,245,255,0.04));text-align:center;}
+    .cta-box-orange{border-color:rgba(255,107,0,0.4);background:linear-gradient(135deg,rgba(255,107,0,0.07),rgba(123,47,255,0.04));}
+
+    /* FORM */
+    .form-group{display:flex;flex-direction:column;gap:6px;margin-bottom:1rem;}
+    .form-label{font-family:var(--font-head);font-size:0.62rem;letter-spacing:2px;color:var(--muted);text-transform:uppercase;}
+    .form-input,.form-textarea,.form-select{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:4px;padding:12px 16px;color:var(--text);font-family:var(--font-body);font-size:0.9rem;transition:border-color 0.2s;outline:none;width:100%;}
+    .form-input:focus,.form-textarea:focus,.form-select:focus{border-color:var(--neon2);box-shadow:0 0 0 2px rgba(123,47,255,0.15);}
+    .form-textarea{resize:vertical;min-height:130px;}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+
+    /* MENTOR GRID */
+    .mentor-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.5rem;margin-top:2rem;}
+    .mentor-card{border:1px solid var(--border);border-radius:8px;padding:1.8rem 1.5rem;background:var(--card);text-align:center;transition:all 0.3s;}
+    .mentor-card:hover{border-color:var(--neon2);transform:translateY(-4px);}
+    .mentor-avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--neon2),var(--neon));margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-size:1.1rem;font-weight:900;color:#fff;}
+    .mentor-name{font-family:var(--font-head);font-size:0.78rem;letter-spacing:1px;color:var(--text);margin-bottom:4px;}
+    .mentor-role{font-size:0.75rem;color:var(--neon2);margin-bottom:8px;}
+    .mentor-bio{font-size:0.78rem;color:var(--muted);line-height:1.6;}
+
+    /* STARTUP CARDS */
+    .startup-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;margin-top:2rem;}
+    .startup-card{border:1px solid var(--border);border-radius:8px;padding:1.8rem;background:var(--card);transition:all 0.3s;position:relative;overflow:hidden;}
+    .startup-card::after{content:'';position:absolute;top:0;right:0;width:60px;height:60px;background:radial-gradient(circle,rgba(123,47,255,0.15),transparent 70%);border-radius:0 8px 0 0;}
+    .startup-card:hover{border-color:rgba(123,47,255,0.4);transform:translateY(-3px);box-shadow:0 10px 35px rgba(123,47,255,0.07);}
+    .startup-logo{font-size:2rem;margin-bottom:0.8rem;}
+    .startup-name{font-family:var(--font-head);font-size:0.85rem;letter-spacing:1px;color:var(--neon2);margin-bottom:0.5rem;}
+    .startup-sector{font-size:0.68rem;letter-spacing:2px;color:var(--neon);text-transform:uppercase;margin-bottom:0.7rem;}
+    .startup-desc{font-size:0.83rem;color:var(--muted);line-height:1.6;margin-bottom:1rem;}
+    .startup-raised{font-family:var(--font-head);font-size:0.75rem;color:var(--neon3);}
+
+    /* FUNDING TABLE */
+    .fund-table{width:100%;border-collapse:collapse;margin-top:2rem;}
+    .fund-table th{font-family:var(--font-head);font-size:0.68rem;letter-spacing:2px;color:var(--neon2);text-transform:uppercase;text-align:left;padding:1rem 1.2rem;border-bottom:1px solid var(--border);background:rgba(123,47,255,0.04);}
+    .fund-table td{padding:0.9rem 1.2rem;font-size:0.85rem;color:var(--muted);border-bottom:1px solid rgba(0,245,255,0.06);}
+    .fund-table tr:hover td{color:var(--text);background:rgba(123,47,255,0.03);}
+    .badge{display:inline-block;font-size:0.6rem;letter-spacing:2px;padding:3px 8px;border-radius:2px;text-transform:uppercase;}
+    .badge-green{color:#25d366;border:1px solid rgba(37,211,102,0.3);}
+    .badge-yellow{color:var(--neon3);border:1px solid rgba(255,107,0,0.3);}
+    .badge-blue{color:var(--neon);border:1px solid rgba(0,245,255,0.3);}
+
+    /* FOOTER */
+    footer{border-top:1px solid var(--border);padding:4rem 2rem 2rem;background:var(--bg);position:relative;z-index:1;}
+    .footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem;}
+    .footer-brand p{font-size:0.85rem;color:var(--muted);line-height:1.8;margin-top:1rem;max-width:280px;}
+    .footer-col h4{font-family:var(--font-head);font-size:0.62rem;letter-spacing:3px;color:var(--neon);margin-bottom:1.2rem;text-transform:uppercase;}
+    .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.6rem;}
+    .footer-col ul li a{font-size:0.85rem;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+    .footer-col ul li a:hover{color:var(--neon);}
+    .footer-bottom{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding-top:2rem;border-top:1px solid var(--border);font-size:0.8rem;color:var(--muted);}
+
+    @keyframes pulse{0%,100%{opacity:0.6;transform:scale(1)}50%{opacity:1;transform:scale(1.1)}}
+    @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    @keyframes scanline{0%{transform:translateY(-100%)}100%{transform:translateY(100vh)}}
+
+    @media(max-width:1100px){.nav-links>li>a,.nav-links>li>span.nav-link{padding:6px 6px;font-size:0.54rem;}}
+    @media(max-width:900px){.nav-links{display:none;}.hamburger{display:flex;}.two-col{grid-template-columns:1fr;}.footer-grid{grid-template-columns:1fr 1fr;}}
+    @media(max-width:600px){.footer-grid{grid-template-columns:1fr;}.form-row{grid-template-columns:1fr;}.hero-stats{gap:1.5rem;}.stat-boxes{flex-direction:column;}}
+  </style>
+</head>
+<body>
+
+<div class="scanline"></div>
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="closeMobile()">✕</button>
+  <div class="m-item m-item-home"><a href="index.html" onclick="closeMobile()">Home</a></div>
+  <div class="m-item">
+    <div class="m-header" onclick="toggleMobile(this)">About <span class="m-chevron">▾</span></div>
+    <div class="m-sub">
+      <a href="about.html#vision-mission" onclick="closeMobile()">Vision &amp; Mission</a>
+      <a href="about.html#core-values" onclick="closeMobile()">Core Values</a>
+      <a href="about.html#our-story" onclick="closeMobile()">Our Story</a>
+      <a href="about.html#governance" onclick="closeMobile()">Governance &amp; Leadership</a>
+      <a href="about.html#advisory" onclick="closeMobile()">Advisory Board</a>
+      <a href="about.html#team" onclick="closeMobile()">Our Team</a>
+      <a href="about.html#why-us" onclick="closeMobile()">Why Eagles AI Lab</a>
+      <a href="about.html#facility" onclick="closeMobile()">Facility Tour</a>
+    </div>
+  </div>
+  <div class="m-item">
+    <div class="m-header" onclick="toggleMobile(this)">Research <span class="m-chevron">▾</span></div>
+    <div class="m-sub">
+      <a href="research.html#machine-learning" onclick="closeMobile()">Machine Learning</a>
+      <a href="research.html#nlp" onclick="closeMobile()">NLP</a>
+      <a href="research.html#computer-vision" onclick="closeMobile()">Computer Vision</a>
+      <a href="research.html#predictive-analytics" onclick="closeMobile()">Predictive Analytics</a>
+      <a href="research.html#autonomous-robots" onclick="closeMobile()">Autonomous Robots</a>
+      <a href="research.html#agricultural-robotics" onclick="closeMobile()">Agricultural Robotics</a>
+      <a href="research.html#drone-development" onclick="closeMobile()">Drone Development</a>
+      <a href="research.html#embedded-systems" onclick="closeMobile()">Embedded Systems</a>
+      <a href="research.html#publications" onclick="closeMobile()">Publications</a>
+      <a href="research.html#patents" onclick="closeMobile()">Patents &amp; Innovations</a>
+      <a href="research.html#grants" onclick="closeMobile()">Research Grants</a>
+    </div>
+  </div>
+  <div class="m-item">
+    <div class="m-header" onclick="toggleMobile(this)">Training <span class="m-chevron">▾</span></div>
+    <div class="m-sub">
+      <a href="training.html#bootcamps" onclick="closeMobile()">Short Courses &amp; Bootcamps</a>
+      <a href="training.html#certifications" onclick="closeMobile()">Certifications</a>
+      <a href="training.html#internship" onclick="closeMobile()">Internship &amp; SIWES</a>
+      <a href="training.html#stem-schools" onclick="closeMobile()">STEM for Schools</a>
+      <a href="training.html#ai-youth" onclick="closeMobile()">AI for Youth</a>
+      <a href="training.html#robotics-clubs" onclick="closeMobile()">Robotics Clubs for Teens</a>
+      <a href="training.html#hackathons" onclick="closeMobile()">Hackathons</a>
+      <a href="training.html#calendar" onclick="closeMobile()">Training Calendar</a>
+      <a href="training.html#register" onclick="closeMobile()">Registration</a>
+    </div>
+  </div>
+  <div class="m-item">
+    <div class="m-header" onclick="toggleMobile(this)">Products <span class="m-chevron">▾</span></div>
+    <div class="m-sub">
+      <a href="products.html#robotics-products" onclick="closeMobile()">Robotics Products</a>
+      <a href="products.html#software" onclick="closeMobile()">Software Solutions</a>
+      <a href="products.html#ai-models" onclick="closeMobile()">AI Models &amp; Tools</a>
+      <a href="products.html#edu-kits" onclick="closeMobile()">Educational Kits</a>
+      <a href="products.html#smart-school" onclick="closeMobile()">Smart School Solutions</a>
+      <a href="products.html#smart-church" onclick="closeMobile()">Smart Church Solutions</a>
+      <a href="products.html#automation" onclick="closeMobile()">Automation Solutions</a>
+      <a href="products.html#demos" onclick="closeMobile()">Demo Videos</a>
+      <a href="products.html#case-studies" onclick="closeMobile()">Case Studies</a>
+    </div>
+  </div>
+  <div class="m-item">
+    <div class="m-header active" onclick="toggleMobile(this)">Innovation Hub <span class="m-chevron" style="transform:rotate(180deg)">▾</span></div>
+    <div class="m-sub open">
+      <a href="#incubation" onclick="closeMobile()">Startup Incubation</a>
+      <a href="#accelerator" onclick="closeMobile()">Accelerator Program</a>
+      <a href="#funding" onclick="closeMobile()">Funding Access</a>
+      <a href="#mentorship" onclick="closeMobile()">Mentorship Network</a>
+      <a href="#biz-dev" onclick="closeMobile()">Business Development</a>
+      <a href="#apply" onclick="closeMobile()">Apply Now</a>
+    </div>
+  </div>
+  <div class="m-item">
+    <div class="m-header" onclick="toggleMobile(this)">Partners <span class="m-chevron">▾</span></div>
+    <div class="m-sub">
+      <a href="partnerships.html#government" onclick="closeMobile()">Government</a>
+      <a href="partnerships.html#universities" onclick="closeMobile()">Universities</a>
+      <a href="partnerships.html#industry" onclick="closeMobile()">Industry</a>
+      <a href="partnerships.html#faith" onclick="closeMobile()">Faith-Based</a>
+      <a href="partnerships.html#ngos" onclick="closeMobile()">NGOs &amp; STEM Networks</a>
+      <a href="partnerships.html#become-partner" onclick="closeMobile()">Become a Partner</a>
+    </div>
+  </div>
+  <div class="m-item">
+    <div class="m-header" onclick="toggleMobile(this)">Media <span class="m-chevron">▾</span></div>
+    <div class="m-sub">
+      <a href="media.html#gallery" onclick="closeMobile()">Photo &amp; Video Gallery</a>
+      <a href="media.html#research-papers" onclick="closeMobile()">Research Papers</a>
+      <a href="media.html#blog" onclick="closeMobile()">Articles &amp; Blog</a>
+      <a href="media.html#press" onclick="closeMobile()">Press Releases</a>
+      <a href="media.html#events" onclick="closeMobile()">Conferences &amp; Events</a>
+      <a href="media.html#newsletter" onclick="closeMobile()">Newsletters</a>
+      <a href="media.html#downloads" onclick="closeMobile()">Download Brochures</a>
+    </div>
+  </div>
+  <div class="m-item">
+    <div class="m-header" onclick="toggleMobile(this)">Contact <span class="m-chevron">▾</span></div>
+    <div class="m-sub">
+      <a href="contact.html#form" onclick="closeMobile()">Contact Form</a>
+      <a href="contact.html#location" onclick="closeMobile()">Location &amp; Map</a>
+      <a href="contact.html#faq" onclick="closeMobile()">FAQ</a>
+    </div>
+  </div>
+  <a href="student-portal.html" class="m-portal" onclick="closeMobile()">🎓 Student Portal</a>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg class="eagle-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 4L28 14L36 10L30 22L36 28L20 24L4 28L10 22L4 10L12 14Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      <circle cx="20" cy="20" r="3" fill="currentColor"/>
+      <path d="M20 17V8M20 23V32M17 20H8M23 20H32" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+    </svg>
+    EAGLES <span>AI LAB</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li class="has-dropdown">
+      <span class="nav-link">About <span class="arrow">▾</span></span>
+      <ul class="dropdown">
+        <li><a href="about.html#vision-mission">Vision &amp; Mission</a></li>
+        <li><a href="about.html#core-values">Core Values</a></li>
+        <li><a href="about.html#our-story">Our Story</a></li>
+        <li><a href="about.html#governance">Governance &amp; Leadership</a></li>
+        <li><a href="about.html#advisory">Advisory Board</a></li>
+        <li><a href="about.html#team">Our Team</a></li>
+        <li><a href="about.html#why-us">Why Eagles AI Lab</a></li>
+        <li><a href="about.html#facility">Facility Tour</a></li>
+      </ul>
+    </li>
+    <li class="has-dropdown">
+      <span class="nav-link">Research <span class="arrow">▾</span></span>
+      <ul class="dropdown">
+        <li><a href="research.html#machine-learning">Machine Learning</a></li>
+        <li><a href="research.html#nlp">NLP</a></li>
+        <li><a href="research.html#computer-vision">Computer Vision</a></li>
+        <li><a href="research.html#predictive-analytics">Predictive Analytics</a></li>
+        <li><a href="research.html#autonomous-robots">Autonomous Robots</a></li>
+        <li><a href="research.html#agricultural-robotics">Agricultural Robotics</a></li>
+        <li><a href="research.html#drone-development">Drone Development</a></li>
+        <li><a href="research.html#embedded-systems">Embedded Systems</a></li>
+        <li><a href="research.html#publications">Publications</a></li>
+        <li><a href="research.html#patents">Patents &amp; Innovations</a></li>
+        <li><a href="research.html#grants">Research Grants</a></li>
+      </ul>
+    </li>
+    <li class="has-dropdown">
+      <span class="nav-link">Training <span class="arrow">▾</span></span>
+      <ul class="dropdown">
+        <li><a href="training.html#bootcamps">Short Courses &amp; Bootcamps</a></li>
+        <li><a href="training.html#certifications">Certifications</a></li>
+        <li><a href="training.html#internship">Internship &amp; SIWES</a></li>
+        <li><a href="training.html#stem-schools">STEM for Schools</a></li>
+        <li><a href="training.html#ai-youth">AI for Youth</a></li>
+        <li><a href="training.html#robotics-clubs">Robotics Clubs for Teens</a></li>
+        <li><a href="training.html#hackathons">Hackathons</a></li>
+        <li><a href="training.html#calendar">Training Calendar</a></li>
+        <li><a href="training.html#register">Registration</a></li>
+      </ul>
+    </li>
+    <li class="has-dropdown">
+      <span class="nav-link">Products <span class="arrow">▾</span></span>
+      <ul class="dropdown">
+        <li><a href="products.html#robotics-products">Robotics Products</a></li>
+        <li><a href="products.html#software">Software Solutions</a></li>
+        <li><a href="products.html#ai-models">AI Models &amp; Tools</a></li>
+        <li><a href="products.html#edu-kits">Educational Kits</a></li>
+        <li><a href="products.html#smart-school">Smart School Solutions</a></li>
+        <li><a href="products.html#smart-church">Smart Church Solutions</a></li>
+        <li><a href="products.html#automation">Automation Solutions</a></li>
+        <li><a href="products.html#demos">Demo Videos</a></li>
+        <li><a href="products.html#case-studies">Case Studies</a></li>
+      </ul>
+    </li>
+    <li class="has-dropdown">
+      <span class="nav-link" style="color:var(--neon2);">Innovation Hub <span class="arrow">▾</span></span>
+      <ul class="dropdown">
+        <li><a href="#incubation">Startup Incubation</a></li>
+        <li><a href="#accelerator">Accelerator Program</a></li>
+        <li><a href="#funding">Funding Access</a></li>
+        <li><a href="#mentorship">Mentorship Network</a></li>
+        <li><a href="#biz-dev">Business Development</a></li>
+        <li><a href="#apply">Apply Now</a></li>
+      </ul>
+    </li>
+    <li class="has-dropdown">
+      <span class="nav-link">Partners <span class="arrow">▾</span></span>
+      <ul class="dropdown">
+        <li><a href="partnerships.html#government">Government</a></li>
+        <li><a href="partnerships.html#universities">Universities</a></li>
+        <li><a href="partnerships.html#industry">Industry</a></li>
+        <li><a href="partnerships.html#faith">Faith-Based</a></li>
+        <li><a href="partnerships.html#ngos">NGOs &amp; STEM Networks</a></li>
+        <li><a href="partnerships.html#become-partner">Become a Partner</a></li>
+      </ul>
+    </li>
+    <li class="has-dropdown">
+      <span class="nav-link">Media <span class="arrow">▾</span></span>
+      <ul class="dropdown">
+        <li><a href="media.html#gallery">Photo &amp; Video Gallery</a></li>
+        <li><a href="media.html#research-papers">Research Papers</a></li>
+        <li><a href="media.html#blog">Articles &amp; Blog</a></li>
+        <li><a href="media.html#press">Press Releases</a></li>
+        <li><a href="media.html#events">Conferences &amp; Events</a></li>
+        <li><a href="media.html#newsletter">Newsletters</a></li>
+        <li><a href="media.html#downloads">Download Brochures</a></li>
+      </ul>
+    </li>
+    <li class="has-dropdown">
+      <span class="nav-link">Contact <span class="arrow">▾</span></span>
+      <ul class="dropdown">
+        <li><a href="contact.html#form">Contact Form</a></li>
+        <li><a href="contact.html#location">Location &amp; Map</a></li>
+        <li><a href="contact.html#faq">FAQ</a></li>
+      </ul>
+    </li>
+    <li><a href="student-portal.html" class="nav-portal">🎓 Student Portal</a></li>
+  </ul>
+  <div class="hamburger" onclick="openMobile()"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- TICKER -->
+<div class="news-ticker">
+  <div class="ticker-inner">
+    <div class="ticker-item"><span class="ticker-dot"></span> Eagles AI Lab launches new Autonomous Robotics Program 2025</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> 12 startups launched from our incubation program · ₦50M+ raised</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> 2025 Incubation cohort applications now open — Apply before June 30</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> Agricultural Robotics prototype wins national innovation award</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> Eagles AI Lab launches new Autonomous Robotics Program 2025</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> 12 startups launched from our incubation program · ₦50M+ raised</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> 2025 Incubation cohort applications now open — Apply before June 30</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> Agricultural Robotics prototype wins national innovation award</div>
+  </div>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="page-hero-label">Startup Ecosystem</div>
+  <h1>Innovation &amp; <span>Incubation Hub</span></h1>
+  <p>We don't just train innovators — we fund, mentor, and launch them into the world. Eagles AI Lab is Africa's most hands-on deep-tech startup launchpad.</p>
+  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;position:relative;z-index:1;">
+    <a href="#apply" class="btn btn-purple">Apply for 2025 Cohort →</a>
+    <a href="#incubation" class="btn btn-ghost">Learn More</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="sn">12</span><span class="sl">Startups Launched</span></div>
+    <div class="hero-stat"><span class="sn" style="color:var(--neon);">₦50M+</span><span class="sl">Funding Raised</span></div>
+    <div class="hero-stat"><span class="sn" style="color:var(--neon3);">85%</span><span class="sl">Success Rate</span></div>
+    <div class="hero-stat"><span class="sn">4</span><span class="sl">Active Cohorts</span></div>
+  </div>
+</div>
+
+<!-- STARTUP INCUBATION -->
+<section id="incubation" class="page-section alt">
+  <div class="container">
+    <div class="section-label">Phase 01</div>
+    <h2 class="section-title">Startup <span>Incubation</span></h2>
+    <p class="section-desc">Our flagship 6–12 month incubation program gives AI &amp; Robotics startups everything they need to go from idea to investable business — workspace, infrastructure, coaching, and community.</p>
+    <div class="two-col">
+      <div>
+        <div class="hub-steps">
+          <div class="hub-step reveal">
+            <div class="step-num">01</div>
+            <div>
+              <div class="step-title">Application &amp; Selection</div>
+              <div class="step-desc">Submit your idea or MVP. Our panel of engineers and investors reviews 200+ applications each cohort. We accept the top 10–15 most promising teams.</div>
+              <span class="step-badge">Quarterly Intake</span>
+            </div>
+          </div>
+          <div class="hub-step reveal">
+            <div class="step-num">02</div>
+            <div>
+              <div class="step-title">Workspace &amp; Lab Access</div>
+              <div class="step-desc">Move into our Innovation Drive campus. Full access to robotics lab, GPU workstations, 3D printers, drone testing zone, and co-working spaces — all included.</div>
+              <span class="step-badge">On-Site</span>
+            </div>
+          </div>
+          <div class="hub-step reveal">
+            <div class="step-num">03</div>
+            <div>
+              <div class="step-title">Build &amp; Validate</div>
+              <div class="step-desc">Work alongside our research team to build, test, and refine your product. Weekly check-ins, user research support, and rapid prototyping resources.</div>
+              <span class="step-badge">6–12 Months</span>
+            </div>
+          </div>
+          <div class="hub-step reveal">
+            <div class="step-num">04</div>
+            <div>
+              <div class="step-title">Demo Day &amp; Investor Pitch</div>
+              <div class="step-desc">Present to an audience of 100+ investors, corporate partners, and media at our quarterly Demo Day. Many of our startups close their first round on the day.</div>
+              <span class="step-badge">Public Event</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="cta-box reveal">
+          <span style="font-size:3rem;display:block;margin-bottom:1.2rem;">🏢</span>
+          <h3 style="font-family:var(--font-head);font-size:1rem;letter-spacing:2px;margin-bottom:1rem;">What's Included</h3>
+          <ul class="icon-list" style="margin-top:0;text-align:left;">
+            <li><span class="li-icon">💻</span><div><strong>Full Lab Access</strong><span>Robotics lab, GPU cluster, 3D printers, drone test zone — 24/7 access for incubatees.</span></div></li>
+            <li><span class="li-icon">🧑‍🏫</span><div><strong>Dedicated Mentor</strong><span>Each startup is assigned a senior researcher and a business mentor for the full program duration.</span></div></li>
+            <li><span class="li-icon">📋</span><div><strong>Legal &amp; IP Support</strong><span>We help you protect your innovations with patent filings, NDAs, and company incorporation.</span></div></li>
+            <li><span class="li-icon">🌍</span><div><strong>Market Access</strong><span>Introductions to our network of 50+ corporate partners across Nigeria, Ghana, and Kenya.</span></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alumni startups -->
+    <div style="margin-top:4rem;">
+      <div class="section-label neon">Alumni Startups</div>
+      <h3 style="font-family:var(--font-head);font-size:1.2rem;margin-bottom:0.5rem;">Startups We've <span style="color:var(--neon)">Launched</span></h3>
+      <p style="color:var(--muted);font-size:0.9rem;margin-bottom:0;">12 companies born from Eagles AI Lab — solving real problems across Nigeria and Africa.</p>
+      <div class="startup-grid">
+        <div class="startup-card reveal">
+          <div class="startup-logo">🌾</div>
+          <div class="startup-name">AgroSense Nigeria</div>
+          <div class="startup-sector">AgriTech · AI</div>
+          <div class="startup-desc">IoT crop monitoring and AI advisory platform for smallholder farmers. Deployed on 3,000+ farms in 6 states.</div>
+          <div class="startup-raised">₦8.2M raised · Cohort 1</div>
+        </div>
+        <div class="startup-card reveal">
+          <div class="startup-logo">🚚</div>
+          <div class="startup-name">SwiftRoute</div>
+          <div class="startup-sector">Logistics · Automation</div>
+          <div class="startup-desc">AI-powered fleet and route optimisation SaaS for Nigerian logistics companies. 40+ clients in 12 months.</div>
+          <div class="startup-raised">₦6.5M raised · Cohort 2</div>
+        </div>
+        <div class="startup-card reveal">
+          <div class="startup-logo">🏥</div>
+          <div class="startup-name">MediEye Health</div>
+          <div class="startup-sector">HealthTech · Computer Vision</div>
+          <div class="startup-desc">Malaria and anaemia detection via smartphone camera. Piloting in 15 rural clinics in Plateau State.</div>
+          <div class="startup-raised">$22K grant · Cohort 2</div>
+        </div>
+        <div class="startup-card reveal">
+          <div class="startup-logo">🏫</div>
+          <div class="startup-name">EduTrack Pro</div>
+          <div class="startup-sector">EdTech · SaaS</div>
+          <div class="startup-desc">Student performance analytics and parent engagement platform. Currently in 60+ Nigerian private schools.</div>
+          <div class="startup-raised">₦12M raised · Cohort 3</div>
+        </div>
+        <div class="startup-card reveal">
+          <div class="startup-logo">🔒</div>
+          <div class="startup-name">WatchBot Security</div>
+          <div class="startup-sector">Security · Robotics</div>
+          <div class="startup-desc">Autonomous patrol robots and AI CCTV analytics for estates, warehouses, and commercial properties.</div>
+          <div class="startup-raised">₦9.8M raised · Cohort 3</div>
+        </div>
+        <div class="startup-card reveal">
+          <div class="startup-logo">💬</div>
+          <div class="startup-name">NaijaChat AI</div>
+          <div class="startup-sector">NLP · ConversationalAI</div>
+          <div class="startup-desc">WhatsApp chatbot platform in Yoruba, Hausa, and Pidgin for SME customer service automation.</div>
+          <div class="startup-raised">₦5.1M raised · Cohort 4</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACCELERATOR -->
+<section id="accelerator" class="page-section">
+  <div class="container">
+    <div class="section-label">Phase 02</div>
+    <h2 class="section-title">Accelerator <span>Program</span></h2>
+    <p class="section-desc">Already have traction? Our 3-month accelerator fast-tracks growth for early-stage AI &amp; Robotics startups that have a product and initial users but need to scale.</p>
+    <div class="two-col">
+      <div>
+        <div class="cards-grid reveal" style="grid-template-columns:1fr;">
+          <div class="card">
+            <div class="card-icon">📈</div>
+            <div class="card-title">Growth Sprint</div>
+            <div class="card-desc">An intensive 12-week curriculum covering product-market fit, growth hacking, hiring, fundraising, and unit economics — tailored for deep-tech founders.</div>
+            <span class="card-tag">12 Weeks</span>
+          </div>
+          <div class="card">
+            <div class="card-icon">🤝</div>
+            <div class="card-title">Investor Introductions</div>
+            <div class="card-desc">Warm introductions to 30+ vetted angel investors, VC funds, and DFIs focused on African tech — including TechAfrica Ventures, Ventures Platform, and international impact funds.</div>
+            <span class="card-tag">30+ Investors</span>
+          </div>
+          <div class="card">
+            <div class="card-icon">🏢</div>
+            <div class="card-title">Corporate Pilot Matching</div>
+            <div class="card-desc">We match accelerator startups directly with our 50+ corporate partners for paid pilot programs — giving you revenue, data, and a reference client simultaneously.</div>
+            <span class="card-tag">Paid Pilots</span>
+          </div>
+        </div>
+      </div>
+      <div class="reveal">
+        <h3 style="font-family:var(--font-head);font-size:1rem;color:var(--neon2);letter-spacing:1px;margin-bottom:1.5rem;">Accelerator Curriculum</h3>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-label">Weeks 1–3</div>
+            <div class="tl-title">Foundation &amp; Diagnosis</div>
+            <div class="tl-desc">Deep-dive into your current metrics, ICP, and competitive positioning. Define your 90-day north star.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="background:var(--neon);box-shadow:0 0 12px var(--neon);"></div>
+            <div class="tl-label">Weeks 4–6</div>
+            <div class="tl-title">Product &amp; Go-To-Market</div>
+            <div class="tl-desc">Sharpen your value proposition, pricing strategy, and distribution channels for the Nigerian and pan-African market.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="background:var(--neon3);box-shadow:0 0 12px var(--neon3);"></div>
+            <div class="tl-label">Weeks 7–9</div>
+            <div class="tl-title">Revenue &amp; Partnerships</div>
+            <div class="tl-desc">Close your first corporate pilots, optimise your sales process, and build recurring revenue streams.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="background:var(--neon2);box-shadow:0 0 12px var(--neon2);"></div>
+            <div class="tl-label">Weeks 10–12</div>
+            <div class="tl-title">Fundraise &amp; Demo Day</div>
+            <div class="tl-desc">Craft your investor deck, practice pitching with real feedback, and present at Demo Day to 100+ investors.</div>
+          </div>
+        </div>
+        <div style="margin-top:2rem;">
+          <a href="#apply" class="btn btn-purple">Apply to Accelerate →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FUNDING ACCESS -->
+<section id="funding" class="page-section alt">
+  <div class="container">
+    <div class="section-label orange">Capital</div>
+    <h2 class="section-title">Funding <span class="no">Access</span></h2>
+    <p class="section-desc">We connect Eagles AI Lab startups to a curated network of investors, grant programs, and government funding schemes — with warm introductions and pitch support.</p>
+    <div class="two-col">
+      <div>
+        <table class="fund-table reveal">
+          <thead>
+            <tr><th>Funding Source</th><th>Type</th><th>Range</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Tony Elumelu Foundation</td><td>Grant</td><td>$5,000</td><td><span class="badge badge-green">Open</span></td></tr>
+            <tr><td>NITDA Digital Innovation</td><td>Grant</td><td>₦5M–₦25M</td><td><span class="badge badge-green">Open</span></td></tr>
+            <tr><td>TechAfrica Ventures</td><td>Pre-seed</td><td>$25K–$150K</td><td><span class="badge badge-blue">Partner</span></td></tr>
+            <tr><td>Ventures Platform</td><td>Seed</td><td>$100K–$500K</td><td><span class="badge badge-blue">Partner</span></td></tr>
+            <tr><td>Google.org AI for Good</td><td>Grant</td><td>$50K–$250K</td><td><span class="badge badge-yellow">Competitive</span></td></tr>
+            <tr><td>World Bank IFC SME Fund</td><td>Debt / Equity</td><td>$200K+</td><td><span class="badge badge-yellow">Selective</span></td></tr>
+            <tr><td>NESF / BOI Tech Fund</td><td>Loan</td><td>₦10M–₦50M</td><td><span class="badge badge-green">Open</span></td></tr>
+            <tr><td>Eagles AI Lab Internal Fund</td><td>Pre-seed</td><td>₦500K–₦3M</td><td><span class="badge badge-green">Members Only</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <ul class="icon-list reveal">
+          <li><span class="li-icon">🎯</span><div><strong>Pitch Preparation</strong><span>Our team helps you craft investor-ready decks, financial models, and pitch narratives tailored to each fund's thesis.</span></div></li>
+          <li><span class="li-icon">🤝</span><div><strong>Warm Introductions</strong><span>We make direct email introductions to partners at our investor network — no cold outreach required.</span></div></li>
+          <li><span class="li-icon">📋</span><div><strong>Due Diligence Support</strong><span>We help startups prepare for investor due diligence: data rooms, legal review, and financial audit readiness.</span></div></li>
+          <li><span class="li-icon">💰</span><div><strong>Eagles AI Seed Fund</strong><span>Incubation alumni can apply for our internal pre-seed fund of ₦500K–₦3M for milestone-based disbursement.</span></div></li>
+          <li><span class="li-icon">🌍</span><div><strong>International Grant Writing</strong><span>We support applications to Google.org, World Bank, and EU Horizon Africa funds with our grant writing team.</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENTORSHIP -->
+<section id="mentorship" class="page-section">
+  <div class="container">
+    <div class="section-label neon">Guidance</div>
+    <h2 class="section-title">Mentorship <span class="nc">Network</span></h2>
+    <p class="section-desc">Every startup in our ecosystem is assigned dedicated mentors from our hand-picked network of founders, engineers, investors, and industry leaders across Africa and beyond.</p>
+    <div class="mentor-grid">
+      <div class="mentor-card reveal">
+        <div class="mentor-avatar">DO</div>
+        <div class="mentor-name">Dr. David Okafor</div>
+        <div class="mentor-role">AI Research &amp; Product</div>
+        <div class="mentor-bio">PhD AI, Coventry. 15 years in robotics. Mentors startups on AI architecture, research commercialisation, and technical roadmaps.</div>
+      </div>
+      <div class="mentor-card reveal">
+        <div class="mentor-avatar" style="background:linear-gradient(135deg,var(--neon3),var(--neon2));">KO</div>
+        <div class="mentor-name">Kemi Olatoye</div>
+        <div class="mentor-role">Enterprise Sales</div>
+        <div class="mentor-bio">VP Engineering at a leading fintech. Specialises in B2B sales strategy, enterprise procurement, and partnership structuring.</div>
+      </div>
+      <div class="mentor-card reveal">
+        <div class="mentor-avatar" style="background:linear-gradient(135deg,var(--neon),var(--neon3));">JA</div>
+        <div class="mentor-name">James Abioye</div>
+        <div class="mentor-role">Investment &amp; Fundraising</div>
+        <div class="mentor-bio">Partner at TechAfrica Ventures. Backed 40+ startups. Mentors on fundraising strategy, term sheets, and investor relations.</div>
+      </div>
+      <div class="mentor-card reveal">
+        <div class="mentor-avatar" style="background:linear-gradient(135deg,#00c851,var(--neon));">FA</div>
+        <div class="mentor-name">Funmi Adesanya</div>
+        <div class="mentor-role">Marketing &amp; Growth</div>
+        <div class="mentor-bio">CMO at a pan-African SaaS company. Expert in growth hacking, digital marketing, and brand positioning for African markets.</div>
+      </div>
+      <div class="mentor-card reveal">
+        <div class="mentor-avatar" style="background:linear-gradient(135deg,var(--neon2),#c0392b);">TC</div>
+        <div class="mentor-name">Tunde Coker</div>
+        <div class="mentor-role">Operations &amp; Scaling</div>
+        <div class="mentor-bio">Former CEO of a regional data centre. Expert in operational excellence, team building, and scaling hardware-software businesses.</div>
+      </div>
+      <div class="mentor-card reveal">
+        <div class="mentor-avatar" style="background:linear-gradient(135deg,var(--neon3),#8e44ad);">NB</div>
+        <div class="mentor-name">Ngozi Bello</div>
+        <div class="mentor-role">Policy &amp; Regulation</div>
+        <div class="mentor-bio">Former NITDA Director. Guides startups on regulatory compliance, government partnerships, and public sector sales in Nigeria.</div>
+      </div>
+      <div class="mentor-card reveal">
+        <div class="mentor-avatar" style="background:linear-gradient(135deg,var(--neon),#2980b9);">SI</div>
+        <div class="mentor-name">Seun Ibrahim</div>
+        <div class="mentor-role">Hardware &amp; Manufacturing</div>
+        <div class="mentor-bio">Engineer with 12 years in robotics manufacturing. Mentors hardware startups on prototyping, supply chains, and local production.</div>
+      </div>
+      <div class="mentor-card reveal">
+        <div class="mentor-avatar" style="background:linear-gradient(135deg,#16a085,var(--neon2));">AE</div>
+        <div class="mentor-name">Amaka Eze</div>
+        <div class="mentor-role">AI Research</div>
+        <div class="mentor-bio">Director of Research at Eagles AI Lab. Guides startups applying ML, NLP, and computer vision to build competitive moats.</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:3rem;">
+      <a href="#apply" class="btn btn-outline">Apply to Access Mentors →</a>
+    </div>
+  </div>
+</section>
+
+<!-- BUSINESS DEVELOPMENT -->
+<section id="biz-dev" class="page-section alt">
+  <div class="container">
+    <div class="section-label">Growth Support</div>
+    <h2 class="section-title">Business Development <span>Support</span></h2>
+    <p class="section-desc">Beyond tech — we help Eagles AI Lab startups build the commercial foundations they need to grow into sustainable, scalable businesses.</p>
+    <div class="cards-grid">
+      <div class="card reveal">
+        <div class="card-icon">🤝</div>
+        <div class="card-title">Corporate Partner Matching</div>
+        <div class="card-desc">We match startups with relevant corporate partners from our network of 50+ organisations for pilots, procurement, and distribution deals.</div>
+      </div>
+      <div class="card reveal">
+        <div class="card-icon">📊</div>
+        <div class="card-title">Financial Modelling Support</div>
+        <div class="card-desc">Our business team helps founders build unit economics models, revenue projections, and investor-ready financial statements.</div>
+      </div>
+      <div class="card reveal">
+        <div class="card-icon">⚖️</div>
+        <div class="card-title">Legal &amp; Compliance</div>
+        <div class="card-desc">Referrals to our network of startup-focused lawyers for company incorporation, IP filings, contracts, and NDPR compliance advisory.</div>
+      </div>
+      <div class="card reveal">
+        <div class="card-icon">🌍</div>
+        <div class="card-title">Market Expansion Support</div>
+        <div class="card-desc">For startups ready to expand beyond Nigeria — we provide introductions to partners, distributors, and investors in Ghana, Kenya, and South Africa.</div>
+      </div>
+      <div class="card reveal">
+        <div class="card-icon">🎙️</div>
+        <div class="card-title">PR &amp; Media Access</div>
+        <div class="card-desc">Eagles AI Lab's media relationships get our startups featured in TechCabal, Nairametrics, Disrupt Africa, and leading African tech press.</div>
+      </div>
+      <div class="card reveal">
+        <div class="card-icon">🏆</div>
+        <div class="card-title">Competition &amp; Awards</div>
+        <div class="card-desc">We nominate and prepare startups for GITEX Africa, Tony Elumelu Entrepreneurship, and global deep-tech competitions to boost visibility.</div>
+      </div>
+    </div>
+
+    <!-- Testimonials from founders -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;margin-top:3rem;">
+      <div class="testimonial reveal">
+        <p class="testimonial-text">Eagles AI Lab didn't just give us a desk — they gave us our first 5 customers, introduced us to our lead investor, and helped us patent our core algorithm. Game-changer.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">AO</div>
+          <div><div class="author-name">Adaeze Okonkwo</div><div class="author-role">CEO, AgroSense Nigeria · Cohort 1</div></div>
+        </div>
+      </div>
+      <div class="testimonial reveal">
+        <p class="testimonial-text">The mentor network is world-class. James helped us close our pre-seed in 6 weeks. Without Eagles AI Lab, SwiftRoute wouldn't exist — full stop.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background:linear-gradient(135deg,var(--neon3),var(--neon2));">BI</div>
+          <div><div class="author-name">Bayo Idowu</div><div class="author-role">CEO, SwiftRoute · Cohort 2</div></div>
+        </div>
+      </div>
+      <div class="testimonial reveal">
+        <p class="testimonial-text">I came in with a prototype and no business model. 9 months later I pitched to 40 investors on Demo Day and closed ₦12M. The biz dev support here is unmatched in Nigeria.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background:linear-gradient(135deg,var(--neon),var(--neon3));">CN</div>
+          <div><div class="author-name">Chisom Nwosu</div><div class="author-role">CEO, EduTrack Pro · Cohort 3</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPLY NOW -->
+<section id="apply" class="page-section">
+  <div class="container">
+    <div class="section-label">Join the Ecosystem</div>
+    <h2 class="section-title">Apply <span class="nc">Now</span></h2>
+    <p class="section-desc">Applications for our <strong style="color:var(--neon2);">2025 Q3 Incubation Cohort</strong> are open. Deadline: <strong style="color:var(--neon3);">June 30, 2025.</strong> We accept 10–15 teams per cohort.</p>
+    <div class="two-col">
+      <div>
+        <div class="cta-box cta-box-orange reveal" style="margin-bottom:2rem;">
+          <span style="font-size:2.5rem;display:block;margin-bottom:1rem;">📅</span>
+          <h3 style="font-family:var(--font-head);font-size:0.9rem;letter-spacing:2px;margin-bottom:1rem;color:var(--neon3);">2025 Q3 Cohort Timeline</h3>
+          <div class="timeline" style="padding-left:2rem;">
+            <div class="tl-item" style="padding-bottom:1.2rem;">
+              <div class="tl-dot" style="background:var(--neon3);box-shadow:0 0 10px var(--neon3);"></div>
+              <div class="tl-label" style="color:var(--neon3);">May 1</div>
+              <div class="tl-title" style="font-size:0.8rem;">Applications Open</div>
+            </div>
+            <div class="tl-item" style="padding-bottom:1.2rem;">
+              <div class="tl-dot" style="background:var(--neon2);box-shadow:0 0 10px var(--neon2);"></div>
+              <div class="tl-label" style="color:var(--neon2);">June 30</div>
+              <div class="tl-title" style="font-size:0.8rem;">Application Deadline</div>
+            </div>
+            <div class="tl-item" style="padding-bottom:1.2rem;">
+              <div class="tl-dot"></div>
+              <div class="tl-label">July 14</div>
+              <div class="tl-title" style="font-size:0.8rem;">Shortlist Announced</div>
+            </div>
+            <div class="tl-item" style="padding-bottom:1.2rem;">
+              <div class="tl-dot"></div>
+              <div class="tl-label">July 21–25</div>
+              <div class="tl-title" style="font-size:0.8rem;">Founder Interviews</div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot" style="background:var(--neon);box-shadow:0 0 10px var(--neon);"></div>
+              <div class="tl-label" style="color:var(--neon);">August 1</div>
+              <div class="tl-title" style="font-size:0.8rem;">Cohort Kicks Off 🚀</div>
+            </div>
+          </div>
+        </div>
+        <div class="stat-boxes reveal">
+          <div class="stat-box"><span class="sn">10–15</span><span class="sl">Teams Selected</span></div>
+          <div class="stat-box"><span class="sn" style="color:var(--neon3);">200+</span><span class="sl">Applications/Cohort</span></div>
+          <div class="stat-box"><span class="sn" style="color:var(--neon);">Free</span><span class="sl">To Apply</span></div>
+        </div>
+      </div>
+      <div>
+        <form class="reveal" style="display:flex;flex-direction:column;" onsubmit="handleSubmit(event)">
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">First Name</label><input class="form-input" type="text" placeholder="Emeka" required></div>
+            <div class="form-group"><label class="form-label">Last Name</label><input class="form-input" type="text" placeholder="Eze" required></div>
+          </div>
+          <div class="form-group"><label class="form-label">Email Address</label><input class="form-input" type="email" placeholder="emeka@startup.ng" required></div>
+          <div class="form-group"><label class="form-label">Phone / WhatsApp</label><input class="form-input" type="tel" placeholder="+234 ..."></div>
+          <div class="form-group">
+            <label class="form-label">Program Applying For</label>
+            <select class="form-select">
+              <option>Startup Incubation (6–12 months)</option>
+              <option>Accelerator Program (3 months)</option>
+              <option>Mentorship Network Only</option>
+              <option>Funding Access Support</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Startup / Idea Stage</label>
+            <select class="form-select">
+              <option>Idea — no product yet</option>
+              <option>MVP — built, no users</option>
+              <option>Early traction — 1–50 users/clients</option>
+              <option>Growing — 50+ users, some revenue</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Sector</label>
+            <select class="form-select">
+              <option>AgriTech / Agricultural Robotics</option>
+              <option>HealthTech / Medical AI</option>
+              <option>EdTech / Smart Learning</option>
+              <option>Logistics / Supply Chain</option>
+              <option>Security / Surveillance</option>
+              <option>FinTech / Financial AI</option>
+              <option>Smart Infrastructure / IoT</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Describe Your Startup or Idea</label><textarea class="form-textarea" placeholder="In 2–3 sentences: what problem are you solving, who for, and what's your solution?"></textarea></div>
+          <div class="form-group"><label class="form-label">Website / Demo Link (Optional)</label><input class="form-input" type="url" placeholder="https://..."></div>
+          <button type="submit" class="btn btn-purple" style="width:100%;margin-top:0.5rem;">Submit Application →</button>
+          <p style="color:var(--muted);font-size:0.78rem;text-align:center;margin-top:1rem;">Applications are free. We respond to all submissions within 5 business days.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo" style="display:inline-flex;margin-bottom:0.5rem;">EAGLES <span>AI LAB</span></a>
+      <p>Pioneering AI &amp; Robotics innovation across Nigeria and Africa. Training the next generation of tech leaders since 2020.</p>
+      <div style="margin-top:1.5rem;display:flex;gap:0.8rem;flex-wrap:wrap;">
+        <a href="#" style="font-size:1.3rem;">🐦</a><a href="#" style="font-size:1.3rem;">💼</a>
+        <a href="#" style="font-size:1.3rem;">📘</a><a href="#" style="font-size:1.3rem;">▶️</a><a href="#" style="font-size:1.3rem;">📸</a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Innovation Hub</h4><ul>
+      <li><a href="#incubation">Startup Incubation</a></li>
+      <li><a href="#accelerator">Accelerator Program</a></li>
+      <li><a href="#funding">Funding Access</a></li>
+      <li><a href="#mentorship">Mentorship Network</a></li>
+      <li><a href="#biz-dev">Business Development</a></li>
+      <li><a href="#apply">Apply Now</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Training</h4><ul>
+      <li><a href="training.html#bootcamps">Bootcamps</a></li>
+      <li><a href="training.html#stem-schools">STEM for Schools</a></li>
+      <li><a href="training.html#ai-youth">AI for Youth</a></li>
+      <li><a href="training.html#internship">Internship</a></li>
+      <li><a href="training.html#hackathons">Hackathons</a></li>
+      <li><a href="student-portal.html">Student Portal</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Organisation</h4><ul>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="partnerships.html">Partners</a></li>
+      <li><a href="media.html">Media</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Eagles AI &amp; Robotics Research Lab. All rights reserved.</span>
+    <span>Built with 🤖 in Nigeria</span>
+  </div>
+</footer>
+
+<script>
+  // Scroll progress
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    document.getElementById('scrollProgress').style.width = (window.scrollY / h * 100) + '%';
+  });
+  // Reveal
+  const ro = new IntersectionObserver(entries => entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  }), { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+  // Mobile menu
+  function openMobile() { document.getElementById('mobileMenu').classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); document.body.style.overflow=''; }
+  function toggleMobile(header) {
+    const sub = header.nextElementSibling;
+    const isOpen = sub.classList.contains('open');
+    document.querySelectorAll('.m-sub.open').forEach(s => s.classList.remove('open'));
+    document.querySelectorAll('.m-header.active').forEach(h => h.classList.remove('active'));
+    if (!isOpen) { sub.classList.add('open'); header.classList.add('active'); }
+  }
+  // Smooth anchor scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+  // Form
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type=submit]');
+    const orig = btn.textContent;
+    btn.textContent = '✅ Application Submitted!';
+    btn.style.background = '#25d366';
+    btn.style.boxShadow = '0 0 20px rgba(37,211,102,0.4)';
+    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; btn.style.boxShadow = ''; e.target.reset(); }, 4000);
+  }
+</script>
+</body>
+</html>

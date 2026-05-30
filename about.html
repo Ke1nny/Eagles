@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
-  <title>Home — Eagles AI Lab</title>
+  <title>About Us — Eagles AI Lab</title>
 
   <style>
     :root {
@@ -210,49 +210,29 @@
       .stat-boxes { flex-direction: column; }
     }
   </style>
-
-  <style>
-    #home { min-height:100vh; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:100px 2rem 4rem; }
-    .hero-content { text-align:center; z-index:2; max-width:860px; }
-    .hero-badge { display:inline-block; font-family:var(--font-head); font-size:0.65rem; letter-spacing:4px; color:var(--neon); border:1px solid var(--neon); padding:6px 16px; border-radius:2px; margin-bottom:2rem; animation:fadeInUp 0.6s ease both; text-shadow:0 0 8px var(--neon); box-shadow:0 0 16px rgba(0,245,255,0.1),inset 0 0 16px rgba(0,245,255,0.05); }
-    h1.hero-title { font-family:var(--font-head); font-size:clamp(2.2rem,6vw,5rem); font-weight:900; line-height:1.05; letter-spacing:-1px; margin-bottom:1.5rem; animation:fadeInUp 0.8s 0.1s ease both; }
-    .hero-title .line1 { color:var(--text); }
-    .hero-title .line2 { color:var(--neon); text-shadow:0 0 30px var(--neon),0 0 60px rgba(0,245,255,0.3); }
-    .hero-sub { font-size:1.05rem; color:var(--muted); max-width:620px; margin:0 auto 2.5rem; line-height:1.8; animation:fadeInUp 0.8s 0.2s ease both; }
-    .hero-ctas { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; animation:fadeInUp 0.8s 0.3s ease both; }
-    .stats-row { display:flex; justify-content:center; gap:3rem; flex-wrap:wrap; margin-top:4rem; animation:fadeInUp 0.8s 0.4s ease both; }
-    .stat-item { text-align:center; }
-    .stat-num { font-family:var(--font-head); font-size:2.2rem; font-weight:900; color:var(--neon); text-shadow:0 0 20px var(--neon); display:block; }
-    .stat-label { font-size:0.72rem; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-top:4px; }
-    .hero-orb { position:absolute; border-radius:50%; filter:blur(80px); pointer-events:none; }
-    .quick-links { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1.2rem; margin-top:3rem; }
-    .ql-card { border:1px solid var(--border); border-radius:8px; padding:1.5rem; background:var(--card); text-decoration:none; text-align:center; transition:all 0.3s; display:block; }
-    .ql-card:hover { border-color:var(--neon); transform:translateY(-3px); box-shadow:0 8px 30px rgba(0,245,255,0.07); }
-    .ql-icon { font-size:2rem; margin-bottom:0.7rem; display:block; }
-    .ql-title { font-family:var(--font-head); font-size:0.75rem; letter-spacing:1px; color:var(--neon); margin-bottom:0.3rem; }
-    .ql-desc { font-size:0.78rem; color:var(--muted); }
-    .testimonials { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
-    .testimonial { border:1px solid var(--border); border-radius:8px; padding:2rem; background:var(--card); position:relative; }
-    .testimonial::before { content:'"'; font-size:5rem; font-family:Georgia,serif; color:var(--neon); opacity:0.12; position:absolute; top:-10px; left:1.5rem; line-height:1; }
-    .testimonial-text { font-size:0.88rem; color:var(--muted); line-height:1.8; margin-bottom:1.5rem; font-style:italic; }
-    .testimonial-author { display:flex; align-items:center; gap:12px; }
-    .author-avatar { width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,var(--neon),var(--neon2)); display:flex; align-items:center; justify-content:center; font-family:var(--font-head); font-size:0.8rem; font-weight:700; color:var(--bg); flex-shrink:0; }
-    .author-name { font-family:var(--font-head); font-size:0.75rem; letter-spacing:1px; color:var(--text); }
-    .author-role { font-size:0.72rem; color:var(--muted); margin-top:2px; }
-    .partners-logos { display:flex; flex-wrap:wrap; gap:1rem; justify-content:center; margin-top:2.5rem; }
-    .partner-logo { border:1px solid var(--border); border-radius:8px; padding:1rem 1.8rem; background:var(--card); font-family:var(--font-head); font-size:0.7rem; letter-spacing:2px; color:var(--muted); transition:all 0.3s; text-transform:uppercase; }
-    .partner-logo:hover { border-color:var(--neon); color:var(--neon); }
-    @media(max-width:900px){ .testimonials{grid-template-columns:1fr;} }
-    .featured-projects { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.5rem; margin-top:2rem; }
-    .proj-card { border:1px solid var(--border); border-radius:8px; overflow:hidden; background:var(--card); transition:all 0.3s; }
-    .proj-card:hover { border-color:var(--neon2); transform:translateY(-4px); }
-    .proj-visual { height:130px; display:flex; align-items:center; justify-content:center; font-size:3.5rem; }
-    .proj-body { padding:1.4rem; }
-    .proj-title { font-family:var(--font-head); font-size:0.82rem; letter-spacing:1px; color:var(--text); margin-bottom:0.5rem; }
-    .proj-desc { font-size:0.82rem; color:var(--muted); line-height:1.6; }
-    .proj-tag { display:inline-block; margin-top:0.8rem; font-size:0.62rem; letter-spacing:2px; color:var(--neon); border:1px solid rgba(0,245,255,0.3); padding:2px 8px; border-radius:2px; text-transform:uppercase; }
-  </style>
-
+<style>
+  .team-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1.5rem; margin-top:2rem; }
+  .team-card { border:1px solid var(--border); border-radius:8px; padding:2rem 1.5rem; background:var(--card); text-align:center; transition:all 0.3s; }
+  .team-card:hover { border-color:var(--neon); transform:translateY(-4px); }
+  .team-avatar { width:70px; height:70px; border-radius:50%; background:linear-gradient(135deg,var(--neon),var(--neon2)); margin:0 auto 1rem; display:flex; align-items:center; justify-content:center; font-family:var(--font-head); font-size:1.2rem; font-weight:900; color:var(--bg); }
+  .team-name { font-family:var(--font-head); font-size:0.8rem; letter-spacing:1px; color:var(--text); margin-bottom:4px; }
+  .team-role { font-size:0.78rem; color:var(--neon); margin-bottom:6px; }
+  .team-bio { font-size:0.78rem; color:var(--muted); line-height:1.6; }
+  .timeline { display:flex; flex-direction:column; gap:0; position:relative; padding-left:2.5rem; margin-top:2rem; }
+  .timeline::before { content:''; position:absolute; left:0.6rem; top:0; bottom:0; width:2px; background:linear-gradient(180deg,var(--neon),var(--neon2),transparent); }
+  .tl-item { position:relative; padding:1.5rem 0 1.5rem 1.5rem; }
+  .tl-dot { position:absolute; left:-2rem; top:1.7rem; width:14px; height:14px; border-radius:50%; background:var(--neon); box-shadow:0 0 12px var(--neon); border:2px solid var(--bg); }
+  .tl-year { font-family:var(--font-head); font-size:0.65rem; letter-spacing:3px; color:var(--neon); margin-bottom:4px; }
+  .tl-title { font-family:var(--font-head); font-size:0.85rem; color:var(--text); margin-bottom:6px; }
+  .tl-desc { font-size:0.84rem; color:var(--muted); line-height:1.6; }
+  .facility-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1.5rem; margin-top:2rem; }
+  .fac-card { border:1px solid var(--border); border-radius:8px; background:var(--card); overflow:hidden; transition:all 0.3s; }
+  .fac-card:hover { border-color:var(--neon2); transform:translateY(-3px); }
+  .fac-visual { height:120px; display:flex; align-items:center; justify-content:center; font-size:3rem; }
+  .fac-body { padding:1.2rem; }
+  .fac-title { font-family:var(--font-head); font-size:0.8rem; letter-spacing:1px; color:var(--neon); margin-bottom:6px; }
+  .fac-desc { font-size:0.82rem; color:var(--muted); line-height:1.6; }
+</style>
 </head>
 <body>
 <div class="scanline"></div>
@@ -260,7 +240,7 @@
   <div class="mobile-menu" id="mobileMenu">
     <button class="mobile-close" onclick="closeMobile()">✕</button>
 
-    <div class="m-item m-item-home"><a href="index.html" onclick="closeMobile()">Home</a></div>
+    <div class="m-item m-item-home"><a href="mainindex.html" onclick="closeMobile()">Home</a></div>
 
     <div class="m-item">
       <div class="m-header" onclick="toggleMobile(this)">About <span class="m-chevron">▾</span></div>
@@ -373,7 +353,7 @@
   </div>
   <!-- NAV -->
   <nav>
-    <a href="index.html" class="nav-logo">
+    <a href="mainindex.html" class="nav-logo">
       <svg class="eagle-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M20 4L28 14L36 10L30 22L36 28L20 24L4 28L10 22L4 10L12 14Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
         <circle cx="20" cy="20" r="3" fill="currentColor"/>
@@ -382,7 +362,7 @@
       EAGLES <span>AI LAB</span>
     </a>
     <ul class="nav-links">
-      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="mainindex.html" class="nav-link">Home</a></li>
       <li class="has-dropdown">
         <span class="nav-link nav-label">About <span class="arrow">▾</span></span>
         <ul class="dropdown">
@@ -500,122 +480,155 @@
     </div>
   </div>
 
-  <section id="home" style="position:relative;z-index:1;">
-    <div class="hero-orb orb1" style="width:500px;height:500px;background:radial-gradient(circle,rgba(0,245,255,0.12),transparent 70%);top:-100px;right:-100px;animation:pulse 6s ease-in-out infinite;"></div>
-    <div class="hero-orb orb2" style="width:400px;height:400px;background:radial-gradient(circle,rgba(123,47,255,0.1),transparent 70%);bottom:-80px;left:-80px;animation:pulse 8s 2s ease-in-out infinite;"></div>
-    <div class="hero-content">
-      <div class="hero-badge">⚡ Nigeria's Premier AI &amp; Robotics Research Lab</div>
-      <h1 class="hero-title">
-        <span class="line1">Inventing the Future</span><br>
-        <span class="line2">with AI &amp; Robotics</span>
-      </h1>
-      <p class="hero-sub">Eagles AI &amp; Robotics Research Lab is pioneering cutting-edge artificial intelligence and robotics solutions — building Africa's next generation of tech innovators, researchers, and entrepreneurs.</p>
-      <div class="hero-ctas">
-        <a href="training.html#register" class="btn btn-primary">Join Us</a>
-        <a href="contact.html" class="btn btn-outline">Donate</a>
-        <a href="partnerships.html#become-partner" class="btn btn-ghost">Partner With Us</a>
-        <a href="innovation.html#apply" class="btn btn-ghost">Apply Now</a>
-      </div>
-      <div class="stats-row">
-        <div class="stat-item"><span class="stat-num" data-count="1200">0</span><span class="stat-label">Students Trained</span></div>
-        <div class="stat-item"><span class="stat-num" data-count="48">0</span><span class="stat-label">Prototypes Built</span></div>
-        <div class="stat-item"><span class="stat-num" data-count="23">0</span><span class="stat-label">Awards Won</span></div>
-        <div class="stat-item"><span class="stat-num" data-count="15">0</span><span class="stat-label">Research Papers</span></div>
+  <div class="page-hero">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="page-hero-label">Who We Are</div>
+    <h1>About <span>Eagles AI Lab</span></h1>
+    <p>A research-driven institution committed to advancing artificial intelligence and robotics technology across Africa since 2020.</p>
+  </div>
+
+  <section id="vision-mission" class="page-section">
+    <div class="container">
+      <div class="section-label">Purpose</div>
+      <h2 class="section-title">Vision &amp; <span>Mission</span></h2>
+      <div class="two-col">
+        <div class="reveal">
+          <div class="section-label" style="color:var(--neon2)">🔭 Our Vision</div>
+          <p style="color:var(--text);font-size:1.1rem;line-height:1.8;font-weight:400;margin-bottom:1.5rem;">To become Africa's leading hub for AI research, robotics development, and tech entrepreneurship — positioning Nigeria as a global player in frontier technology.</p>
+          <div class="section-label" style="color:var(--neon3)">🎯 Our Mission</div>
+          <p style="color:var(--muted);font-size:0.95rem;line-height:1.8;">To democratize AI &amp; Robotics education and drive technological innovation across Nigeria and Africa by making world-class training accessible, building homegrown solutions, and nurturing the next generation of tech leaders.</p>
+        </div>
+        <div class="stat-boxes reveal">
+          <div class="stat-box"><span class="sn">1,200+</span><span class="sl">Students Trained</span></div>
+          <div class="stat-box"><span class="sn" style="color:var(--neon2)">48</span><span class="sl">Prototypes Built</span></div>
+          <div class="stat-box"><span class="sn" style="color:var(--neon3)">23</span><span class="sl">Awards Won</span></div>
+          <div class="stat-box"><span class="sn">15+</span><span class="sl">Research Papers</span></div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="page-section" style="background:var(--bg2);">
+  <section id="core-values" class="page-section" style="background:var(--bg2);">
     <div class="container">
-      <div class="section-label">Latest News &amp; Achievements</div>
-      <h2 class="section-title">What's <span>Happening</span></h2>
+      <div class="section-label">What Drives Us</div>
+      <h2 class="section-title">Core <span>Values</span></h2>
       <div class="cards-grid">
-        <div class="card reveal"><div class="card-icon">🏆</div><div class="card-title">National Innovation Award</div><div class="card-desc">Our Agricultural Robotics prototype won the 2025 National Innovation Award for impact in smart farming.</div><span class="card-tag">Award</span></div>
-        <div class="card reveal"><div class="card-icon">🎓</div><div class="card-title">500+ Trained This Quarter</div><div class="card-desc">We successfully trained over 500 students in AI and Machine Learning in Q1 2025 alone.</div><span class="card-tag">Milestone</span></div>
-        <div class="card reveal"><div class="card-icon">🤝</div><div class="card-title">New Tech Partnerships</div><div class="card-desc">Eagles AI Lab announces new institutional partnerships with leading universities across Nigeria.</div><span class="card-tag">Partnership</span></div>
-        <div class="card reveal"><div class="card-icon">🚀</div><div class="card-title">Autonomous Robotics Program</div><div class="card-desc">Our new 2025 Autonomous Robotics cohort is now enrolling. Applications close in April.</div><span class="card-tag">Program</span></div>
+        <div class="card reveal"><div class="card-icon">💡</div><div class="card-title">Innovation First</div><div class="card-desc">Every solution we build is grounded in rigorous research and practical real-world application.</div></div>
+        <div class="card reveal"><div class="card-icon">🌍</div><div class="card-title">African Context</div><div class="card-desc">We build technology that addresses Africa's unique challenges with locally relevant solutions.</div></div>
+        <div class="card reveal"><div class="card-icon">🤝</div><div class="card-title">Collaboration</div><div class="card-desc">Progress happens at the intersection of disciplines. We work across sectors, institutions, and borders.</div></div>
+        <div class="card reveal"><div class="card-icon">🎓</div><div class="card-title">Education Access</div><div class="card-desc">We believe every African student deserves access to world-class AI and robotics education.</div></div>
+        <div class="card reveal"><div class="card-icon">⚖️</div><div class="card-title">Ethical AI</div><div class="card-desc">We develop AI responsibly — with transparency, fairness, and humanity at the core.</div></div>
+        <div class="card reveal"><div class="card-icon">🔬</div><div class="card-title">Research Integrity</div><div class="card-desc">We uphold the highest standards of academic and scientific integrity in all our research.</div></div>
       </div>
     </div>
   </section>
 
-  <section class="page-section">
+  <section id="our-story" class="page-section">
     <div class="container">
-      <div class="section-label">Featured Projects</div>
-      <h2 class="section-title">Our <span>Innovations</span></h2>
-      <div class="featured-projects">
-        <div class="proj-card reveal"><div class="proj-visual" style="background:linear-gradient(135deg,rgba(0,245,255,0.1),rgba(123,47,255,0.1))">🌾</div><div class="proj-body"><div class="proj-title">AgroBot — Smart Farming Robot</div><div class="proj-desc">Autonomous robot for planting, irrigation, pest detection, and harvest in Nigerian farms.</div><span class="proj-tag">Robotics</span></div></div>
-        <div class="proj-card reveal"><div class="proj-visual" style="background:linear-gradient(135deg,rgba(123,47,255,0.1),rgba(255,107,0,0.1))">💬</div><div class="proj-body"><div class="proj-title">NaijaBot — Yoruba NLP Model</div><div class="proj-desc">A language model trained on Yoruba, Hausa, and Igbo to power African-language chatbots.</div><span class="proj-tag">AI Research</span></div></div>
-        <div class="proj-card reveal"><div class="proj-visual" style="background:linear-gradient(135deg,rgba(255,107,0,0.1),rgba(0,245,255,0.1))">🚁</div><div class="proj-body"><div class="proj-title">SkyEagle — Delivery Drone</div><div class="proj-desc">Custom UAV built for last-mile delivery in underserved areas with AI-guided navigation.</div><span class="proj-tag">Drone Dev</span></div></div>
+      <div class="section-label">History</div>
+      <h2 class="section-title">Our <span>Story</span></h2>
+      <p class="section-desc">From a small workshop in 2020 to Nigeria's premier AI &amp; Robotics lab — driven by passion, purpose, and people.</p>
+      <div class="timeline reveal">
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2020</div><div class="tl-title">Founded in Abuja</div><div class="tl-desc">Eagles AI Lab was founded by engineers and educators with a shared vision to advance AI and robotics in Nigeria.</div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--neon2);box-shadow:0 0 12px var(--neon2);"></div><div class="tl-year">2021</div><div class="tl-title">First Bootcamp</div><div class="tl-desc">Launched our inaugural AI Bootcamp, training 80 students. AgroBot v1 was built by the inaugural cohort.</div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--neon3);box-shadow:0 0 12px var(--neon3);"></div><div class="tl-year">2022</div><div class="tl-title">STEM for Schools Launch</div><div class="tl-desc">Expanded into secondary schools across FCT, Enugu, and Lagos, reaching thousands of students.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2023</div><div class="tl-title">Innovation Hub Opens</div><div class="tl-desc">Launched the incubation program, welcoming the first cohort of AI &amp; Robotics startups. 6 startups launched.</div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--neon2);box-shadow:0 0 12px var(--neon2);"></div><div class="tl-year">2024</div><div class="tl-title">National Recognition</div><div class="tl-desc">Won the National Innovation Award for Agricultural Robotics. Published 5 peer-reviewed papers internationally.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2025</div><div class="tl-title">1,200+ Students Strong</div><div class="tl-desc">Now training over 1,200 students, with partnerships across 10 universities, government agencies, and global tech companies.</div></div>
       </div>
     </div>
   </section>
 
-  <section class="page-section" style="background:var(--bg2);">
+  <section id="governance" class="page-section" style="background:var(--bg2);">
     <div class="container">
-      <div class="section-label">What People Say</div>
-      <h2 class="section-title">Testimonials</h2>
-      <div class="testimonials">
-        <div class="testimonial reveal"><p class="testimonial-text">Eagles AI Lab completely transformed how I understand robotics. The hands-on approach gave me the confidence to build my own startup.</p><div class="testimonial-author"><div class="author-avatar">AO</div><div><div class="author-name">Adaeze Okonkwo</div><div class="author-role">Robotics Startup Founder, Enugu</div></div></div></div>
-        <div class="testimonial reveal"><p class="testimonial-text">The AI bootcamp was intense, practical, and career-changing. Within 3 months I landed a machine learning role at a top fintech firm.</p><div class="testimonial-author"><div class="author-avatar">EI</div><div><div class="author-name">Emmanuel Ibe</div><div class="author-role">ML Engineer, Lagos</div></div></div></div>
-        <div class="testimonial reveal"><p class="testimonial-text">As a school principal, partnering with Eagles AI Lab for our STEM program has been remarkable. Our students now think like engineers.</p><div class="testimonial-author"><div class="author-avatar">NC</div><div><div class="author-name">Ngozi Chukwu</div><div class="author-role">Principal, Federal Government College</div></div></div></div>
+      <div class="section-label">Structure</div>
+      <h2 class="section-title">Governance &amp; <span>Leadership</span></h2>
+      <p class="section-desc">Eagles AI Lab is governed by a Board of Directors and led by a passionate executive team committed to scientific excellence.</p>
+      <div class="team-grid">
+        <div class="team-card reveal"><div class="team-avatar">DO</div><div class="team-name">Dr. David Okafor</div><div class="team-role">Executive Director</div><div class="team-bio">PhD in AI from Coventry University. 15 years in robotics research and STEM education across Africa.</div></div>
+        <div class="team-card reveal"><div class="team-avatar">AE</div><div class="team-name">Amaka Eze</div><div class="team-role">Director of Research</div><div class="team-bio">MSc Computer Vision from University of Lagos. Lead researcher for NLP and agricultural robotics projects.</div></div>
+        <div class="team-card reveal"><div class="team-avatar">BI</div><div class="team-name">Biodun Ibrahim</div><div class="team-role">Director of Training</div><div class="team-bio">Former NITDA curriculum designer. Expert in STEM pedagogy and digital skills development for youth.</div></div>
+        <div class="team-card reveal"><div class="team-avatar">CU</div><div class="team-name">Chioma Uche</div><div class="team-role">Head of Operations</div><div class="team-bio">MBA (Finance), 10+ years managing tech-focused organisations and grant-funded programs in West Africa.</div></div>
       </div>
     </div>
   </section>
 
-  <section class="page-section">
+  <section id="advisory" class="page-section">
     <div class="container">
-      <div class="section-label">Collaborations</div>
-      <h2 class="section-title">Partners &amp; <span>Sponsors</span></h2>
-      <div class="partners-logos reveal">
-        <div class="partner-logo">Federal Ministry of Science</div>
-        <div class="partner-logo">NITDA Nigeria</div>
-        <div class="partner-logo">University of Nigeria</div>
-        <div class="partner-logo">STEM Nigeria</div>
-        <div class="partner-logo">NCC</div>
-        <div class="partner-logo">NNPC Ltd</div>
-        <div class="partner-logo">World Bank Group</div>
-        <div class="partner-logo">Tony Elumelu Foundation</div>
-        <div class="partner-logo">Google Africa</div>
-        <div class="partner-logo">Microsoft Africa</div>
+      <div class="section-label">Expert Guidance</div>
+      <h2 class="section-title">Advisory <span>Board</span></h2>
+      <p class="section-desc">Our advisors are globally recognised experts in AI, robotics, education policy, and entrepreneurship.</p>
+      <div class="team-grid">
+        <div class="team-card reveal"><div class="team-avatar" style="background:linear-gradient(135deg,var(--neon3),var(--neon2));">PN</div><div class="team-name">Prof. Ngozi Adeyemi</div><div class="team-role">AI Ethics Advisor</div><div class="team-bio">UNESCO Chair in AI Ethics, Professor at University of Ibadan. Leads African AI policy advocacy.</div></div>
+        <div class="team-card reveal"><div class="team-avatar" style="background:linear-gradient(135deg,var(--neon2),var(--neon));">KO</div><div class="team-name">Kemi Olatoye</div><div class="team-role">Industry Advisor</div><div class="team-bio">VP of Engineering at a leading Nigerian fintech. Bridges lab research with industry application.</div></div>
+        <div class="team-card reveal"><div class="team-avatar" style="background:linear-gradient(135deg,var(--neon),var(--neon3));">JA</div><div class="team-name">James Abioye</div><div class="team-role">Investment Advisor</div><div class="team-bio">Partner at TechAfrica Ventures. Has backed 40+ African tech startups across 12 countries.</div></div>
+        <div class="team-card reveal"><div class="team-avatar" style="background:linear-gradient(135deg,var(--neon2),var(--neon3));">SE</div><div class="team-name">Dr. Sarah Eze</div><div class="team-role">Education Advisor</div><div class="team-bio">Former World Bank education specialist. Expert in STEM curriculum design for developing markets.</div></div>
       </div>
     </div>
   </section>
 
-  <section class="page-section" style="background:var(--bg2);">
+  <section id="team" class="page-section" style="background:var(--bg2);">
     <div class="container">
-      <div class="section-label">Explore</div>
-      <h2 class="section-title">Quick <span>Links</span></h2>
-      <div class="quick-links">
-        <a href="research.html" class="ql-card reveal"><span class="ql-icon">🧠</span><div class="ql-title">Research</div><div class="ql-desc">Explore our AI &amp; Robotics research units</div></a>
-        <a href="training.html" class="ql-card reveal"><span class="ql-icon">🎓</span><div class="ql-title">Training</div><div class="ql-desc">Bootcamps, SIWES, STEM programs</div></a>
-        <a href="products.html" class="ql-card reveal"><span class="ql-icon">🤖</span><div class="ql-title">Products</div><div class="ql-desc">Our robotics and software solutions</div></a>
-        <a href="about.html" class="ql-card reveal"><span class="ql-icon">🏛️</span><div class="ql-title">About Us</div><div class="ql-desc">Our story, mission, team &amp; values</div></a>
-        <a href="innovation.html" class="ql-card reveal"><span class="ql-icon">🚀</span><div class="ql-title">Innovation Hub</div><div class="ql-desc">Incubate your startup with us</div></a>
-        <a href="contact.html" class="ql-card reveal"><span class="ql-icon">📬</span><div class="ql-title">Contact</div><div class="ql-desc">Get in touch or visit our office</div></a>
+      <div class="section-label">The People</div>
+      <h2 class="section-title">Our <span>Team</span></h2>
+      <p class="section-desc">30+ engineers, educators, and researchers working together to push the frontiers of AI &amp; Robotics in Africa.</p>
+      <div class="team-grid">
+        <div class="team-card reveal"><div class="team-avatar" style="background:linear-gradient(135deg,#00f5ff,#0066aa);">TO</div><div class="team-name">Tunde Ojo</div><div class="team-role">Lead Robotics Engineer</div><div class="team-bio">Builds autonomous systems. Loves soccer robots and drone navigation algorithms.</div></div>
+        <div class="team-card reveal"><div class="team-avatar" style="background:linear-gradient(135deg,#7b2fff,#00f5ff);">FN</div><div class="team-name">Funke Nwosu</div><div class="team-role">ML Researcher</div><div class="team-bio">Specialises in computer vision for medical imaging and agricultural applications.</div></div>
+        <div class="team-card reveal"><div class="team-avatar" style="background:linear-gradient(135deg,#ff6b00,#7b2fff);">EA</div><div class="team-name">Emeka Agu</div><div class="team-role">Embedded Systems Engineer</div><div class="team-bio">Designs the brains of our robots — microcontrollers, IoT sensors, and real-time OS.</div></div>
+        <div class="team-card reveal"><div class="team-avatar" style="background:linear-gradient(135deg,#00f5ff,#ff6b00);">ZM</div><div class="team-name">Zainab Mohammed</div><div class="team-role">NLP Researcher</div><div class="team-bio">Building language models that understand Nigerian dialects and Hausa for AI applications.</div></div>
+        <div class="team-card reveal"><div class="team-avatar" style="background:linear-gradient(135deg,#7b2fff,#ff6b00);">BI</div><div class="team-name">Bola Ifeanyi</div><div class="team-role">Training Coordinator</div><div class="team-bio">Designs and delivers all bootcamp and STEM curricula. Passionate about youth empowerment.</div></div>
+        <div class="team-card reveal"><div class="team-avatar" style="background:linear-gradient(135deg,#00f5ff,#7b2fff);">OA</div><div class="team-name">Ola Adegoke</div><div class="team-role">Drone Systems Engineer</div><div class="team-bio">UAV pilot and engineer. Designs flight systems for our SkyEagle delivery drone platform.</div></div>
       </div>
     </div>
   </section>
 
-  <script>
-    function animateCount(el, target) {
-      let count = 0; const step = target / 60;
-      const timer = setInterval(() => {
-        count = Math.min(count + step, target);
-        el.textContent = Math.floor(count) + (target >= 100 ? '+' : '');
-        if (count >= target) clearInterval(timer);
-      }, 25);
-    }
-    const statsObserver = new IntersectionObserver(entries => {
-      entries.forEach(e => { if(e.isIntersecting){ document.querySelectorAll('[data-count]').forEach(el => animateCount(el, parseInt(el.dataset.count))); statsObserver.disconnect(); } });
-    }, { threshold: 0.5 });
-    const statsRow = document.querySelector('.stats-row');
-    if(statsRow) statsObserver.observe(statsRow);
-  </script>
+  <section id="why-us" class="page-section">
+    <div class="container">
+      <div class="section-label">Our Edge</div>
+      <h2 class="section-title">Why <span>Eagles AI Lab</span> Stands Out</h2>
+      <div class="two-col">
+        <ul class="icon-list reveal">
+          <li><span class="li-icon">🔬</span><div><strong>Research + Practice</strong><span>We don't just teach — we build. Every student works on live projects with real-world impact.</span></div></li>
+          <li><span class="li-icon">🌍</span><div><strong>Africa-First Design</strong><span>All our solutions are designed for African environments, languages, and infrastructure realities.</span></div></li>
+          <li><span class="li-icon">🏆</span><div><strong>Award-Winning Track Record</strong><span>23 awards, 15 publications, and a growing portfolio of impactful tech prototypes.</span></div></li>
+          <li><span class="li-icon">🤝</span><div><strong>Industry Connections</strong><span>We connect graduates directly to top employers, investors, and accelerators across Nigeria.</span></div></li>
+        </ul>
+        <ul class="icon-list reveal">
+          <li><span class="li-icon">💻</span><div><strong>State-of-the-Art Lab</strong><span>Fully equipped robotics and AI lab with GPU clusters, drone testing zones, and maker spaces.</span></div></li>
+          <li><span class="li-icon">🎓</span><div><strong>Expert Instructors</strong><span>All trainers are active researchers and industry professionals — not just teachers.</span></div></li>
+          <li><span class="li-icon">🚀</span><div><strong>Startup Launchpad</strong><span>Our incubation program has launched 12 startups, raised ₦50M+, with an 85% success rate.</span></div></li>
+          <li><span class="li-icon">📜</span><div><strong>Recognised Certifications</strong><span>Our certificates are backed by partner universities and accepted by major employers nationwide.</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="facility" class="page-section" style="background:var(--bg2);">
+    <div class="container">
+      <div class="section-label">Our Space</div>
+      <h2 class="section-title">Facility <span>Tour</span></h2>
+      <p class="section-desc">Our Innovation Drive campus in Abuja houses world-class labs, training halls, and maker spaces purpose-built for AI &amp; Robotics work.</p>
+      <div class="facility-grid">
+        <div class="fac-card reveal"><div class="fac-visual" style="background:linear-gradient(135deg,rgba(0,245,255,0.1),rgba(123,47,255,0.1))">🤖</div><div class="fac-body"><div class="fac-title">Robotics Lab</div><div class="fac-desc">Fully equipped with servo motors, microcontrollers, 3D printers, and assembly tools.</div></div></div>
+        <div class="fac-card reveal"><div class="fac-visual" style="background:linear-gradient(135deg,rgba(123,47,255,0.1),rgba(255,107,0,0.1))">💻</div><div class="fac-body"><div class="fac-title">AI Computing Lab</div><div class="fac-desc">GPU-powered workstations running TensorFlow, PyTorch, and custom model training environments.</div></div></div>
+        <div class="fac-card reveal"><div class="fac-visual" style="background:linear-gradient(135deg,rgba(255,107,0,0.1),rgba(0,245,255,0.1))">🚁</div><div class="fac-body"><div class="fac-title">Drone Testing Zone</div><div class="fac-desc">Indoor and outdoor testing space for UAV systems and AI-guided navigation trials.</div></div></div>
+        <div class="fac-card reveal"><div class="fac-visual" style="background:linear-gradient(135deg,rgba(0,245,255,0.08),rgba(0,100,100,0.15))">🎓</div><div class="fac-body"><div class="fac-title">Training Hall</div><div class="fac-desc">Modern 60-seat classroom with interactive displays and live demo stations for bootcamps.</div></div></div>
+        <div class="fac-card reveal"><div class="fac-visual" style="background:linear-gradient(135deg,rgba(123,47,255,0.08),rgba(50,0,100,0.15))">🌱</div><div class="fac-body"><div class="fac-title">Agro-Tech Test Farm</div><div class="fac-desc">A dedicated test plot for deploying agricultural robotics systems in real crop conditions.</div></div></div>
+        <div class="fac-card reveal"><div class="fac-visual" style="background:linear-gradient(135deg,rgba(255,107,0,0.08),rgba(100,30,0,0.15))">🚀</div><div class="fac-body"><div class="fac-title">Startup Hub</div><div class="fac-desc">Co-working space for incubated startups, with meeting rooms, pitch studios, and networking areas.</div></div></div>
+      </div>
+      <div style="text-align:center;margin-top:3rem;">
+        <a href="contact.html" class="btn btn-primary">Book a Visit →</a>
+        <a href="media.html#gallery" class="btn btn-ghost" style="margin-left:1rem;">View Gallery</a>
+      </div>
+    </div>
+  </section>
 
   <footer>
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="index.html" class="nav-logo" style="display:inline-flex;margin-bottom:0.5rem;">EAGLES <span>AI LAB</span></a>
+        <a href="mainindex.html" class="nav-logo" style="display:inline-flex;margin-bottom:0.5rem;">EAGLES <span>AI LAB</span></a>
         <p>Pioneering AI & Robotics innovation across Nigeria and Africa. Training the next generation of tech leaders since 2020.</p>
         <div style="margin-top:1.5rem;display:flex;gap:0.8rem;flex-wrap:wrap;">
           <a href="#" style="font-size:1.3rem;">🐦</a><a href="#" style="font-size:1.3rem;">💼</a>

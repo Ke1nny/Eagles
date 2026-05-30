@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products & Solutions — Eagles AI Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #020810; --bg2: #050f1f;
+      --neon: #00f5ff; --neon2: #7b2fff; --neon3: #ff6b00;
+      --text: #e0f0ff; --muted: #6a8aaa;
+      --card: rgba(0,245,255,0.04); --border: rgba(0,245,255,0.15);
+      --font-head: 'Orbitron', monospace; --font-body: 'Exo 2', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-weight: 300; overflow-x: hidden; }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px; pointer-events: none; z-index: 0;
+    }
+
+    /* ── NAV (from index.html v2) ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(2,8,16,0.92); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: var(--font-head); font-size: 1.1rem; font-weight: 900;
+      color: var(--neon); text-shadow: 0 0 16px var(--neon); letter-spacing: 2px;
+      text-decoration: none; display: flex; align-items: center; gap: 10px;
+    }
+    .nav-logo span { color: var(--text); }
+    .eagle-icon { width: 36px; height: 36px; filter: drop-shadow(0 0 8px var(--neon)); }
+    .nav-links { display: flex; gap: 0; list-style: none; align-items: center; }
+    .nav-links > li { position: relative; }
+    .nav-links > li > a, .nav-links > li > span.nav-link {
+      font-family: var(--font-head); font-size: 0.58rem; letter-spacing: 1.2px;
+      color: var(--muted); text-decoration: none; padding: 6px 9px;
+      border-radius: 4px; transition: color 0.2s, background 0.2s;
+      text-transform: uppercase; display: flex; align-items: center; gap: 4px; white-space: nowrap;
+      cursor: default;
+    }
+    .nav-links > li > a { cursor: pointer; }
+    .nav-links > li > a:hover,
+    .nav-links > li > a.active,
+    .nav-links > li:hover > span.nav-link { color: var(--neon); background: rgba(0,245,255,0.07); }
+    .arrow { font-size: 0.55rem; opacity: 0.6; transition: transform 0.2s; display: inline-block; }
+    .has-dropdown:hover .arrow { transform: rotate(180deg); }
+    .dropdown {
+      display: none; position: absolute; top: calc(100% + 4px); left: 0;
+      background: rgba(2,8,16,0.97); border: 1px solid var(--border);
+      border-radius: 6px; min-width: 220px; list-style: none;
+      padding: 0.5rem 0; z-index: 9999;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6), 0 0 20px rgba(0,245,255,0.04);
+    }
+    .has-dropdown:hover .dropdown { display: block; }
+    .dropdown li a {
+      display: block; padding: 9px 18px;
+      font-family: var(--font-body); font-size: 0.82rem;
+      color: var(--muted); text-decoration: none;
+      transition: color 0.2s, background 0.2s, padding-left 0.2s; letter-spacing: 0.5px;
+    }
+    .dropdown li a:hover { color: var(--neon); background: rgba(0,245,255,0.06); padding-left: 24px; }
+    .dropdown li:not(:last-child) { border-bottom: 1px solid rgba(0,245,255,0.05); }
+    .nav-portal {
+      color: var(--neon2) !important; border: 1px solid rgba(123,47,255,0.5) !important;
+      border-radius: 3px !important; padding: 6px 12px !important; margin-left: 4px;
+      cursor: pointer !important;
+    }
+    .nav-portal:hover { background: rgba(123,47,255,0.12) !important; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--neon); transition: all 0.3s; }
+
+    /* ── MOBILE MENU (from index.html v2) ── */
+    .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(2,8,16,0.97); z-index: 999; flex-direction: column; align-items: stretch; gap: 0; backdrop-filter: blur(20px); overflow-y: auto; padding: 72px 0 2rem; }
+    .mobile-menu.open { display: flex; }
+    .mobile-close { position: fixed; top: 1.2rem; right: 1.2rem; font-size: 1.4rem; color: var(--neon); cursor: pointer; background: none; border: none; z-index: 9999; line-height: 1; padding: 6px; }
+    .m-item { border-bottom: 1px solid rgba(0,245,255,0.07); }
+    .m-item-home > a { font-family: var(--font-head); font-size: 0.78rem; letter-spacing: 2px; color: var(--muted); text-decoration: none; text-transform: uppercase; padding: 14px 24px; display: block; transition: color 0.2s; }
+    .m-item-home > a:hover { color: var(--neon); }
+    .m-header { font-family: var(--font-head); font-size: 0.78rem; letter-spacing: 2px; color: var(--text); text-transform: uppercase; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: color 0.2s; user-select: none; }
+    .m-header:hover { color: var(--neon); }
+    .m-header.active { color: var(--neon); }
+    .m-chevron { font-size: 0.7rem; opacity: 0.6; transition: transform 0.25s; display: inline-block; }
+    .m-header.active .m-chevron { transform: rotate(180deg); }
+    .m-sub { display: none; background: rgba(0,245,255,0.025); border-top: 1px solid rgba(0,245,255,0.06); padding: 6px 0; }
+    .m-sub.open { display: block; }
+    .m-sub a { display: block; font-family: var(--font-body); font-size: 0.82rem; color: var(--muted); text-decoration: none; padding: 10px 24px 10px 36px; transition: color 0.2s, padding-left 0.2s; letter-spacing: 0.5px; }
+    .m-sub a:hover { color: var(--neon); padding-left: 42px; }
+    .m-portal { font-family: var(--font-head); font-size: 0.78rem; letter-spacing: 2px; color: var(--neon2); text-decoration: none; text-transform: uppercase; padding: 14px 24px; display: block; border-bottom: 1px solid rgba(0,245,255,0.07); }
+
+    /* ── UTILS ── */
+    .scroll-progress { position: fixed; top: 64px; left: 0; height: 2px; background: linear-gradient(90deg,var(--neon),var(--neon2)); z-index: 1001; transition: width 0.1s; box-shadow: 0 0 8px var(--neon); width: 0; }
+    .scanline { position: fixed; left: 0; right: 0; height: 2px; background: linear-gradient(90deg,transparent,rgba(0,245,255,0.06),transparent); pointer-events: none; z-index: 1; animation: scanline 8s linear infinite; }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .btn { font-family: var(--font-head); font-size: 0.72rem; letter-spacing: 2px; padding: 13px 26px; border-radius: 3px; border: none; cursor: pointer; text-decoration: none; transition: all 0.25s; text-transform: uppercase; display: inline-block; }
+    .btn-primary { background: var(--neon); color: var(--bg); font-weight: 700; box-shadow: 0 0 20px rgba(0,245,255,0.4); }
+    .btn-primary:hover { box-shadow: 0 0 40px rgba(0,245,255,0.7); transform: translateY(-2px); }
+    .btn-outline { background: transparent; color: var(--neon); border: 1px solid var(--neon); }
+    .btn-outline:hover { background: rgba(0,245,255,0.08); transform: translateY(-2px); }
+    .btn-ghost { background: transparent; color: var(--muted); border: 1px solid rgba(106,138,170,0.3); }
+    .btn-ghost:hover { color: var(--text); border-color: var(--muted); }
+
+    /* ── NEWS TICKER ── */
+    .news-ticker { background: rgba(0,245,255,0.06); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 10px 0; overflow: hidden; white-space: nowrap; margin-top: 64px; }
+    .ticker-inner { display: inline-flex; gap: 4rem; animation: ticker 30s linear infinite; font-size: 0.78rem; color: var(--muted); letter-spacing: 1px; }
+    .ticker-item { display: flex; align-items: center; gap: 8px; }
+    .ticker-dot { width: 6px; height: 6px; background: var(--neon); border-radius: 50%; box-shadow: 0 0 6px var(--neon); }
+
+    /* ── PAGE HERO ── */
+    .page-hero {
+      padding: 80px 2rem 60px; text-align: center; position: relative; z-index: 1;
+      border-bottom: 1px solid var(--border); overflow: hidden;
+    }
+    .page-hero .orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
+    .page-hero .orb1 { width: 500px; height: 500px; background: radial-gradient(circle,rgba(0,245,255,0.1),transparent 70%); top: -150px; right: -100px; animation: pulse 6s ease-in-out infinite; }
+    .page-hero .orb2 { width: 400px; height: 400px; background: radial-gradient(circle,rgba(123,47,255,0.08),transparent 70%); bottom: -100px; left: -80px; animation: pulse 8s 2s ease-in-out infinite; }
+    .page-hero-label {
+      font-family: var(--font-head); font-size: 0.6rem; letter-spacing: 5px;
+      color: var(--neon); text-transform: uppercase; margin-bottom: 1rem;
+      display: inline-flex; align-items: center; gap: 12px;
+    }
+    .page-hero-label::before, .page-hero-label::after { content: ''; display: block; width: 30px; height: 1px; background: var(--neon); box-shadow: 0 0 8px var(--neon); }
+    .page-hero h1 { font-family: var(--font-head); font-size: clamp(2rem,5vw,3.8rem); font-weight: 900; line-height: 1.1; margin-bottom: 1rem; position: relative; z-index: 1; }
+    .page-hero h1 span { color: var(--neon); text-shadow: 0 0 30px var(--neon), 0 0 60px rgba(0,245,255,0.3); }
+    .page-hero p { color: var(--muted); max-width: 600px; margin: 0 auto; line-height: 1.8; font-size: 1rem; position: relative; z-index: 1; }
+
+    /* ── SECTION BASE ── */
+    .page-section { position: relative; z-index: 1; padding: 5rem 2rem; }
+    .page-section.alt { background: var(--bg2); }
+    .section-label {
+      font-family: var(--font-head); font-size: 0.6rem; letter-spacing: 5px; color: var(--neon);
+      text-transform: uppercase; margin-bottom: 1rem; display: flex; align-items: center; gap: 12px;
+    }
+    .section-label::before { content: ''; display: block; width: 40px; height: 1px; background: var(--neon); box-shadow: 0 0 8px var(--neon); }
+    h2.section-title { font-family: var(--font-head); font-size: clamp(1.6rem,3.5vw,2.6rem); font-weight: 700; line-height: 1.1; margin-bottom: 1.2rem; }
+    h2.section-title span { color: var(--neon); }
+    .section-desc { color: var(--muted); max-width: 700px; line-height: 1.8; font-size: 0.95rem; margin-bottom: 2.5rem; }
+
+    /* ── PRODUCTS GRID ── */
+    .products-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 2rem; }
+    .product-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--card); transition: all 0.3s; }
+    .product-card:hover { border-color: rgba(0,245,255,0.35); transform: translateY(-4px); box-shadow: 0 16px 50px rgba(0,0,0,0.4); }
+    .product-visual { height: 160px; display: flex; align-items: center; justify-content: center; font-size: 4rem; position: relative; overflow: hidden; }
+    .product-visual::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg,transparent,var(--card)); }
+    .pv1{background:linear-gradient(135deg,rgba(0,245,255,0.1),rgba(123,47,255,0.1))}
+    .pv2{background:linear-gradient(135deg,rgba(123,47,255,0.1),rgba(255,107,0,0.1))}
+    .pv3{background:linear-gradient(135deg,rgba(255,107,0,0.1),rgba(0,245,255,0.1))}
+    .pv4{background:linear-gradient(135deg,rgba(0,245,255,0.08),rgba(0,100,100,0.15))}
+    .pv5{background:linear-gradient(135deg,rgba(123,47,255,0.08),rgba(50,0,100,0.15))}
+    .pv6{background:linear-gradient(135deg,rgba(255,107,0,0.08),rgba(100,30,0,0.15))}
+    .product-body { padding: 1.5rem; }
+    .product-title { font-family: var(--font-head); font-size: 0.85rem; letter-spacing: 1px; color: var(--text); margin-bottom: 0.5rem; }
+    .product-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+    .product-cta { display: inline-block; margin-top: 1rem; font-family: var(--font-head); font-size: 0.65rem; letter-spacing: 2px; color: var(--neon); text-transform: uppercase; cursor: pointer; text-decoration: none; transition: text-shadow 0.2s; }
+    .product-cta:hover { text-shadow: 0 0 12px var(--neon); }
+
+    /* ── VID1 BANNER ── */
+    .products-video-banner {
+      margin-top: 3rem; border-radius: 12px; overflow: hidden;
+      border: 1px solid var(--border); position: relative;
+      box-shadow: 0 0 60px rgba(0,245,255,0.12);
+    }
+    .products-video-banner video { width: 100%; max-height: 420px; object-fit: cover; display: block; }
+    .products-video-banner::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 60%, rgba(2,8,16,0.7) 100%);
+      pointer-events: none; z-index: 1;
+    }
+    .products-video-label {
+      position: absolute; bottom: 1.5rem; left: 2rem; z-index: 2;
+      font-family: var(--font-head); font-size: 0.65rem; letter-spacing: 4px;
+      color: var(--neon); text-transform: uppercase; text-shadow: 0 0 12px var(--neon);
+    }
+    .products-video-label span { display: block; font-size: 1.1rem; font-weight: 700; letter-spacing: 2px; color: var(--text); margin-top: 4px; }
+
+    /* ── VIDEO GALLERY ── */
+    .products-video-gallery { margin-top: 4rem; }
+    .pvg-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+    .pvg-title { font-family: var(--font-head); font-size: 0.6rem; letter-spacing: 5px; color: var(--neon2); text-transform: uppercase; display: flex; align-items: center; gap: 12px; }
+    .pvg-title::before { content: ''; display: block; width: 40px; height: 1px; background: var(--neon2); box-shadow: 0 0 8px var(--neon2); }
+    .pvg-sub { font-size: 0.78rem; color: var(--muted); margin-top: 0.3rem; }
+    .pvg-mosaic { display: grid; grid-template-columns: 1.65fr 1fr; grid-template-rows: 260px 260px; gap: 1rem; }
+    .pvg-featured { grid-column:1; grid-row:1/3; border-radius:10px; overflow:hidden; border:1px solid var(--border); position:relative; background:rgba(0,245,255,0.03); transition:border-color 0.3s,box-shadow 0.3s; }
+    .pvg-featured:hover { border-color:rgba(0,245,255,0.4); box-shadow:0 0 40px rgba(0,245,255,0.1); }
+    .pvg-featured video { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.5s; }
+    .pvg-featured:hover video { transform:scale(1.02); }
+    .pvg-cell { border-radius:10px; overflow:hidden; border:1px solid var(--border); position:relative; background:rgba(0,245,255,0.03); transition:border-color 0.3s,box-shadow 0.3s; }
+    .pvg-cell:hover { border-color:rgba(123,47,255,0.5); box-shadow:0 0 30px rgba(123,47,255,0.08); }
+    .pvg-cell video { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.5s; }
+    .pvg-cell:hover video { transform:scale(1.03); }
+    .pvg-overlay { position:absolute; inset:0; background:linear-gradient(180deg,transparent 45%,rgba(2,8,16,0.82) 100%); pointer-events:none; z-index:1; }
+    .pvg-meta { position:absolute; bottom:0; left:0; right:0; padding:1.2rem 1.4rem; z-index:2; display:flex; align-items:flex-end; justify-content:space-between; }
+    .pvg-vid-label { font-family:var(--font-head); font-size:0.6rem; letter-spacing:3px; color:var(--neon); text-transform:uppercase; text-shadow:0 0 10px rgba(0,245,255,0.6); display:block; margin-bottom:3px; }
+    .pvg-vid-title { font-family:var(--font-head); font-size:0.85rem; font-weight:700; color:var(--text); letter-spacing:1px; line-height:1.2; }
+    .pvg-featured .pvg-vid-title { font-size:1.1rem; }
+    .pvg-play-badge { width:36px; height:36px; border-radius:50%; background:rgba(0,245,255,0.12); border:1px solid rgba(0,245,255,0.4); display:flex; align-items:center; justify-content:center; font-size:0.7rem; color:var(--neon); flex-shrink:0; transition:background 0.2s,transform 0.2s; backdrop-filter:blur(8px); }
+    .pvg-featured .pvg-play-badge { width:46px; height:46px; font-size:0.9rem; }
+    .pvg-cell:hover .pvg-play-badge, .pvg-featured:hover .pvg-play-badge { background:rgba(0,245,255,0.25); transform:scale(1.1); }
+    .pvg-featured::after, .pvg-cell::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--neon2),transparent); transform:scaleX(0); transform-origin:left; transition:transform 0.4s; z-index:3; }
+    .pvg-featured:hover::after, .pvg-cell:hover::after { transform:scaleX(1); }
+
+    /* ── SUB-SECTION CARDS ── */
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 1.5rem; }
+    .card { border:1px solid var(--border); border-radius:8px; padding:1.8rem; background:var(--card); transition:all 0.3s; position:relative; overflow:hidden; }
+    .card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--neon),var(--neon2)); transform:scaleX(0); transition:transform 0.3s; transform-origin:left; }
+    .card:hover::before { transform:scaleX(1); }
+    .card:hover { border-color:rgba(0,245,255,0.3); transform:translateY(-4px); box-shadow:0 12px 40px rgba(0,245,255,0.06); }
+    .card-icon { font-size:2.2rem; margin-bottom:1rem; }
+    .card-title { font-family:var(--font-head); font-size:0.85rem; letter-spacing:1px; color:var(--neon); margin-bottom:0.7rem; }
+    .card-desc { font-size:0.85rem; color:var(--muted); line-height:1.7; }
+    .card-tag { display:inline-block; margin-top:1rem; font-size:0.65rem; letter-spacing:2px; color:var(--neon2); border:1px solid rgba(123,47,255,0.3); padding:3px 10px; border-radius:2px; text-transform:uppercase; }
+
+    /* ── CASE STUDY CARDS ── */
+    .case-card { border:1px solid var(--border); border-radius:8px; padding:2rem; background:var(--card); transition:all 0.3s; display:flex; gap:1.5rem; align-items:flex-start; }
+    .case-card:hover { border-color:var(--neon3); transform:translateX(5px); }
+    .case-icon { font-size:2.5rem; flex-shrink:0; }
+    .case-client { font-family:var(--font-head); font-size:0.62rem; letter-spacing:3px; color:var(--neon3); text-transform:uppercase; margin-bottom:4px; }
+    .case-title { font-family:var(--font-head); font-size:0.85rem; color:var(--text); margin-bottom:8px; }
+    .case-desc { font-size:0.84rem; color:var(--muted); line-height:1.7; margin-bottom:1rem; }
+    .case-result { font-family:var(--font-head); font-size:0.72rem; letter-spacing:1px; color:var(--neon); }
+
+    /* ── TWO-COL ── */
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:start; }
+    .icon-list { list-style:none; display:flex; flex-direction:column; gap:1rem; margin-top:1.5rem; }
+    .icon-list li { display:flex; align-items:flex-start; gap:14px; padding:1rem 1.2rem; border:1px solid var(--border); border-radius:6px; background:var(--card); transition:all 0.3s; }
+    .icon-list li:hover { border-color:var(--neon); transform:translateX(5px); }
+    .li-icon { font-size:1.3rem; flex-shrink:0; margin-top:2px; }
+    .icon-list strong { display:block; font-family:var(--font-head); font-size:0.78rem; color:var(--neon); letter-spacing:1px; margin-bottom:4px; }
+    .icon-list span { font-size:0.84rem; color:var(--muted); line-height:1.6; }
+
+    /* ── PRICING / SPEC TABLE ── */
+    .spec-table { width:100%; border-collapse:collapse; margin-top:2rem; }
+    .spec-table th { font-family:var(--font-head); font-size:0.7rem; letter-spacing:2px; color:var(--neon); text-transform:uppercase; text-align:left; padding:1rem 1.2rem; border-bottom:1px solid var(--border); background:rgba(0,245,255,0.03); }
+    .spec-table td { padding:0.9rem 1.2rem; font-size:0.85rem; color:var(--muted); border-bottom:1px solid rgba(0,245,255,0.07); }
+    .spec-table tr:hover td { color:var(--text); background:rgba(0,245,255,0.02); }
+
+    /* ── FOOTER ── */
+    footer { border-top:1px solid var(--border); padding:4rem 2rem 2rem; background:var(--bg); position:relative; z-index:1; }
+    .footer-grid { max-width:1200px; margin:0 auto; display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; margin-bottom:3rem; }
+    .footer-brand p { font-size:0.85rem; color:var(--muted); line-height:1.8; margin-top:1rem; max-width:280px; }
+    .footer-col h4 { font-family:var(--font-head); font-size:0.62rem; letter-spacing:3px; color:var(--neon); margin-bottom:1.2rem; text-transform:uppercase; }
+    .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:0.6rem; }
+    .footer-col ul li a { font-size:0.85rem; color:var(--muted); text-decoration:none; transition:color 0.2s; }
+    .footer-col ul li a:hover { color:var(--neon); }
+    .footer-bottom { max-width:1200px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; padding-top:2rem; border-top:1px solid var(--border); font-size:0.8rem; color:var(--muted); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes pulse { 0%,100%{opacity:0.6;transform:scale(1)} 50%{opacity:1;transform:scale(1.1)} }
+    @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    @keyframes scanline { 0%{transform:translateY(-100%)} 100%{transform:translateY(100vh)} }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:1100px){ .nav-links > li > a, .nav-links > li > span.nav-link { padding:6px 6px; font-size:0.54rem; } }
+    @media(max-width:900px){
+      .nav-links { display:none; } .hamburger { display:flex; }
+      .products-grid { grid-template-columns:1fr 1fr; }
+      .pvg-mosaic { grid-template-columns:1fr 1fr; grid-template-rows:200px 180px 180px; }
+      .pvg-featured { grid-column:1/3; grid-row:1; }
+      .two-col { grid-template-columns:1fr; }
+      .footer-grid { grid-template-columns:1fr 1fr; }
+    }
+    @media(max-width:600px){
+      .products-grid { grid-template-columns:1fr; }
+      .pvg-mosaic { grid-template-columns:1fr; grid-template-rows:auto; }
+      .pvg-featured { grid-column:1; grid-row:auto; height:220px; }
+      .pvg-cell { height:180px; }
+      .footer-grid { grid-template-columns:1fr; }
+      .case-card { flex-direction:column; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="scanline"></div>
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- ── MOBILE MENU ── -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="closeMobile()">✕</button>
+
+  <div class="m-item m-item-home"><a href="index.html" onclick="closeMobile()">Home</a></div>
+
+  <div class="m-item">
+    <div class="m-header" onclick="toggleMobile(this)">About <span class="m-chevron">▾</span></div>
+    <div class="m-sub">
+      <a href="about.html#vision-mission" onclick="closeMobile()">Vision &amp; Mission</a>
+      <a href="about.html#core-values" onclick="closeMobile()">Core Values</a>
+      <a href="about.html#our-story" onclick="closeMobile()">Our Story</a>
+      <a href="about.html#governance" onclick="closeMobile()">Governance &amp; Leadership</a>
+      <a href="about.html#advisory" onclick="closeMobile()">Advisory Board</a>
+      <a href="about.html#team" onclick="closeMobile()">Our Team</a>
+      <a href="about.html#why-us" onclick="closeMobile()">Why Eagles AI Lab</a>
+      <a href="about.html#facility" onclick="closeMobile()">Facility Tour</a>
+    </div>
+  </div>
+
+  <div class="m-item">
+    <div class="m-header" onclick="toggleMobile(this)">Research <span class="m-chevron">▾</span></div>
+    <div class="m-sub">
+      <a href="research.html#machine-learning" onclick="closeMobile()">Machine Learning</a>
+      <a href="research.html#nlp" onclick="closeMobile()">NLP</a>
+      <a href="research.html#computer-vision" onclick="closeMobile()">Computer Vision</a>
+      <a href="research.html#predictive-analytics" onclick="closeMobile()">Predictive Analytics</a>
+      <a href="research.html#autonomous-robots" onclick="closeMobile()">Autonomous Robots</a>
+      <a href="research.html#agricultural-robotics" onclick="closeMobile()">Agricultural Robotics</a>
+      <a href="research.html#drone-development" onclick="closeMobile()">Drone Development</a>
+      <a href="research.html#embedded-systems" onclick="closeMobile()">Embedded Systems</a>
+      <a href="research.html#publications" onclick="closeMobile()">Publications</a>
+      <a href="research.html#patents" onclick="closeMobile()">Patents &amp; Innovations</a>
+      <a href="research.html#grants" onclick="closeMobile()">Research Grants</a>
+    </div>
+  </div>
+
+  <div class="m-item">
+    <div class="m-header" onclick="toggleMobile(this)">Training <span class="m-chevron">▾</span></div>
+    <div class="m-sub">
+      <a href="training.html#bootcamps" onclick="closeMobile()">Short Courses &amp; Bootcamps</a>
+      <a href="training.html#certifications" onclick="closeMobile()">Certifications</a>
+      <a href="training.html#internship" onclick="closeMobile()">Internship &amp; SIWES</a>
+      <a href="training.html#stem-schools" onclick="closeMobile()">STEM for Schools</a>
+      <a href="training.html#ai-youth" onclick="closeMobile()">AI for Youth</a>
+      <a href="training.html#robotics-clubs" onclick="closeMobile()">Robotics Clubs for Teens</a>
+      <a href="training.html#hackathons" onclick="closeMobile()">Hackathons</a>
+      <a href="training.html#calendar" onclick="closeMobile()">Training Calendar</a>
+      <a href="training.html#register" onclick="closeMobile()">Registration</a>
+    </div>
+  </div>
+
+  <div class="m-item">
+    <div class="m-header m-header-active" onclick="toggleMobile(this)">Products <span class="m-chevron" style="transform:rotate(180deg)">▾</span></div>
+    <div class="m-sub open">
+      <a href="#robotics-products" onclick="closeMobile()">Robotics Products</a>
+      <a href="#software" onclick="closeMobile()">Software Solutions</a>
+      <a href="#ai-models" onclick="closeMobile()">AI Models &amp; Tools</a>
+      <a href="#edu-kits" onclick="closeMobile()">Educational Kits</a>
+      <a href="#smart-school" onclick="closeMobile()">Smart School Solutions</a>
+      <a href="#smart-church" onclick="closeMobile()">Smart Church Solutions</a>
+      <a href="#automation" onclick="closeMobile()">Automation Solutions</a>
+      <a href="#demos" onclick="closeMobile()">Demo Videos</a>
+      <a href="#case-studies" onclick="closeMobile()">Case Studies</a>
+    </div>
+  </div>
+
+  <div class="m-item">
+    <div class="m-header" onclick="toggleMobile(this)">Innovation Hub <span class="m-chevron">▾</span></div>
+    <div class="m-sub">
+      <a href="innovation.html#incubation" onclick="closeMobile()">Startup Incubation</a>
+      <a href="innovation.html#accelerator" onclick="closeMobile()">Accelerator Program</a>
+      <a href="innovation.html#funding" onclick="closeMobile()">Funding Access</a>
+      <a href="innovation.html#mentorship" onclick="closeMobile()">Mentorship Network</a>
+      <a href="innovation.html#biz-dev" onclick="closeMobile()">Business Development</a>
+      <a href="innovation.html#apply" onclick="closeMobile()">Apply Now</a>
+    </div>
+  </div>
+
+  <div class="m-item">
+    <div class="m-header" onclick="toggleMobile(this)">Partners <span class="m-chevron">▾</span></div>
+    <div class="m-sub">
+      <a href="partnerships.html#government" onclick="closeMobile()">Government</a>
+      <a href="partnerships.html#universities" onclick="closeMobile()">Universities</a>
+      <a href="partnerships.html#industry" onclick="closeMobile()">Industry</a>
+      <a href="partnerships.html#faith" onclick="closeMobile()">Faith-Based</a>
+      <a href="partnerships.html#ngos" onclick="closeMobile()">NGOs &amp; STEM Networks</a>
+      <a href="partnerships.html#become-partner" onclick="closeMobile()">Become a Partner</a>
+    </div>
+  </div>
+
+  <div class="m-item">
+    <div class="m-header" onclick="toggleMobile(this)">Media <span class="m-chevron">▾</span></div>
+    <div class="m-sub">
+      <a href="media.html#gallery" onclick="closeMobile()">Photo &amp; Video Gallery</a>
+      <a href="media.html#research-papers" onclick="closeMobile()">Research Papers</a>
+      <a href="media.html#blog" onclick="closeMobile()">Articles &amp; Blog</a>
+      <a href="media.html#press" onclick="closeMobile()">Press Releases</a>
+      <a href="media.html#events" onclick="closeMobile()">Conferences &amp; Events</a>
+      <a href="media.html#newsletter" onclick="closeMobile()">Newsletters</a>
+      <a href="media.html#downloads" onclick="closeMobile()">Download Brochures</a>
+    </div>
+  </div>
+
+  <div class="m-item">
+    <div class="m-header" onclick="toggleMobile(this)">Contact <span class="m-chevron">▾</span></div>
+    <div class="m-sub">
+      <a href="contact.html#form" onclick="closeMobile()">Contact Form</a>
+      <a href="contact.html#location" onclick="closeMobile()">Location &amp; Map</a>
+      <a href="contact.html#faq" onclick="closeMobile()">FAQ</a>
+    </div>
+  </div>
+
+  <a href="student-portal.html" class="m-portal" onclick="closeMobile()">🎓 Student Portal</a>
+</div>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg class="eagle-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 4L28 14L36 10L30 22L36 28L20 24L4 28L10 22L4 10L12 14Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      <circle cx="20" cy="20" r="3" fill="currentColor"/>
+      <path d="M20 17V8M20 23V32M17 20H8M23 20H32" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+    </svg>
+    EAGLES <span>AI LAB</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-link">Home</a></li>
+    <li class="has-dropdown">
+      <span class="nav-link">About <span class="arrow">▾</span></span>
+      <ul class="dropdown">
+        <li><a href="about.html#vision-mission">Vision &amp; Mission</a></li>
+        <li><a href="about.html#core-values">Core Values</a></li>
+        <li><a href="about.html#our-story">Our Story</a></li>
+        <li><a href="about.html#governance">Governance &amp; Leadership</a></li>
+        <li><a href="about.html#advisory">Advisory Board</a></li>
+        <li><a href="about.html#team">Our Team</a></li>
+        <li><a href="about.html#why-us">Why Eagles AI Lab</a></li>
+        <li><a href="about.html#facility">Facility Tour</a></li>
+      </ul>
+    </li>
+    <li class="has-dropdown">
+      <span class="nav-link">Research <span class="arrow">▾</span></span>
+      <ul class="dropdown">
+        <li><a href="research.html#machine-learning">Machine Learning</a></li>
+        <li><a href="research.html#nlp">NLP</a></li>
+        <li><a href="research.html#computer-vision">Computer Vision</a></li>
+        <li><a href="research.html#predictive-analytics">Predictive Analytics</a></li>
+        <li><a href="research.html#autonomous-robots">Autonomous Robots</a></li>
+        <li><a href="research.html#agricultural-robotics">Agricultural Robotics</a></li>
+        <li><a href="research.html#drone-development">Drone Development</a></li>
+        <li><a href="research.html#embedded-systems">Embedded Systems</a></li>
+        <li><a href="research.html#publications">Publications</a></li>
+        <li><a href="research.html#patents">Patents &amp; Innovations</a></li>
+        <li><a href="research.html#grants">Research Grants</a></li>
+      </ul>
+    </li>
+    <li class="has-dropdown">
+      <span class="nav-link">Training <span class="arrow">▾</span></span>
+      <ul class="dropdown">
+        <li><a href="training.html#bootcamps">Short Courses &amp; Bootcamps</a></li>
+        <li><a href="training.html#certifications">Certifications</a></li>
+        <li><a href="training.html#internship">Internship &amp; SIWES</a></li>
+        <li><a href="training.html#stem-schools">STEM for Schools</a></li>
+        <li><a href="training.html#ai-youth">AI for Youth</a></li>
+        <li><a href="training.html#robotics-clubs">Robotics Clubs for Teens</a></li>
+        <li><a href="training.html#hackathons">Hackathons</a></li>
+        <li><a href="training.html#calendar">Training Calendar</a></li>
+        <li><a href="training.html#register">Registration</a></li>
+      </ul>
+    </li>
+    <li class="has-dropdown">
+      <span class="nav-link" style="color:var(--neon);">Products <span class="arrow">▾</span></span>
+      <ul class="dropdown">
+        <li><a href="#robotics-products">Robotics Products</a></li>
+        <li><a href="#software">Software Solutions</a></li>
+        <li><a href="#ai-models">AI Models &amp; Tools</a></li>
+        <li><a href="#edu-kits">Educational Kits</a></li>
+        <li><a href="#smart-school">Smart School Solutions</a></li>
+        <li><a href="#smart-church">Smart Church Solutions</a></li>
+        <li><a href="#automation">Automation Solutions</a></li>
+        <li><a href="#demos">Demo Videos</a></li>
+        <li><a href="#case-studies">Case Studies</a></li>
+      </ul>
+    </li>
+    <li class="has-dropdown">
+      <span class="nav-link">Innovation Hub <span class="arrow">▾</span></span>
+      <ul class="dropdown">
+        <li><a href="innovation.html#incubation">Startup Incubation</a></li>
+        <li><a href="innovation.html#accelerator">Accelerator Program</a></li>
+        <li><a href="innovation.html#funding">Funding Access</a></li>
+        <li><a href="innovation.html#mentorship">Mentorship Network</a></li>
+        <li><a href="innovation.html#biz-dev">Business Development</a></li>
+        <li><a href="innovation.html#apply">Apply Now</a></li>
+      </ul>
+    </li>
+    <li class="has-dropdown">
+      <span class="nav-link">Partners <span class="arrow">▾</span></span>
+      <ul class="dropdown">
+        <li><a href="partnerships.html#government">Government</a></li>
+        <li><a href="partnerships.html#universities">Universities</a></li>
+        <li><a href="partnerships.html#industry">Industry</a></li>
+        <li><a href="partnerships.html#faith">Faith-Based</a></li>
+        <li><a href="partnerships.html#ngos">NGOs &amp; STEM Networks</a></li>
+        <li><a href="partnerships.html#become-partner">Become a Partner</a></li>
+      </ul>
+    </li>
+    <li class="has-dropdown">
+      <span class="nav-link">Media <span class="arrow">▾</span></span>
+      <ul class="dropdown">
+        <li><a href="media.html#gallery">Photo &amp; Video Gallery</a></li>
+        <li><a href="media.html#research-papers">Research Papers</a></li>
+        <li><a href="media.html#blog">Articles &amp; Blog</a></li>
+        <li><a href="media.html#press">Press Releases</a></li>
+        <li><a href="media.html#events">Conferences &amp; Events</a></li>
+        <li><a href="media.html#newsletter">Newsletters</a></li>
+        <li><a href="media.html#downloads">Download Brochures</a></li>
+      </ul>
+    </li>
+    <li class="has-dropdown">
+      <span class="nav-link">Contact <span class="arrow">▾</span></span>
+      <ul class="dropdown">
+        <li><a href="contact.html#form">Contact Form</a></li>
+        <li><a href="contact.html#location">Location &amp; Map</a></li>
+        <li><a href="contact.html#faq">FAQ</a></li>
+      </ul>
+    </li>
+    <li><a href="student-portal.html" class="nav-portal">🎓 Student Portal</a></li>
+  </ul>
+  <div class="hamburger" onclick="openMobile()"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- ── NEWS TICKER ── -->
+<div class="news-ticker">
+  <div class="ticker-inner">
+    <div class="ticker-item"><span class="ticker-dot"></span> Eagles AI Lab launches new Autonomous Robotics Program 2025</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> 500+ students trained in AI &amp; Machine Learning this quarter</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> New partnership with leading tech institutions announced</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> Agricultural Robotics prototype wins national innovation award</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> Applications open for STEM Bootcamp — Apply now</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> Eagles AI Lab launches new Autonomous Robotics Program 2025</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> 500+ students trained in AI &amp; Machine Learning this quarter</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> Agricultural Robotics prototype wins national innovation award</div>
+  </div>
+</div>
+
+<!-- ── PAGE HERO ── -->
+<div class="page-hero">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="page-hero-label">What We Build</div>
+  <h1>Products &amp; <span>Solutions</span></h1>
+  <p>From educational kits to enterprise automation — our products are built to solve Africa's most pressing challenges with home-grown technology.</p>
+</div>
+
+<!-- ── OVERVIEW GRID ── -->
+<section class="page-section alt">
+  <div class="container">
+    <div class="section-label">All Solutions</div>
+    <h2 class="section-title">Our <span>Product Lines</span></h2>
+    <p class="section-desc">Six product categories — each designed, built, and tested at our Abuja lab for African contexts.</p>
+    <div class="products-grid reveal">
+      <div class="product-card">
+        <div class="product-visual pv1">🤖</div>
+        <div class="product-body">
+          <div class="product-title">Robotics Products</div>
+          <div class="product-desc">Custom-built robotic systems for industrial, agricultural, and commercial use cases tailored for African environments.</div>
+          <a href="#robotics-products" class="product-cta">Explore →</a>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-visual pv2">🧩</div>
+        <div class="product-body">
+          <div class="product-title">Software Solutions</div>
+          <div class="product-desc">AI-powered software platforms for business automation, analytics, and intelligent decision-support systems.</div>
+          <a href="#software" class="product-cta">Explore →</a>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-visual pv3">🎓</div>
+        <div class="product-body">
+          <div class="product-title">Educational Kits</div>
+          <div class="product-desc">Hands-on STEM kits designed for schools and youth programs, making robotics and AI tangible and fun.</div>
+          <a href="#edu-kits" class="product-cta">Explore →</a>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-visual pv4">🏫</div>
+        <div class="product-body">
+          <div class="product-title">Smart School Solutions</div>
+          <div class="product-desc">AI-driven school management, learning analytics, and smart classroom tools for modern educational institutions.</div>
+          <a href="#smart-school" class="product-cta">Explore →</a>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-visual pv5">⛪</div>
+        <div class="product-body">
+          <div class="product-title">Smart Church Solutions</div>
+          <div class="product-desc">Technology solutions for faith-based organizations including attendance systems, media automation, and data management.</div>
+          <a href="#smart-church" class="product-cta">Explore →</a>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-visual pv6">⚙️</div>
+        <div class="product-body">
+          <div class="product-title">Automation Solutions</div>
+          <div class="product-desc">End-to-end process automation for businesses, reducing costs and increasing operational efficiency.</div>
+          <a href="#automation" class="product-cta">Explore →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- VID1 BANNER -->
+    <div class="products-video-banner reveal" id="vid1-wrapper">
+      <video id="vid1" src="vid1.mp4" muted loop playsinline preload="none">
+        Your browser does not support the video tag.
+      </video>
+      <div class="products-video-label">
+        Eagles AI Lab
+        <span>Our Robots — In Action</span>
+      </div>
+    </div>
+
+    <!-- VIDEO GALLERY -->
+    <div class="products-video-gallery reveal">
+      <div class="pvg-header">
+        <div>
+          <div class="pvg-title">Video Showcase</div>
+          <div class="pvg-sub">Behind the lab • demos • events • innovations</div>
+        </div>
+      </div>
+      <div class="pvg-mosaic">
+        <div class="pvg-featured">
+          <video id="vid2" src="vid2.mp4" muted loop playsinline preload="none"></video>
+          <div class="pvg-overlay"></div>
+          <div class="pvg-meta">
+            <div><span class="pvg-vid-label">Featured</span><div class="pvg-vid-title">Eagles AI Annual Summit 2025</div></div>
+            <div class="pvg-play-badge">▶</div>
+          </div>
+        </div>
+        <div class="pvg-cell">
+          <video id="vid3" src="vid3.mp4" muted loop playsinline preload="none"></video>
+          <div class="pvg-overlay"></div>
+          <div class="pvg-meta">
+            <div><span class="pvg-vid-label">Robotics</span><div class="pvg-vid-title">Prototype Demo</div></div>
+            <div class="pvg-play-badge">▶</div>
+          </div>
+        </div>
+        <div class="pvg-cell">
+          <video id="vid4" src="vid4.mp4" muted loop playsinline preload="none"></video>
+          <div class="pvg-overlay"></div>
+          <div class="pvg-meta">
+            <div><span class="pvg-vid-label">Training</span><div class="pvg-vid-title">Bootcamp Highlights</div></div>
+            <div class="pvg-play-badge">▶</div>
+          </div>
+        </div>
+        <div class="pvg-cell">
+          <video id="vid5" src="vid5.mp4" muted loop playsinline preload="none"></video>
+          <div class="pvg-overlay"></div>
+          <div class="pvg-meta">
+            <div><span class="pvg-vid-label">Innovation</span><div class="pvg-vid-title">Lab in Motion</div></div>
+            <div class="pvg-play-badge">▶</div>
+          </div>
+        </div>
+        <div class="pvg-cell">
+          <video id="vidino" src="vidino.mp4" muted loop playsinline preload="none"></video>
+          <div class="pvg-overlay"></div>
+          <div class="pvg-meta">
+            <div><span class="pvg-vid-label">Innovation Hub</span><div class="pvg-vid-title">Incubation 2025</div></div>
+            <div class="pvg-play-badge">▶</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ROBOTICS PRODUCTS ── -->
+<section id="robotics-products" class="page-section">
+  <div class="container">
+    <div class="section-label">Hardware</div>
+    <h2 class="section-title">Robotics <span>Products</span></h2>
+    <p class="section-desc">Custom-built robotic systems designed and manufactured at our Abuja lab — engineered for African terrain, power conditions, and operational environments.</p>
+    <div class="cards-grid">
+      <div class="card reveal"><div class="card-icon">🌾</div><div class="card-title">AgroBot v3</div><div class="card-desc">Our flagship autonomous farming robot. Handles planting, irrigation, pest detection, and harvest monitoring across small and medium farms.</div><span class="card-tag">Flagship</span></div>
+      <div class="card reveal"><div class="card-icon">🏭</div><div class="card-title">IndustrialBot</div><div class="card-desc">Warehouse and factory automation robot with SLAM navigation, conveyor integration, and inventory tracking via RFID.</div><span class="card-tag">Industrial</span></div>
+      <div class="card reveal"><div class="card-icon">🔒</div><div class="card-title">SecurityBot</div><div class="card-desc">Autonomous perimeter patrol robot with 360° cameras, intruder detection, and real-time remote monitoring dashboard.</div><span class="card-tag">Security</span></div>
+      <div class="card reveal"><div class="card-icon">🚁</div><div class="card-title">SkyEagle Drone Series</div><div class="card-desc">UAV range for delivery, mapping, and surveillance. Up to 30km range, 5kg payload, 45-minute flight time on a single charge.</div><span class="card-tag">UAV</span></div>
+      <div class="card reveal"><div class="card-icon">🦾</div><div class="card-title">EduBot Kit</div><div class="card-desc">Modular educational robot for schools. Build, program, and compete. Includes lesson plans, teacher guide, and online dashboard.</div><span class="card-tag">Education</span></div>
+      <div class="card reveal"><div class="card-icon">💧</div><div class="card-title">IrriSmart Station</div><div class="card-desc">Solar-powered smart irrigation controller using soil sensors and ML forecasting to cut water usage by up to 40%.</div><span class="card-tag">AgriTech</span></div>
+    </div>
+    <div style="text-align:center;margin-top:2.5rem;">
+      <a href="contact.html#form" class="btn btn-primary">Request a Quote →</a>
+      <a href="#demos" class="btn btn-ghost" style="margin-left:1rem;">Watch Demos</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── SOFTWARE SOLUTIONS ── -->
+<section id="software" class="page-section alt">
+  <div class="container">
+    <div class="section-label">Software</div>
+    <h2 class="section-title">Software <span>Solutions</span></h2>
+    <p class="section-desc">AI-powered software platforms for business automation, analytics, and intelligent decision support — built for Nigerian infrastructure including low-bandwidth environments.</p>
+    <div class="two-col">
+      <div class="cards-grid reveal" style="grid-template-columns:1fr;">
+        <div class="card"><div class="card-icon">📊</div><div class="card-title">EagleDash Analytics</div><div class="card-desc">Business intelligence dashboard with predictive sales, inventory, and customer behaviour forecasting powered by our ML engine.</div><span class="card-tag">SaaS</span></div>
+        <div class="card"><div class="card-icon">🤖</div><div class="card-title">NaijaBot Chatbot Platform</div><div class="card-desc">Deploy AI chatbots that speak Yoruba, Hausa, Igbo, and Pidgin. Connect to WhatsApp, web, and USSD for maximum reach.</div><span class="card-tag">NLP</span></div>
+        <div class="card"><div class="card-icon">🔍</div><div class="card-title">VisionAI Monitor</div><div class="card-desc">Real-time video analytics platform for security, retail foot traffic analysis, and factory quality control.</div><span class="card-tag">Computer Vision</span></div>
+      </div>
+      <ul class="icon-list reveal">
+        <li><span class="li-icon">☁️</span><div><strong>Cloud &amp; On-Premise</strong><span>Deploy on our cloud or host locally — critical for clients with data sovereignty requirements.</span></div></li>
+        <li><span class="li-icon">📱</span><div><strong>Mobile-First Design</strong><span>All dashboards are optimised for Android smartphones and work on 3G connections.</span></div></li>
+        <li><span class="li-icon">🔌</span><div><strong>API Integration</strong><span>Full REST API for connecting to existing ERP, POS, and government data systems.</span></div></li>
+        <li><span class="li-icon">🛡️</span><div><strong>NDPR Compliant</strong><span>All data handling adheres to Nigeria's Data Protection Regulation standards.</span></div></li>
+        <li><span class="li-icon">🧑‍💻</span><div><strong>Local Support Team</strong><span>Dedicated Nigerian support engineers available Monday–Saturday, 8AM–6PM.</span></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── AI MODELS & TOOLS ── -->
+<section id="ai-models" class="page-section">
+  <div class="container">
+    <div class="section-label">AI</div>
+    <h2 class="section-title">AI Models <span>&amp; Tools</span></h2>
+    <p class="section-desc">Pre-trained and custom AI models available via API or on-device deployment — purpose-built on African datasets for African use cases.</p>
+    <div class="cards-grid">
+      <div class="card reveal"><div class="card-icon">💬</div><div class="card-title">NaijaLLM API</div><div class="card-desc">Language model API supporting Yoruba, Hausa, Igbo, Pidgin, and English. Use for translation, summarisation, and Q&amp;A.</div><span class="card-tag">API</span></div>
+      <div class="card reveal"><div class="card-icon">👁️</div><div class="card-title">CropVision Model</div><div class="card-desc">91%+ accurate crop disease detection model. Integrate into mobile apps or IoT devices for real-time field diagnosis.</div><span class="card-tag">Edge AI</span></div>
+      <div class="card reveal"><div class="card-icon">🩺</div><div class="card-title">MediScan AI</div><div class="card-desc">Malaria and TB detection from microscopy images. Runs on low-spec Android tablets — no internet required after setup.</div><span class="card-tag">Health AI</span></div>
+      <div class="card reveal"><div class="card-icon">📈</div><div class="card-title">MarketPredict</div><div class="card-desc">Commodity price prediction model trained on Nigerian market data. Forecasts up to 30 days ahead with 84% accuracy.</div><span class="card-tag">Finance AI</span></div>
+    </div>
+    <div style="margin-top:2.5rem;">
+      <a href="contact.html#form" class="btn btn-outline">Request API Access →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── EDUCATIONAL KITS ── -->
+<section id="edu-kits" class="page-section alt">
+  <div class="container">
+    <div class="section-label">Education</div>
+    <h2 class="section-title">Educational <span>Kits</span></h2>
+    <p class="section-desc">Hands-on STEM kits designed for Nigerian schools, youth clubs, and home learners — making robotics and AI tangible, affordable, and fun.</p>
+    <div class="cards-grid">
+      <div class="card reveal"><div class="card-icon">🔧</div><div class="card-title">EduBot Starter Kit</div><div class="card-desc">Entry-level kit for ages 10–14. Build a line-following robot using Arduino, sensors, and motors. Includes full lesson plans.</div><span class="card-tag">Ages 10–14</span></div>
+      <div class="card reveal"><div class="card-icon">🧠</div><div class="card-title">AI Explorer Kit</div><div class="card-desc">Intermediate kit introducing machine learning concepts. Train a simple image classifier on a Raspberry Pi — no cloud needed.</div><span class="card-tag">Ages 14–18</span></div>
+      <div class="card reveal"><div class="card-icon">🚁</div><div class="card-title">Drone Build Kit</div><div class="card-desc">Advanced kit for building and flying a mini-drone. Covers aerodynamics, flight controllers, and basic autonomous waypoints.</div><span class="card-tag">Ages 16+</span></div>
+      <div class="card reveal"><div class="card-icon">🌾</div><div class="card-title">AgroTech Junior Kit</div><div class="card-desc">Agriculture-focused kit where students build a mini smart irrigation system with soil sensors and automated water control.</div><span class="card-tag">AgriSTEM</span></div>
+    </div>
+    <div style="margin-top:2.5rem;display:flex;gap:1rem;flex-wrap:wrap;">
+      <a href="contact.html#form" class="btn btn-primary">Order Kits for Your School →</a>
+      <a href="training.html#stem-schools" class="btn btn-ghost">See School Programs</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── SMART SCHOOL SOLUTIONS ── -->
+<section id="smart-school" class="page-section">
+  <div class="container">
+    <div class="section-label">EdTech</div>
+    <h2 class="section-title">Smart School <span>Solutions</span></h2>
+    <p class="section-desc">AI-driven school management, learning analytics, and smart classroom tools — built specifically for Nigerian private and public educational institutions.</p>
+    <div class="two-col">
+      <ul class="icon-list reveal">
+        <li><span class="li-icon">📋</span><div><strong>Smart Attendance</strong><span>AI-powered facial recognition attendance system with privacy-by-design — no photos stored on cloud.</span></div></li>
+        <li><span class="li-icon">📊</span><div><strong>Learning Analytics Dashboard</strong><span>Track student performance, identify at-risk learners early, and generate automated reports for parents and regulators.</span></div></li>
+        <li><span class="li-icon">💳</span><div><strong>Fees &amp; Finance Module</strong><span>Automated school fees tracking, payment reminders via WhatsApp, and financial reporting for bursary staff.</span></div></li>
+        <li><span class="li-icon">📚</span><div><strong>Digital Library &amp; LMS</strong><span>Online learning management system with video lessons, assignments, and quizzes — works on 3G connections.</span></div></li>
+        <li><span class="li-icon">🔔</span><div><strong>Parent Communication Hub</strong><span>Real-time notifications via SMS and WhatsApp for attendance, results, and school announcements.</span></div></li>
+      </ul>
+      <div class="card reveal" style="align-self:center;">
+        <div class="card-icon">🏫</div>
+        <div class="card-title">Currently Serving</div>
+        <div class="card-desc" style="margin-bottom:1.5rem;">Smart School Solutions is deployed in 40+ schools across FCT, Lagos, and Enugu. Serving 25,000+ students.</div>
+        <div style="display:flex;gap:1.5rem;text-align:center;">
+          <div><div style="font-family:var(--font-head);font-size:1.4rem;color:var(--neon);font-weight:900;">40+</div><div style="font-size:0.7rem;color:var(--muted);margin-top:4px;">Schools</div></div>
+          <div><div style="font-family:var(--font-head);font-size:1.4rem;color:var(--neon2);font-weight:900;">25K+</div><div style="font-size:0.7rem;color:var(--muted);margin-top:4px;">Students</div></div>
+          <div><div style="font-family:var(--font-head);font-size:1.4rem;color:var(--neon3);font-weight:900;">98%</div><div style="font-size:0.7rem;color:var(--muted);margin-top:4px;">Uptime</div></div>
+        </div>
+        <div style="margin-top:1.5rem;"><a href="contact.html#form" class="btn btn-primary" style="width:100%;text-align:center;">Request Demo →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SMART CHURCH SOLUTIONS ── -->
+<section id="smart-church" class="page-section alt">
+  <div class="container">
+    <div class="section-label">FaithTech</div>
+    <h2 class="section-title">Smart Church <span>Solutions</span></h2>
+    <p class="section-desc">Technology solutions purpose-built for Nigerian faith-based organisations — from megachurches to small assemblies — helping them run smarter and serve better.</p>
+    <div class="cards-grid">
+      <div class="card reveal"><div class="card-icon">📋</div><div class="card-title">Member Attendance System</div><div class="card-desc">QR-code and facial recognition check-in for Sunday services, midweek meetings, and cell groups. No hardware beyond a phone.</div></div>
+      <div class="card reveal"><div class="card-icon">🎙️</div><div class="card-title">Media &amp; Livestream Hub</div><div class="card-desc">Automated recording, editing, and publishing of sermons to YouTube, Facebook, and WhatsApp with AI-generated captions.</div></div>
+      <div class="card reveal"><div class="card-icon">💰</div><div class="card-title">Tithe &amp; Offering Tracker</div><div class="card-desc">Digital giving via bank transfer, card, or USSD. Real-time treasury dashboards and automatic end-of-month reports.</div></div>
+      <div class="card reveal"><div class="card-icon">💬</div><div class="card-title">Pastoral CRM</div><div class="card-desc">Member management system tracking follow-ups, prayer requests, birthdays, and life events for personalised pastoral care.</div></div>
+      <div class="card reveal"><div class="card-icon">📱</div><div class="card-title">Church Mobile App</div><div class="card-desc">Branded mobile app for your church: sermon archive, event calendar, online giving, and devotional push notifications.</div></div>
+      <div class="card reveal"><div class="card-icon">📊</div><div class="card-title">Growth Analytics</div><div class="card-desc">Track membership growth, giving trends, attendance patterns, and service engagement with visual dashboards for leaders.</div></div>
+    </div>
+    <div style="text-align:center;margin-top:2.5rem;">
+      <a href="contact.html#form" class="btn btn-outline">Book a Church Demo →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── AUTOMATION SOLUTIONS ── -->
+<section id="automation" class="page-section">
+  <div class="container">
+    <div class="section-label">Enterprise</div>
+    <h2 class="section-title">Automation <span>Solutions</span></h2>
+    <p class="section-desc">End-to-end process automation for businesses — reducing operational costs, eliminating manual errors, and unlocking efficiency through intelligent systems.</p>
+    <div class="two-col">
+      <div>
+        <div class="cards-grid reveal" style="grid-template-columns:1fr;">
+          <div class="card"><div class="card-icon">⚙️</div><div class="card-title">Business Process Automation</div><div class="card-desc">Automate repetitive back-office tasks: invoice processing, HR onboarding, report generation, and data entry across departments.</div></div>
+          <div class="card"><div class="card-icon">🏪</div><div class="card-title">Retail &amp; POS AI</div><div class="card-desc">Smart inventory replenishment, demand forecasting, and customer behaviour analytics for retail chains across Nigeria.</div></div>
+          <div class="card"><div class="card-icon">🚚</div><div class="card-title">Logistics Optimisation</div><div class="card-desc">AI-powered route optimisation, delivery scheduling, and fleet tracking — reducing fuel costs by up to 25%.</div></div>
+        </div>
+      </div>
+      <div class="reveal">
+        <h3 style="font-family:var(--font-head);font-size:1rem;color:var(--neon2);margin-bottom:1.2rem;letter-spacing:1px;">Why Automate with Eagles AI?</h3>
+        <table class="spec-table">
+          <tr><th>Metric</th><th>Before</th><th>After</th></tr>
+          <tr><td>Invoice Processing Time</td><td>3–5 days</td><td>4 hours</td></tr>
+          <tr><td>Data Entry Errors</td><td>~12%</td><td>&lt;0.5%</td></tr>
+          <tr><td>Report Generation</td><td>Manual, weekly</td><td>Auto, real-time</td></tr>
+          <tr><td>Operational Cost</td><td>Baseline</td><td>–28% avg</td></tr>
+          <tr><td>Customer Response Time</td><td>48 hours</td><td>Under 2 hours</td></tr>
+        </table>
+        <div style="margin-top:2rem;">
+          <a href="contact.html#form" class="btn btn-primary">Get a Free Audit →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── DEMO VIDEOS ── -->
+<section id="demos" class="page-section alt">
+  <div class="container">
+    <div class="section-label">See It In Action</div>
+    <h2 class="section-title">Demo <span>Videos</span></h2>
+    <p class="section-desc">Watch our products in action — live demonstrations, field deployments, and lab showcases from our engineering team.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;margin-top:2rem;">
+      <div class="card reveal" style="padding:0;overflow:hidden;">
+        <div style="height:160px;background:linear-gradient(135deg,rgba(0,245,255,0.1),rgba(123,47,255,0.1));display:flex;align-items:center;justify-content:center;font-size:3rem;position:relative;">
+          🤖
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+            <div style="width:50px;height:50px;border-radius:50%;background:rgba(0,245,255,0.15);border:1px solid rgba(0,245,255,0.4);display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:var(--neon);backdrop-filter:blur(8px);">▶</div>
+          </div>
+        </div>
+        <div style="padding:1.4rem;"><div class="card-title">AgroBot Field Demo</div><div class="card-desc">Watch AgroBot v3 autonomously navigate a test farm, detect pests, and trigger targeted irrigation.</div></div>
+      </div>
+      <div class="card reveal" style="padding:0;overflow:hidden;">
+        <div style="height:160px;background:linear-gradient(135deg,rgba(123,47,255,0.1),rgba(255,107,0,0.1));display:flex;align-items:center;justify-content:center;font-size:3rem;position:relative;">
+          🚁
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+            <div style="width:50px;height:50px;border-radius:50%;background:rgba(123,47,255,0.15);border:1px solid rgba(123,47,255,0.4);display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:var(--neon2);backdrop-filter:blur(8px);">▶</div>
+          </div>
+        </div>
+        <div style="padding:1.4rem;"><div class="card-title">SkyEagle Delivery Flight</div><div class="card-desc">Full end-to-end delivery flight — from dispatch to drop, fully autonomous over a 12km urban route in Abuja.</div></div>
+      </div>
+      <div class="card reveal" style="padding:0;overflow:hidden;">
+        <div style="height:160px;background:linear-gradient(135deg,rgba(255,107,0,0.1),rgba(0,245,255,0.1));display:flex;align-items:center;justify-content:center;font-size:3rem;position:relative;">
+          🏫
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+            <div style="width:50px;height:50px;border-radius:50%;background:rgba(255,107,0,0.15);border:1px solid rgba(255,107,0,0.4);display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:var(--neon3);backdrop-filter:blur(8px);">▶</div>
+          </div>
+        </div>
+        <div style="padding:1.4rem;"><div class="card-title">Smart School Live Walkthrough</div><div class="card-desc">A guided tour of the Smart School dashboard — attendance, analytics, fees, and parent notifications in real-time.</div></div>
+      </div>
+      <div class="card reveal" style="padding:0;overflow:hidden;">
+        <div style="height:160px;background:linear-gradient(135deg,rgba(0,245,255,0.08),rgba(123,47,255,0.1));display:flex;align-items:center;justify-content:center;font-size:3rem;position:relative;">
+          ⛪
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+            <div style="width:50px;height:50px;border-radius:50%;background:rgba(0,245,255,0.15);border:1px solid rgba(0,245,255,0.4);display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:var(--neon);backdrop-filter:blur(8px);">▶</div>
+          </div>
+        </div>
+        <div style="padding:1.4rem;"><div class="card-title">Smart Church Check-In Demo</div><div class="card-desc">See 400 church members check in under 3 minutes using our QR-code and facial recognition attendance system.</div></div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:2.5rem;">
+      <a href="contact.html#form" class="btn btn-outline">Book a Live Demo →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── CASE STUDIES ── -->
+<section id="case-studies" class="page-section">
+  <div class="container">
+    <div class="section-label">Real Results</div>
+    <h2 class="section-title">Case <span>Studies</span></h2>
+    <p class="section-desc">Real deployments. Real data. Real impact — across agriculture, education, security, and enterprise in Nigeria.</p>
+    <div style="display:flex;flex-direction:column;gap:1.5rem;margin-top:2rem;">
+      <div class="case-card reveal">
+        <div class="case-icon">🌾</div>
+        <div>
+          <div class="case-client">Agriculture • Benue State</div>
+          <div class="case-title">AgroBot Deployment on 200-Acre Rice Farm</div>
+          <div class="case-desc">Deployed AgroBot v2 across a 200-acre rice farm in Benue. The robot handled irrigation scheduling, pest detection alerts, and harvest readiness monitoring over a full growing season, replacing 6 manual workers for those tasks.</div>
+          <div class="case-result">📈 Result: 34% increase in yield · 60% reduction in pesticide use · ₦4.2M operational savings in one season</div>
+        </div>
+      </div>
+      <div class="case-card reveal">
+        <div class="case-icon">🏫</div>
+        <div>
+          <div class="case-client">Education • Lagos State</div>
+          <div class="case-title">Smart School Rollout — 12-Campus Private School Network</div>
+          <div class="case-desc">Deployed Smart School Solutions across a 12-campus private school network in Lagos. Integrated attendance, fees, LMS, and parent communication into a single platform used by 8,000 students, 600 teachers, and 7,500 parents.</div>
+          <div class="case-result">📈 Result: 40% reduction in admin workload · Fees collection rate up from 71% to 96% · Parent satisfaction score: 4.8/5</div>
+        </div>
+      </div>
+      <div class="case-card reveal">
+        <div class="case-icon">⛪</div>
+        <div>
+          <div class="case-client">Faith-Based · Abuja FCT</div>
+          <div class="case-title">Smart Church Platform — 15,000-Member Congregation</div>
+          <div class="case-desc">Implemented full Smart Church suite for a 15,000-member church in Abuja. Replaced paper-based systems with digital giving, automated member follow-up, and livestream management — cutting admin staff requirements by 40%.</div>
+          <div class="case-result">📈 Result: Tithe income up 22% · 100% digital giving adoption in 3 months · 35 hours/week admin time saved</div>
+        </div>
+      </div>
+      <div class="case-card reveal">
+        <div class="case-icon">🚚</div>
+        <div>
+          <div class="case-client">Logistics • Port Harcourt</div>
+          <div class="case-title">Fleet Automation for Regional Distribution Company</div>
+          <div class="case-desc">Deployed our logistics optimisation system for a 50-truck distribution company in Port Harcourt. AI route planning reduced average delivery time and fuel consumption, while automated dispatch reduced dispatcher headcount by 3.</div>
+          <div class="case-result">📈 Result: 23% fuel cost reduction · On-time delivery rate up from 68% to 94% · ₦7.8M annual savings</div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:3rem;">
+      <a href="contact.html#form" class="btn btn-primary">Discuss Your Project →</a>
+      <a href="contact.html#form" class="btn btn-ghost" style="margin-left:1rem;">Download Full Case Study PDF</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo" style="display:inline-flex;margin-bottom:0.5rem;">EAGLES <span>AI LAB</span></a>
+      <p>Pioneering AI &amp; Robotics innovation across Nigeria and Africa. Training the next generation of tech leaders since 2020.</p>
+      <div style="margin-top:1.5rem;display:flex;gap:0.8rem;flex-wrap:wrap;">
+        <a href="#" style="font-size:1.3rem;">🐦</a><a href="#" style="font-size:1.3rem;">💼</a>
+        <a href="#" style="font-size:1.3rem;">📘</a><a href="#" style="font-size:1.3rem;">▶️</a><a href="#" style="font-size:1.3rem;">📸</a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Products</h4><ul>
+      <li><a href="#robotics-products">Robotics Products</a></li>
+      <li><a href="#software">Software Solutions</a></li>
+      <li><a href="#ai-models">AI Models &amp; Tools</a></li>
+      <li><a href="#smart-school">Smart School</a></li>
+      <li><a href="#smart-church">Smart Church</a></li>
+      <li><a href="#case-studies">Case Studies</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Training</h4><ul>
+      <li><a href="training.html#bootcamps">Bootcamps</a></li>
+      <li><a href="training.html#stem-schools">STEM for Schools</a></li>
+      <li><a href="training.html#ai-youth">AI for Youth</a></li>
+      <li><a href="training.html#internship">Internship</a></li>
+      <li><a href="training.html#hackathons">Hackathons</a></li>
+      <li><a href="student-portal.html">Student Portal</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Organisation</h4><ul>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="innovation.html">Innovation Hub</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="partnerships.html">Partners</a></li>
+      <li><a href="media.html">Media</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Eagles AI &amp; Robotics Research Lab. All rights reserved.</span>
+    <span>Built with 🤖 in Nigeria</span>
+  </div>
+</footer>
+
+<script>
+  // Scroll progress
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    document.getElementById('scrollProgress').style.width = (window.scrollY / h * 100) + '%';
+  });
+
+  // Reveal on scroll
+  const ro = new IntersectionObserver(entries => entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  }), { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+  // Mobile menu
+  function openMobile() { document.getElementById('mobileMenu').classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); document.body.style.overflow = ''; }
+  function toggleMobile(header) {
+    const sub = header.nextElementSibling;
+    const isOpen = sub.classList.contains('open');
+    document.querySelectorAll('.m-sub.open').forEach(s => s.classList.remove('open'));
+    document.querySelectorAll('.m-header.active').forEach(h => h.classList.remove('active'));
+    if (!isOpen) { sub.classList.add('open'); header.classList.add('active'); }
+  }
+
+  // Smooth anchor scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+
+  // VID1 autoplay on scroll
+  const vid1 = document.getElementById('vid1');
+  if (vid1) {
+    new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.isIntersecting) vid1.play().catch(() => {});
+      else vid1.pause();
+    }), { threshold: 0.3 }).observe(vid1);
+  }
+
+  // Gallery videos autoplay on scroll
+  ['vid2','vid3','vid4','vid5','vidino'].forEach(id => {
+    const vid = document.getElementById(id);
+    if (!vid) return;
+    const cell = vid.closest('.pvg-featured, .pvg-cell');
+    if (!cell) return;
+    new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.isIntersecting) vid.play().catch(() => {});
+      else vid.pause();
+    }), { threshold: 0.25 }).observe(cell);
+  });
+</script>
+</body>
+</html>

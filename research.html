@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research — Eagles AI Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #020810; --bg2: #050f1f;
+    --neon: #00f5ff; --neon2: #7b2fff; --neon3: #ff6b00;
+    --text: #e0f0ff; --muted: #6a8aaa;
+    --card: rgba(0,245,255,0.04); --border: rgba(0,245,255,0.15);
+    --font-head: 'Orbitron', monospace; --font-body: 'Exo 2', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-weight: 300; overflow-x: hidden; }
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px; pointer-events: none; z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(2,8,16,0.92); backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem; height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo { font-family: var(--font-head); font-size: 1.1rem; font-weight: 900; color: var(--neon); text-shadow: 0 0 16px var(--neon); letter-spacing: 2px; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+  .nav-logo span { color: var(--text); }
+  .eagle-icon { width: 36px; height: 36px; filter: drop-shadow(0 0 8px var(--neon)); }
+  .nav-links { display: flex; gap: 0; list-style: none; align-items: center; }
+  .nav-links > li { position: relative; }
+  .nav-links > li > a, .nav-links > li > span.nav-link {
+    font-family: var(--font-head); font-size: 0.58rem; letter-spacing: 1.2px;
+    color: var(--muted); text-decoration: none; padding: 6px 9px;
+    border-radius: 4px; transition: color 0.2s, background 0.2s;
+    text-transform: uppercase; display: flex; align-items: center; gap: 4px; white-space: nowrap; cursor: pointer;
+  }
+  .nav-links > li > a:hover, .nav-links > li > a.active,
+  .nav-links > li:hover > span.nav-link { color: var(--neon); background: rgba(0,245,255,0.07); }
+  .arrow { font-size: 0.55rem; opacity: 0.6; transition: transform 0.2s; }
+  .has-dropdown:hover .arrow { transform: rotate(180deg); }
+  .dropdown {
+    display: none; position: absolute; top: calc(100% + 4px); left: 0;
+    background: rgba(2,8,16,0.97); border: 1px solid var(--border);
+    border-radius: 6px; min-width: 220px; list-style: none;
+    padding: 0.5rem 0; z-index: 9999; backdrop-filter: blur(20px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.6), 0 0 20px rgba(0,245,255,0.04);
+  }
+  .has-dropdown:hover .dropdown { display: block; }
+  .dropdown li a { display: block; padding: 9px 18px; font-family: var(--font-body); font-size: 0.82rem; color: var(--muted); text-decoration: none; transition: color 0.2s, background 0.2s, padding-left 0.2s; letter-spacing: 0.5px; }
+  .dropdown li a:hover { color: var(--neon); background: rgba(0,245,255,0.06); padding-left: 24px; }
+  .dropdown li:not(:last-child) { border-bottom: 1px solid rgba(0,245,255,0.05); }
+  .nav-portal { color: var(--neon2) !important; border: 1px solid rgba(123,47,255,0.5) !important; border-radius: 3px !important; padding: 6px 12px !important; margin-left: 4px; }
+  .nav-portal:hover { background: rgba(123,47,255,0.12) !important; }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: var(--neon); }
+  .scroll-progress { position: fixed; top: 64px; left: 0; height: 2px; background: linear-gradient(90deg,var(--neon),var(--neon2)); z-index: 1001; transition: width 0.1s; box-shadow: 0 0 8px var(--neon); width: 0; }
+  .scanline { position: fixed; left: 0; right: 0; height: 2px; background: linear-gradient(90deg,transparent,rgba(0,245,255,0.06),transparent); pointer-events: none; z-index: 1; animation: scanline 8s linear infinite; }
+
+  /* ── MOBILE MENU ── */
+  .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(2,8,16,0.97); z-index: 999; flex-direction: column; align-items: stretch; backdrop-filter: blur(20px); overflow-y: auto; padding: 72px 0 2rem; }
+  .mobile-menu.open { display: flex; }
+  .mobile-close { position: fixed; top: 1.2rem; right: 1.2rem; font-size: 1.4rem; color: var(--neon); cursor: pointer; background: none; border: none; z-index: 9999; }
+  .m-item { border-bottom: 1px solid rgba(0,245,255,0.07); }
+  .m-item-home > a { font-family: var(--font-head); font-size: 0.78rem; letter-spacing: 2px; color: var(--muted); text-decoration: none; text-transform: uppercase; padding: 14px 24px; display: block; transition: color 0.2s; }
+  .m-item-home > a:hover { color: var(--neon); }
+  .m-header { font-family: var(--font-head); font-size: 0.78rem; letter-spacing: 2px; color: var(--text); text-transform: uppercase; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: color 0.2s; user-select: none; }
+  .m-header:hover, .m-header.active { color: var(--neon); }
+  .m-chevron { font-size: 0.7rem; opacity: 0.6; transition: transform 0.25s; }
+  .m-header.active .m-chevron { transform: rotate(180deg); }
+  .m-sub { display: none; background: rgba(0,245,255,0.025); border-top: 1px solid rgba(0,245,255,0.06); padding: 6px 0; }
+  .m-sub.open { display: block; }
+  .m-sub a { display: block; font-family: var(--font-body); font-size: 0.82rem; color: var(--muted); text-decoration: none; padding: 10px 24px 10px 36px; transition: color 0.2s, padding-left 0.2s; }
+  .m-sub a:hover { color: var(--neon); padding-left: 42px; }
+  .m-portal { font-family: var(--font-head); font-size: 0.78rem; letter-spacing: 2px; color: var(--neon2); text-decoration: none; text-transform: uppercase; padding: 14px 24px; display: block; border-bottom: 1px solid rgba(0,245,255,0.07); }
+
+  /* ── TICKER ── */
+  .news-ticker { background: rgba(0,245,255,0.06); border-bottom: 1px solid var(--border); padding: 10px 0; overflow: hidden; white-space: nowrap; }
+  .ticker-inner { display: inline-flex; gap: 4rem; animation: ticker 30s linear infinite; font-size: 0.78rem; color: var(--muted); letter-spacing: 1px; }
+  .ticker-item { display: flex; align-items: center; gap: 8px; }
+  .ticker-dot { width: 6px; height: 6px; background: var(--neon); border-radius: 50%; box-shadow: 0 0 6px var(--neon); }
+
+  /* ── PAGE HERO ── */
+  .page-hero {
+    padding: 130px 2rem 70px; position: relative; z-index: 1; overflow: hidden;
+    border-bottom: 1px solid var(--border); text-align: center;
+  }
+  .page-hero-label { font-family: var(--font-head); font-size: 0.6rem; letter-spacing: 5px; color: var(--neon); text-transform: uppercase; margin-bottom: 1rem; display: inline-flex; align-items: center; gap: 12px; }
+  .page-hero-label::before, .page-hero-label::after { content: ''; display: block; width: 30px; height: 1px; background: var(--neon); box-shadow: 0 0 8px var(--neon); }
+  .page-hero h1 { font-family: var(--font-head); font-size: clamp(2rem,5vw,3.8rem); font-weight: 900; line-height: 1.1; margin-bottom: 1rem; }
+  .page-hero h1 span { color: var(--neon); text-shadow: 0 0 30px var(--neon), 0 0 60px rgba(0,245,255,0.3); }
+  .page-hero p { color: var(--muted); max-width: 600px; margin: 0 auto; line-height: 1.8; font-size: 1rem; }
+  .hero-orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
+
+  /* ── SECTIONS ── */
+  .page-section { position: relative; z-index: 1; padding: 5rem 2rem; }
+  .page-section.alt { background: var(--bg2); }
+  .container { max-width: 1200px; margin: 0 auto; }
+  .section-label { font-family: var(--font-head); font-size: 0.6rem; letter-spacing: 5px; color: var(--neon); text-transform: uppercase; margin-bottom: 1rem; display: flex; align-items: center; gap: 12px; }
+  .section-label::before { content: ''; display: block; width: 40px; height: 1px; background: var(--neon); box-shadow: 0 0 8px var(--neon); }
+  h2.section-title { font-family: var(--font-head); font-size: clamp(1.6rem,3.5vw,2.6rem); font-weight: 700; line-height: 1.1; margin-bottom: 1.2rem; }
+  h2.section-title span { color: var(--neon); }
+  .section-desc { color: var(--muted); max-width: 650px; line-height: 1.8; font-size: 0.95rem; margin-bottom: 2.5rem; }
+
+  /* ── TABS ── */
+  .research-tabs { display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap; }
+  .tab-btn { font-family: var(--font-head); font-size: 0.65rem; letter-spacing: 2px; padding: 8px 16px; border: 1px solid var(--border); background: transparent; color: var(--muted); border-radius: 3px; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+  .tab-btn.active, .tab-btn:hover { border-color: var(--neon); color: var(--neon); background: rgba(0,245,255,0.07); }
+
+  /* ── RESEARCH CARDS ── */
+  .research-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 1.5rem; }
+  .research-card { border: 1px solid var(--border); border-radius: 8px; padding: 1.8rem; background: var(--card); backdrop-filter: blur(10px); transition: all 0.3s; position: relative; overflow: hidden; cursor: pointer; }
+  .research-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg,var(--neon),var(--neon2)); transform: scaleX(0); transition: transform 0.3s; transform-origin: left; }
+  .research-card:hover::before { transform: scaleX(1); }
+  .research-card:hover { border-color: rgba(0,245,255,0.3); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,245,255,0.08); }
+  .card-icon { font-size: 2.2rem; margin-bottom: 1rem; }
+  .card-title { font-family: var(--font-head); font-size: 0.85rem; letter-spacing: 1px; color: var(--neon); margin-bottom: 0.8rem; }
+  .card-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+  .card-tag { display: inline-block; margin-top: 1rem; font-size: 0.65rem; letter-spacing: 2px; color: var(--neon2); border: 1px solid rgba(123,47,255,0.3); padding: 3px 10px; border-radius: 2px; text-transform: uppercase; }
+
+  /* ── STATS ROW ── */
+  .stats-row { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 3rem; }
+  .stat-box { flex: 1; min-width: 140px; border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; background: var(--card); text-align: center; }
+  .stat-box .sn { font-family: var(--font-head); font-size: 2rem; font-weight: 900; color: var(--neon); text-shadow: 0 0 20px var(--neon); display: block; }
+  .stat-box .sl { font-size: 0.72rem; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+
+  /* ── PUBLICATIONS TABLE ── */
+  .pub-list { display: flex; flex-direction: column; gap: 1rem; }
+  .pub-item { border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; background: var(--card); transition: all 0.3s; display: flex; gap: 1.5rem; align-items: flex-start; }
+  .pub-item:hover { border-color: var(--neon); transform: translateX(4px); }
+  .pub-year { font-family: var(--font-head); font-size: 0.75rem; color: var(--neon2); letter-spacing: 1px; flex-shrink: 0; margin-top: 3px; }
+  .pub-title { font-family: var(--font-head); font-size: 0.82rem; color: var(--text); letter-spacing: 0.5px; margin-bottom: 0.4rem; }
+  .pub-meta { font-size: 0.78rem; color: var(--muted); }
+  .pub-tag { display: inline-block; margin-top: 0.5rem; font-size: 0.62rem; letter-spacing: 2px; color: var(--neon); border: 1px solid rgba(0,245,255,0.3); padding: 2px 8px; border-radius: 2px; text-transform: uppercase; }
+
+  /* ── BTN ── */
+  .btn { font-family: var(--font-head); font-size: 0.72rem; letter-spacing: 2px; padding: 13px 26px; border-radius: 3px; border: none; cursor: pointer; text-decoration: none; transition: all 0.25s; text-transform: uppercase; display: inline-block; }
+  .btn-primary { background: var(--neon); color: var(--bg); font-weight: 700; box-shadow: 0 0 20px rgba(0,245,255,0.4); }
+  .btn-primary:hover { box-shadow: 0 0 40px rgba(0,245,255,0.7); transform: translateY(-2px); }
+  .btn-outline { background: transparent; color: var(--neon); border: 1px solid var(--neon); }
+  .btn-outline:hover { background: rgba(0,245,255,0.08); transform: translateY(-2px); }
+
+  /* ── FOOTER ── */
+  footer { border-top: 1px solid var(--border); padding: 4rem 2rem 2rem; background: var(--bg); position: relative; z-index: 1; }
+  .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+  .footer-brand p { font-size: 0.85rem; color: var(--muted); line-height: 1.8; margin-top: 1rem; max-width: 280px; }
+  .footer-col h4 { font-family: var(--font-head); font-size: 0.62rem; letter-spacing: 3px; color: var(--neon); margin-bottom: 1.2rem; text-transform: uppercase; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .footer-col ul li a { font-size: 0.85rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .footer-col ul li a:hover { color: var(--neon); }
+  .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding-top: 2rem; border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--muted); }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  @keyframes scanline { 0%{transform:translateY(-100%)} 100%{transform:translateY(100vh)} }
+  @keyframes pulse { 0%,100%{opacity:0.6;transform:scale(1)} 50%{opacity:1;transform:scale(1.1)} }
+  @keyframes fadeInUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+
+  @media(max-width:900px) { .nav-links{display:none;} .hamburger{display:flex;} .footer-grid{grid-template-columns:1fr 1fr;} }
+  @media(max-width:600px) { .footer-grid{grid-template-columns:1fr;} .stats-row{flex-direction:column;} }
+</style>
+</head>
+<body>
+<div class="scanline"></div>
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="closeMobile()">✕</button>
+  <div class="m-item m-item-home"><a href="mainindex.html" onclick="closeMobile()">Home</a></div>
+  <div class="m-item"><div class="m-header" onclick="toggleMobile(this)">About <span class="m-chevron">▾</span></div><div class="m-sub"><a href="about.html#vision-mission" onclick="closeMobile()">Vision & Mission</a><a href="about.html#core-values" onclick="closeMobile()">Core Values</a><a href="about.html#our-story" onclick="closeMobile()">Our Story</a><a href="about.html#governance" onclick="closeMobile()">Governance & Leadership</a><a href="about.html#advisory" onclick="closeMobile()">Advisory Board</a><a href="about.html#team" onclick="closeMobile()">Our Team</a><a href="about.html#why-us" onclick="closeMobile()">Why Eagles AI Lab</a><a href="about.html#facility" onclick="closeMobile()">Facility Tour</a></div></div>
+  <div class="m-item"><div class="m-header active" onclick="toggleMobile(this)">Research <span class="m-chevron">▾</span></div><div class="m-sub open"><a href="#machine-learning" onclick="closeMobile()">Machine Learning</a><a href="#nlp" onclick="closeMobile()">NLP</a><a href="#computer-vision" onclick="closeMobile()">Computer Vision</a><a href="#predictive-analytics" onclick="closeMobile()">Predictive Analytics</a><a href="#autonomous-robots" onclick="closeMobile()">Autonomous Robots</a><a href="#agricultural-robotics" onclick="closeMobile()">Agricultural Robotics</a><a href="#drone-development" onclick="closeMobile()">Drone Development</a><a href="#embedded-systems" onclick="closeMobile()">Embedded Systems</a><a href="#publications" onclick="closeMobile()">Publications</a><a href="#patents" onclick="closeMobile()">Patents & Innovations</a><a href="#grants" onclick="closeMobile()">Research Grants</a></div></div>
+  <div class="m-item"><div class="m-header" onclick="toggleMobile(this)">Training <span class="m-chevron">▾</span></div><div class="m-sub"><a href="training.html#bootcamps" onclick="closeMobile()">Short Courses & Bootcamps</a><a href="training.html#certifications" onclick="closeMobile()">Certifications</a><a href="training.html#internship" onclick="closeMobile()">Internship & SIWES</a><a href="training.html#stem-schools" onclick="closeMobile()">STEM for Schools</a><a href="training.html#ai-youth" onclick="closeMobile()">AI for Youth</a><a href="training.html#robotics-clubs" onclick="closeMobile()">Robotics Clubs for Teens</a><a href="training.html#hackathons" onclick="closeMobile()">Hackathons</a><a href="training.html#calendar" onclick="closeMobile()">Training Calendar</a><a href="training.html#register" onclick="closeMobile()">Registration</a></div></div>
+  <div class="m-item"><div class="m-header" onclick="toggleMobile(this)">Products <span class="m-chevron">▾</span></div><div class="m-sub"><a href="products.html#robotics-products" onclick="closeMobile()">Robotics Products</a><a href="products.html#software" onclick="closeMobile()">Software Solutions</a><a href="products.html#ai-models" onclick="closeMobile()">AI Models & Tools</a><a href="products.html#edu-kits" onclick="closeMobile()">Educational Kits</a><a href="products.html#smart-school" onclick="closeMobile()">Smart School Solutions</a><a href="products.html#smart-church" onclick="closeMobile()">Smart Church Solutions</a><a href="products.html#automation" onclick="closeMobile()">Automation Solutions</a><a href="products.html#demos" onclick="closeMobile()">Demo Videos</a><a href="products.html#case-studies" onclick="closeMobile()">Case Studies</a></div></div>
+  <div class="m-item"><div class="m-header" onclick="toggleMobile(this)">Innovation Hub <span class="m-chevron">▾</span></div><div class="m-sub"><a href="innovation.html#incubation" onclick="closeMobile()">Startup Incubation</a><a href="innovation.html#accelerator" onclick="closeMobile()">Accelerator Program</a><a href="innovation.html#funding" onclick="closeMobile()">Funding Access</a><a href="innovation.html#mentorship" onclick="closeMobile()">Mentorship Network</a><a href="innovation.html#biz-dev" onclick="closeMobile()">Business Development</a><a href="innovation.html#apply" onclick="closeMobile()">Apply Now</a></div></div>
+  <div class="m-item"><div class="m-header" onclick="toggleMobile(this)">Partners <span class="m-chevron">▾</span></div><div class="m-sub"><a href="partnerships.html#government" onclick="closeMobile()">Government</a><a href="partnerships.html#universities" onclick="closeMobile()">Universities</a><a href="partnerships.html#industry" onclick="closeMobile()">Industry</a><a href="partnerships.html#faith" onclick="closeMobile()">Faith-Based</a><a href="partnerships.html#ngos" onclick="closeMobile()">NGOs & STEM Networks</a><a href="partnerships.html#become-partner" onclick="closeMobile()">Become a Partner</a></div></div>
+  <div class="m-item"><div class="m-header" onclick="toggleMobile(this)">Media <span class="m-chevron">▾</span></div><div class="m-sub"><a href="media.html#gallery" onclick="closeMobile()">Photo & Video Gallery</a><a href="media.html#research-papers" onclick="closeMobile()">Research Papers</a><a href="media.html#blog" onclick="closeMobile()">Articles & Blog</a><a href="media.html#press" onclick="closeMobile()">Press Releases</a><a href="media.html#events" onclick="closeMobile()">Conferences & Events</a><a href="media.html#newsletter" onclick="closeMobile()">Newsletters</a><a href="media.html#downloads" onclick="closeMobile()">Download Brochures</a></div></div>
+  <div class="m-item"><div class="m-header" onclick="toggleMobile(this)">Contact <span class="m-chevron">▾</span></div><div class="m-sub"><a href="contact.html#form" onclick="closeMobile()">Contact Form</a><a href="contact.html#location" onclick="closeMobile()">Location & Map</a><a href="contact.html#faq" onclick="closeMobile()">FAQ</a></div></div>
+  <a href="student-portal.html" class="m-portal" onclick="closeMobile()">🎓 Student Portal</a>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="mainindex.html" class="nav-logo">
+    <svg class="eagle-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 4L28 14L36 10L30 22L36 28L20 24L4 28L10 22L4 10L12 14Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      <circle cx="20" cy="20" r="3" fill="currentColor"/>
+      <path d="M20 17V8M20 23V32M17 20H8M23 20H32" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+    </svg>
+    EAGLES <span>AI LAB</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="mainindex.html">Home</a></li>
+    <li class="has-dropdown"><span class="nav-link">About <span class="arrow">▾</span></span><ul class="dropdown"><li><a href="about.html#vision-mission">Vision & Mission</a></li><li><a href="about.html#core-values">Core Values</a></li><li><a href="about.html#our-story">Our Story</a></li><li><a href="about.html#governance">Governance & Leadership</a></li><li><a href="about.html#advisory">Advisory Board</a></li><li><a href="about.html#team">Our Team</a></li><li><a href="about.html#why-us">Why Eagles AI Lab</a></li><li><a href="about.html#facility">Facility Tour</a></li></ul></li>
+    <li class="has-dropdown"><span class="nav-link" style="color:var(--neon)">Research <span class="arrow">▾</span></span><ul class="dropdown"><li><a href="#machine-learning">Machine Learning</a></li><li><a href="#nlp">NLP</a></li><li><a href="#computer-vision">Computer Vision</a></li><li><a href="#predictive-analytics">Predictive Analytics</a></li><li><a href="#autonomous-robots">Autonomous Robots</a></li><li><a href="#agricultural-robotics">Agricultural Robotics</a></li><li><a href="#drone-development">Drone Development</a></li><li><a href="#embedded-systems">Embedded Systems</a></li><li><a href="#publications">Publications</a></li><li><a href="#patents">Patents & Innovations</a></li><li><a href="#grants">Research Grants</a></li></ul></li>
+    <li class="has-dropdown"><span class="nav-link">Training <span class="arrow">▾</span></span><ul class="dropdown"><li><a href="training.html#bootcamps">Short Courses & Bootcamps</a></li><li><a href="training.html#certifications">Certifications</a></li><li><a href="training.html#internship">Internship & SIWES</a></li><li><a href="training.html#stem-schools">STEM for Schools</a></li><li><a href="training.html#ai-youth">AI for Youth</a></li><li><a href="training.html#robotics-clubs">Robotics Clubs for Teens</a></li><li><a href="training.html#hackathons">Hackathons</a></li><li><a href="training.html#calendar">Training Calendar</a></li><li><a href="training.html#register">Registration</a></li></ul></li>
+    <li class="has-dropdown"><span class="nav-link">Products <span class="arrow">▾</span></span><ul class="dropdown"><li><a href="products.html#robotics-products">Robotics Products</a></li><li><a href="products.html#software">Software Solutions</a></li><li><a href="products.html#ai-models">AI Models & Tools</a></li><li><a href="products.html#edu-kits">Educational Kits</a></li><li><a href="products.html#smart-school">Smart School Solutions</a></li><li><a href="products.html#smart-church">Smart Church Solutions</a></li><li><a href="products.html#automation">Automation Solutions</a></li><li><a href="products.html#demos">Demo Videos</a></li><li><a href="products.html#case-studies">Case Studies</a></li></ul></li>
+    <li class="has-dropdown"><span class="nav-link">Innovation Hub <span class="arrow">▾</span></span><ul class="dropdown"><li><a href="innovation.html#incubation">Startup Incubation</a></li><li><a href="innovation.html#accelerator">Accelerator Program</a></li><li><a href="innovation.html#funding">Funding Access</a></li><li><a href="innovation.html#mentorship">Mentorship Network</a></li><li><a href="innovation.html#biz-dev">Business Development</a></li><li><a href="innovation.html#apply">Apply Now</a></li></ul></li>
+    <li class="has-dropdown"><span class="nav-link">Partners <span class="arrow">▾</span></span><ul class="dropdown"><li><a href="partnerships.html#government">Government</a></li><li><a href="partnerships.html#universities">Universities</a></li><li><a href="partnerships.html#industry">Industry</a></li><li><a href="partnerships.html#faith">Faith-Based</a></li><li><a href="partnerships.html#ngos">NGOs & STEM Networks</a></li><li><a href="partnerships.html#become-partner">Become a Partner</a></li></ul></li>
+    <li class="has-dropdown"><span class="nav-link">Media <span class="arrow">▾</span></span><ul class="dropdown"><li><a href="media.html#gallery">Photo & Video Gallery</a></li><li><a href="media.html#research-papers">Research Papers</a></li><li><a href="media.html#blog">Articles & Blog</a></li><li><a href="media.html#press">Press Releases</a></li><li><a href="media.html#events">Conferences & Events</a></li><li><a href="media.html#newsletter">Newsletters</a></li><li><a href="media.html#downloads">Download Brochures</a></li></ul></li>
+    <li class="has-dropdown"><span class="nav-link">Contact <span class="arrow">▾</span></span><ul class="dropdown"><li><a href="contact.html#form">Contact Form</a></li><li><a href="contact.html#location">Location & Map</a></li><li><a href="contact.html#faq">FAQ</a></li></ul></li>
+    <li><a href="student-portal.html" class="nav-portal">🎓 Student Portal</a></li>
+  </ul>
+  <div class="hamburger" onclick="openMobile()"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- TICKER -->
+<div class="news-ticker" style="margin-top:64px;">
+  <div class="ticker-inner">
+    <div class="ticker-item"><span class="ticker-dot"></span> Eagles AI Lab launches new Autonomous Robotics Program 2025</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> Agricultural Robotics prototype wins national innovation award</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> 15+ peer-reviewed papers published in international journals</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> 6 active patents in robotics and AI systems</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> Eagles AI Lab launches new Autonomous Robotics Program 2025</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> Agricultural Robotics prototype wins national innovation award</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> 15+ peer-reviewed papers published in international journals</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> 6 active patents in robotics and AI systems</div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="hero-orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(0,245,255,0.1),transparent 70%);top:-150px;right:-100px;animation:pulse 6s ease-in-out infinite;"></div>
+  <div class="hero-orb" style="width:350px;height:350px;background:radial-gradient(circle,rgba(123,47,255,0.08),transparent 70%);bottom:-50px;left:-80px;animation:pulse 8s 2s ease-in-out infinite;"></div>
+  <div class="page-hero-label">Innovation & Discovery</div>
+  <h1>Our <span>Research Units</span></h1>
+  <p>Pushing the boundaries of what's possible through focused, interdisciplinary research in AI and Robotics — building solutions that matter for Africa and the world.</p>
+</div>
+
+<!-- STATS -->
+<div class="page-section alt">
+  <div class="container">
+    <div class="stats-row reveal">
+      <div class="stat-box"><span class="sn">15+</span><span class="sl">Research Papers</span></div>
+      <div class="stat-box"><span class="sn" style="color:var(--neon2)">6</span><span class="sl">Active Patents</span></div>
+      <div class="stat-box"><span class="sn" style="color:var(--neon3)">48</span><span class="sl">Prototypes Built</span></div>
+      <div class="stat-box"><span class="sn">30+</span><span class="sl">Expert Researchers</span></div>
+      <div class="stat-box"><span class="sn" style="color:var(--neon2)">23</span><span class="sl">Awards Won</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- AI RESEARCH -->
+<div class="page-section" id="machine-learning">
+  <div class="container">
+    <div class="section-label">AI Research</div>
+    <h2 class="section-title">Artificial <span>Intelligence</span></h2>
+    <p class="section-desc">Deep learning architectures, language understanding, and computer vision — our AI research unit tackles the most complex challenges in machine intelligence.</p>
+    <div class="research-tabs">
+      <button class="tab-btn active" onclick="filterCards('ai-grid','all',this)">All AI</button>
+      <button class="tab-btn" onclick="filterCards('ai-grid','ml',this)">Machine Learning</button>
+      <button class="tab-btn" onclick="filterCards('ai-grid','nlp',this)">NLP</button>
+      <button class="tab-btn" onclick="filterCards('ai-grid','cv',this)">Computer Vision</button>
+      <button class="tab-btn" onclick="filterCards('ai-grid','pa',this)">Predictive Analytics</button>
+    </div>
+    <div class="research-grid" id="ai-grid">
+      <div class="research-card reveal" id="machine-learning-card" data-cat="ml">
+        <div class="card-icon">🧠</div>
+        <div class="card-title">Machine Learning</div>
+        <div class="card-desc">Deep learning architectures and neural networks solving complex pattern recognition and predictive modeling tasks. Our ML team works on supervised, unsupervised, and reinforcement learning methods tailored to African datasets.</div>
+        <span class="card-tag">AI Research</span>
+      </div>
+      <div class="research-card reveal" id="nlp" data-cat="nlp">
+        <div class="card-icon">💬</div>
+        <div class="card-title">Natural Language Processing</div>
+        <div class="card-desc">Building language models that understand and generate African languages alongside global communication systems. Our NLP lab is developing the first large-scale Yoruba, Hausa, and Igbo language datasets and models.</div>
+        <span class="card-tag">AI Research</span>
+      </div>
+      <div class="research-card reveal" id="computer-vision" data-cat="cv">
+        <div class="card-icon">👁️</div>
+        <div class="card-title">Computer Vision</div>
+        <div class="card-desc">Advanced image recognition and video analytics systems for security, agriculture, and medical diagnostics. Our models are trained on diverse African image data for real-world accuracy and reliability.</div>
+        <span class="card-tag">AI Research</span>
+      </div>
+      <div class="research-card reveal" id="predictive-analytics" data-cat="pa">
+        <div class="card-icon">📊</div>
+        <div class="card-title">Predictive Analytics</div>
+        <div class="card-desc">Data-driven forecasting models for business intelligence, climate prediction, and public health systems. We build scalable pipelines that turn raw African data into actionable intelligence for governments and enterprises.</div>
+        <span class="card-tag">AI Research</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ROBOTICS -->
+<div class="page-section alt" id="autonomous-robots">
+  <div class="container">
+    <div class="section-label">Robotics</div>
+    <h2 class="section-title">Robotics <span>Research</span></h2>
+    <p class="section-desc">From autonomous navigation to agricultural automation — our robotics lab builds intelligent machines that solve real problems on the ground.</p>
+    <div class="research-grid">
+      <div class="research-card reveal">
+        <div class="card-icon">🤖</div>
+        <div class="card-title">Autonomous Robots</div>
+        <div class="card-desc">Self-navigating robotic systems with real-time decision making for industrial and commercial applications. Equipped with SLAM, LIDAR, and neural network inference on embedded hardware.</div>
+        <span class="card-tag">Robotics</span>
+      </div>
+      <div class="research-card reveal" id="agricultural-robotics">
+        <div class="card-icon">🌾</div>
+        <div class="card-title">Agricultural Robotics</div>
+        <div class="card-desc">Smart farming robots that automate planting, irrigation, pest detection, and harvest operations at scale. Our award-winning AgroBot prototype is currently in field trials across Benue and Anambra states.</div>
+        <span class="card-tag">Robotics</span>
+      </div>
+      <div class="research-card reveal" id="drone-development">
+        <div class="card-icon">🚁</div>
+        <div class="card-title">Drone Development</div>
+        <div class="card-desc">Custom UAV systems for surveillance, delivery logistics, mapping, and emergency response operations. Our SkyEagle drone features AI-guided navigation for last-mile delivery in underserved communities.</div>
+        <span class="card-tag">Robotics</span>
+      </div>
+      <div class="research-card reveal" id="embedded-systems">
+        <div class="card-icon">⚙️</div>
+        <div class="card-title">Embedded Systems</div>
+        <div class="card-desc">Low-power intelligent microcontroller systems for IoT devices and smart infrastructure integration. We design custom PCBs, firmware, and real-time OS configurations optimized for Nigeria's power environment.</div>
+        <span class="card-tag">Robotics</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PUBLICATIONS -->
+<div class="page-section" id="publications">
+  <div class="container">
+    <div class="section-label">Scholarly Work</div>
+    <h2 class="section-title">Publications <span>& Patents</span></h2>
+    <p class="section-desc">15+ peer-reviewed papers published in international journals, with 6 active patents in robotics and AI systems. Our researchers contribute to the global body of knowledge while staying rooted in African challenges.</p>
+    <div class="pub-list reveal">
+      <div class="pub-item">
+        <div class="pub-year">2025</div>
+        <div><div class="pub-title">Adaptive SLAM for Low-Resource Environments: A Nigeria Case Study</div><div class="pub-meta">Eagles AI Lab Research Team · International Journal of Robotics Research</div><span class="pub-tag">Robotics</span></div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-year">2024</div>
+        <div><div class="pub-title">NaijaLM: A Multilingual Language Model for Yoruba, Hausa & Igbo</div><div class="pub-meta">Eagles AI NLP Unit · ACL Workshop on African Language Technologies</div><span class="pub-tag">NLP</span></div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-year">2024</div>
+        <div><div class="pub-title">Vision-Based Crop Disease Detection Using Transfer Learning on African Farmland Data</div><div class="pub-meta">Eagles AI Lab · IEEE Access</div><span class="pub-tag">Computer Vision</span></div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-year">2024</div>
+        <div><div class="pub-title">Predictive Models for Malaria Outbreaks in Sub-Saharan Africa Using Satellite Data</div><div class="pub-meta">Eagles AI Lab · Nature Digital Medicine</div><span class="pub-tag">Predictive Analytics</span></div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-year">2023</div>
+        <div><div class="pub-title">AgroBot: Design and Field Evaluation of an Autonomous Farming Robot for Nigerian Smallholders</div><div class="pub-meta">Eagles AI Lab · Journal of Field Robotics</div><span class="pub-tag">Robotics</span></div>
+      </div>
+    </div>
+    <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;">
+      <a href="media.html#research-papers" class="btn btn-outline">📄 View All Papers</a>
+      <a href="media.html#downloads" class="btn btn-outline" style="color:var(--neon2);border-color:var(--neon2);">📋 Download Brochure</a>
+    </div>
+  </div>
+</div>
+
+<!-- GRANTS -->
+<div class="page-section alt" id="patents">
+  <div class="container">
+    <div class="section-label">Funding & IP</div>
+    <h2 class="section-title">Patents & <span>Research Grants</span></h2>
+    <p class="section-desc">We protect our innovations through patents and actively pursue funding to push our research further. Our IP portfolio covers novel robotics mechanisms, AI algorithms, and embedded system designs.</p>
+    <div class="research-grid" id="grants">
+      <div class="research-card reveal" style="border-color:rgba(255,107,0,0.2);">
+        <div class="card-icon">📜</div>
+        <div class="card-title">6 Active Patents</div>
+        <div class="card-desc">Covering autonomous navigation systems, agricultural robot mechanisms, drone delivery protocols, and edge AI inference engines designed for low-power African field conditions.</div>
+        <span class="card-tag" style="color:var(--neon3);border-color:rgba(255,107,0,0.3);">IP Portfolio</span>
+      </div>
+      <div class="research-card reveal" style="border-color:rgba(123,47,255,0.2);">
+        <div class="card-icon">💰</div>
+        <div class="card-title">Research Grants</div>
+        <div class="card-desc">Active grants from the World Bank Africa Innovation Fund, NITDA Research Grant, Tony Elumelu Foundation, and Google Africa Research Program supporting our ongoing projects.</div>
+        <span class="card-tag">Funding</span>
+      </div>
+      <div class="research-card reveal">
+        <div class="card-icon">🤝</div>
+        <div class="card-title">Collaborate With Us</div>
+        <div class="card-desc">We welcome joint research proposals from universities, government agencies, and private industry. Bring your research challenges — we bring the infrastructure, talent, and methodology.</div>
+        <span class="card-tag">Partnerships</span>
+      </div>
+    </div>
+    <div style="margin-top:2rem;">
+      <a href="contact.html#form" class="btn btn-primary">Propose a Collaboration</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="mainindex.html" class="nav-logo" style="display:inline-flex;margin-bottom:0.5rem;">EAGLES <span>AI LAB</span></a>
+      <p>Pioneering AI & Robotics innovation across Nigeria and Africa. Training the next generation of tech leaders since 2020.</p>
+      <div style="margin-top:1.5rem;display:flex;gap:0.8rem;flex-wrap:wrap;">
+        <a href="#" style="font-size:1.3rem;">🐦</a><a href="#" style="font-size:1.3rem;">💼</a><a href="#" style="font-size:1.3rem;">📘</a><a href="#" style="font-size:1.3rem;">▶️</a><a href="#" style="font-size:1.3rem;">📸</a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Research</h4><ul><li><a href="#machine-learning">Machine Learning</a></li><li><a href="#nlp">NLP</a></li><li><a href="#computer-vision">Computer Vision</a></li><li><a href="#autonomous-robots">Autonomous Robots</a></li><li><a href="#publications">Publications</a></li></ul></div>
+    <div class="footer-col"><h4>Training</h4><ul><li><a href="training.html#bootcamps">Bootcamps</a></li><li><a href="training.html#stem-schools">STEM for Schools</a></li><li><a href="training.html#ai-youth">AI for Youth</a></li><li><a href="training.html#internship">Internship</a></li><li><a href="training.html#hackathons">Hackathons</a></li></ul></div>
+    <div class="footer-col"><h4>Organisation</h4><ul><li><a href="about.html">About Us</a></li><li><a href="innovation.html">Innovation Hub</a></li><li><a href="products.html">Products</a></li><li><a href="partnerships.html">Partners</a></li><li><a href="media.html">Media</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2025 Eagles AI & Robotics Research Lab. All rights reserved.</span><span>Built with 🤖 in Nigeria</span></div>
+</footer>
+
+<script>
+  window.addEventListener('scroll', () => { const h = document.documentElement.scrollHeight - window.innerHeight; document.getElementById('scrollProgress').style.width = (window.scrollY/h*100)+'%'; });
+  const ro = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+  function openMobile() { document.getElementById('mobileMenu').classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); document.body.style.overflow=''; }
+  function toggleMobile(h) { const s=h.nextElementSibling; const o=s.classList.contains('open'); document.querySelectorAll('.m-sub.open').forEach(x=>x.classList.remove('open')); document.querySelectorAll('.m-header.active').forEach(x=>x.classList.remove('active')); if(!o){s.classList.add('open');h.classList.add('active');} }
+  function filterCards(gridId, cat, btn) { document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); document.querySelectorAll('#'+gridId+' .research-card').forEach(c=>{ c.style.display=(cat==='all'||c.dataset.cat===cat)?'':'none'; }); }
+</script>
+</body>
+</html>

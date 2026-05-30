@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
-  <title>Home — Eagles AI Lab</title>
+  <title>Contact — Eagles AI Lab</title>
 
   <style>
     :root {
@@ -210,49 +210,43 @@
       .stat-boxes { flex-direction: column; }
     }
   </style>
+<style>
+  .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:3rem; margin-top:2rem; }
+  .contact-info { display:flex; flex-direction:column; gap:1.5rem; }
+  .contact-item { display:flex; align-items:flex-start; gap:1rem; padding:1.5rem; border:1px solid var(--border); border-radius:8px; background:var(--card); transition:all 0.3s; }
+  .contact-item:hover { border-color:var(--neon); transform:translateX(4px); }
+  .contact-icon { font-size:1.5rem; flex-shrink:0; margin-top:2px; }
+  .contact-label { font-family:var(--font-head); font-size:0.65rem; letter-spacing:2px; color:var(--neon); margin-bottom:6px; text-transform:uppercase; }
+  .contact-value { font-size:0.9rem; color:var(--text); line-height:1.7; }
+  .contact-form { display:flex; flex-direction:column; gap:1rem; }
+  .social-links { display:flex; gap:0.8rem; flex-wrap:wrap; margin-top:1rem; }
+  .social-btn { display:flex; align-items:center; gap:8px; padding:10px 16px; border:1px solid var(--border); border-radius:6px; background:var(--card); font-family:var(--font-head); font-size:0.62rem; letter-spacing:1.5px; color:var(--muted); text-decoration:none; text-transform:uppercase; transition:all 0.3s; }
+  .social-btn:hover { border-color:var(--neon); color:var(--neon); transform:translateY(-2px); }
 
-  <style>
-    #home { min-height:100vh; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:100px 2rem 4rem; }
-    .hero-content { text-align:center; z-index:2; max-width:860px; }
-    .hero-badge { display:inline-block; font-family:var(--font-head); font-size:0.65rem; letter-spacing:4px; color:var(--neon); border:1px solid var(--neon); padding:6px 16px; border-radius:2px; margin-bottom:2rem; animation:fadeInUp 0.6s ease both; text-shadow:0 0 8px var(--neon); box-shadow:0 0 16px rgba(0,245,255,0.1),inset 0 0 16px rgba(0,245,255,0.05); }
-    h1.hero-title { font-family:var(--font-head); font-size:clamp(2.2rem,6vw,5rem); font-weight:900; line-height:1.05; letter-spacing:-1px; margin-bottom:1.5rem; animation:fadeInUp 0.8s 0.1s ease both; }
-    .hero-title .line1 { color:var(--text); }
-    .hero-title .line2 { color:var(--neon); text-shadow:0 0 30px var(--neon),0 0 60px rgba(0,245,255,0.3); }
-    .hero-sub { font-size:1.05rem; color:var(--muted); max-width:620px; margin:0 auto 2.5rem; line-height:1.8; animation:fadeInUp 0.8s 0.2s ease both; }
-    .hero-ctas { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; animation:fadeInUp 0.8s 0.3s ease both; }
-    .stats-row { display:flex; justify-content:center; gap:3rem; flex-wrap:wrap; margin-top:4rem; animation:fadeInUp 0.8s 0.4s ease both; }
-    .stat-item { text-align:center; }
-    .stat-num { font-family:var(--font-head); font-size:2.2rem; font-weight:900; color:var(--neon); text-shadow:0 0 20px var(--neon); display:block; }
-    .stat-label { font-size:0.72rem; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-top:4px; }
-    .hero-orb { position:absolute; border-radius:50%; filter:blur(80px); pointer-events:none; }
-    .quick-links { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1.2rem; margin-top:3rem; }
-    .ql-card { border:1px solid var(--border); border-radius:8px; padding:1.5rem; background:var(--card); text-decoration:none; text-align:center; transition:all 0.3s; display:block; }
-    .ql-card:hover { border-color:var(--neon); transform:translateY(-3px); box-shadow:0 8px 30px rgba(0,245,255,0.07); }
-    .ql-icon { font-size:2rem; margin-bottom:0.7rem; display:block; }
-    .ql-title { font-family:var(--font-head); font-size:0.75rem; letter-spacing:1px; color:var(--neon); margin-bottom:0.3rem; }
-    .ql-desc { font-size:0.78rem; color:var(--muted); }
-    .testimonials { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
-    .testimonial { border:1px solid var(--border); border-radius:8px; padding:2rem; background:var(--card); position:relative; }
-    .testimonial::before { content:'"'; font-size:5rem; font-family:Georgia,serif; color:var(--neon); opacity:0.12; position:absolute; top:-10px; left:1.5rem; line-height:1; }
-    .testimonial-text { font-size:0.88rem; color:var(--muted); line-height:1.8; margin-bottom:1.5rem; font-style:italic; }
-    .testimonial-author { display:flex; align-items:center; gap:12px; }
-    .author-avatar { width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,var(--neon),var(--neon2)); display:flex; align-items:center; justify-content:center; font-family:var(--font-head); font-size:0.8rem; font-weight:700; color:var(--bg); flex-shrink:0; }
-    .author-name { font-family:var(--font-head); font-size:0.75rem; letter-spacing:1px; color:var(--text); }
-    .author-role { font-size:0.72rem; color:var(--muted); margin-top:2px; }
-    .partners-logos { display:flex; flex-wrap:wrap; gap:1rem; justify-content:center; margin-top:2.5rem; }
-    .partner-logo { border:1px solid var(--border); border-radius:8px; padding:1rem 1.8rem; background:var(--card); font-family:var(--font-head); font-size:0.7rem; letter-spacing:2px; color:var(--muted); transition:all 0.3s; text-transform:uppercase; }
-    .partner-logo:hover { border-color:var(--neon); color:var(--neon); }
-    @media(max-width:900px){ .testimonials{grid-template-columns:1fr;} }
-    .featured-projects { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.5rem; margin-top:2rem; }
-    .proj-card { border:1px solid var(--border); border-radius:8px; overflow:hidden; background:var(--card); transition:all 0.3s; }
-    .proj-card:hover { border-color:var(--neon2); transform:translateY(-4px); }
-    .proj-visual { height:130px; display:flex; align-items:center; justify-content:center; font-size:3.5rem; }
-    .proj-body { padding:1.4rem; }
-    .proj-title { font-family:var(--font-head); font-size:0.82rem; letter-spacing:1px; color:var(--text); margin-bottom:0.5rem; }
-    .proj-desc { font-size:0.82rem; color:var(--muted); line-height:1.6; }
-    .proj-tag { display:inline-block; margin-top:0.8rem; font-size:0.62rem; letter-spacing:2px; color:var(--neon); border:1px solid rgba(0,245,255,0.3); padding:2px 8px; border-radius:2px; text-transform:uppercase; }
-  </style>
+  /* Map placeholder */
+  .map-box { border:1px solid var(--border); border-radius:12px; overflow:hidden; height:340px; background:linear-gradient(135deg,rgba(0,245,255,0.04),rgba(123,47,255,0.04)); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1rem; position:relative; margin-top:2rem; }
+  .map-box::before { content:''; position:absolute; inset:0; background-image:linear-gradient(rgba(0,245,255,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.05) 1px,transparent 1px); background-size:40px 40px; }
+  .map-pin { font-size:3rem; position:relative; z-index:1; animation:float2 3s ease-in-out infinite; }
+  .map-label { font-family:var(--font-head); font-size:0.7rem; letter-spacing:3px; color:var(--neon); text-transform:uppercase; position:relative; z-index:1; }
+  .map-addr { font-size:0.85rem; color:var(--muted); text-align:center; position:relative; z-index:1; line-height:1.7; }
+  .map-coords { font-family:monospace; font-size:0.72rem; color:rgba(0,245,255,0.4); position:relative; z-index:1; }
+  @keyframes float2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
 
+  /* FAQ */
+  .faq-list { display:flex; flex-direction:column; gap:0.8rem; margin-top:2rem; }
+  .faq-item { border:1px solid var(--border); border-radius:8px; background:var(--card); overflow:hidden; transition:border-color 0.3s; }
+  .faq-item:hover { border-color:rgba(0,245,255,0.3); }
+  .faq-item.open { border-color:var(--neon); }
+  .faq-q { padding:1.2rem 1.5rem; display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-family:var(--font-head); font-size:0.8rem; letter-spacing:0.5px; color:var(--text); user-select:none; gap:1rem; }
+  .faq-q:hover { color:var(--neon); }
+  .faq-item.open .faq-q { color:var(--neon); }
+  .faq-chevron { font-size:0.7rem; opacity:0.6; transition:transform 0.25s; flex-shrink:0; }
+  .faq-item.open .faq-chevron { transform:rotate(180deg); }
+  .faq-a { display:none; padding:0 1.5rem 1.2rem; font-size:0.85rem; color:var(--muted); line-height:1.8; border-top:1px solid rgba(0,245,255,0.06); padding-top:1rem; }
+  .faq-item.open .faq-a { display:block; }
+
+  @media(max-width:900px) { .contact-grid { grid-template-columns:1fr; } }
+</style>
 </head>
 <body>
 <div class="scanline"></div>
@@ -500,116 +494,309 @@
     </div>
   </div>
 
-  <section id="home" style="position:relative;z-index:1;">
-    <div class="hero-orb orb1" style="width:500px;height:500px;background:radial-gradient(circle,rgba(0,245,255,0.12),transparent 70%);top:-100px;right:-100px;animation:pulse 6s ease-in-out infinite;"></div>
-    <div class="hero-orb orb2" style="width:400px;height:400px;background:radial-gradient(circle,rgba(123,47,255,0.1),transparent 70%);bottom:-80px;left:-80px;animation:pulse 8s 2s ease-in-out infinite;"></div>
-    <div class="hero-content">
-      <div class="hero-badge">⚡ Nigeria's Premier AI &amp; Robotics Research Lab</div>
-      <h1 class="hero-title">
-        <span class="line1">Inventing the Future</span><br>
-        <span class="line2">with AI &amp; Robotics</span>
-      </h1>
-      <p class="hero-sub">Eagles AI &amp; Robotics Research Lab is pioneering cutting-edge artificial intelligence and robotics solutions — building Africa's next generation of tech innovators, researchers, and entrepreneurs.</p>
-      <div class="hero-ctas">
-        <a href="training.html#register" class="btn btn-primary">Join Us</a>
-        <a href="contact.html" class="btn btn-outline">Donate</a>
-        <a href="partnerships.html#become-partner" class="btn btn-ghost">Partner With Us</a>
-        <a href="innovation.html#apply" class="btn btn-ghost">Apply Now</a>
-      </div>
-      <div class="stats-row">
-        <div class="stat-item"><span class="stat-num" data-count="1200">0</span><span class="stat-label">Students Trained</span></div>
-        <div class="stat-item"><span class="stat-num" data-count="48">0</span><span class="stat-label">Prototypes Built</span></div>
-        <div class="stat-item"><span class="stat-num" data-count="23">0</span><span class="stat-label">Awards Won</span></div>
-        <div class="stat-item"><span class="stat-num" data-count="15">0</span><span class="stat-label">Research Papers</span></div>
-      </div>
-    </div>
-  </section>
+  <div class="page-hero">
+    <div class="orb orb1"></div><div class="orb orb2"></div>
+    <div class="page-hero-label">Get In Touch</div>
+    <h1>Contact <span>Eagles AI Lab</span></h1>
+    <p>Have a question, partnership proposal, or just want to say hello? We'd love to hear from you. Reach out through any of the channels below.</p>
+  </div>
 
-  <section class="page-section" style="background:var(--bg2);">
+  <!-- Contact Form + Info -->
+  <section id="form" class="page-section">
     <div class="container">
-      <div class="section-label">Latest News &amp; Achievements</div>
-      <h2 class="section-title">What's <span>Happening</span></h2>
-      <div class="cards-grid">
-        <div class="card reveal"><div class="card-icon">🏆</div><div class="card-title">National Innovation Award</div><div class="card-desc">Our Agricultural Robotics prototype won the 2025 National Innovation Award for impact in smart farming.</div><span class="card-tag">Award</span></div>
-        <div class="card reveal"><div class="card-icon">🎓</div><div class="card-title">500+ Trained This Quarter</div><div class="card-desc">We successfully trained over 500 students in AI and Machine Learning in Q1 2025 alone.</div><span class="card-tag">Milestone</span></div>
-        <div class="card reveal"><div class="card-icon">🤝</div><div class="card-title">New Tech Partnerships</div><div class="card-desc">Eagles AI Lab announces new institutional partnerships with leading universities across Nigeria.</div><span class="card-tag">Partnership</span></div>
-        <div class="card reveal"><div class="card-icon">🚀</div><div class="card-title">Autonomous Robotics Program</div><div class="card-desc">Our new 2025 Autonomous Robotics cohort is now enrolling. Applications close in April.</div><span class="card-tag">Program</span></div>
+      <div class="contact-grid">
+
+        <!-- Left: Info -->
+        <div>
+          <div class="section-label">Reach Us</div>
+          <h2 class="section-title" style="font-size:clamp(1.4rem,3vw,2rem);">We're Here to <span>Help</span></h2>
+          <p style="color:var(--muted);font-size:0.9rem;line-height:1.8;margin-bottom:2rem;">Whether you're a student, researcher, partner, or sponsor — our team responds within 24 hours on business days.</p>
+
+          <div class="contact-info">
+            <div class="contact-item reveal">
+              <span class="contact-icon">📍</span>
+              <div>
+                <div class="contact-label">Office Address</div>
+                <div class="contact-value">Eagles AI &amp; Robotics Research Lab<br>Innovation Drive, Tech Hub District<br>Abuja, FCT, Nigeria</div>
+              </div>
+            </div>
+            <div class="contact-item reveal">
+              <span class="contact-icon">📞</span>
+              <div>
+                <div class="contact-label">Phone</div>
+                <div class="contact-value">+234 800 EAGLES AI<br>+234 901 234 5678</div>
+              </div>
+            </div>
+            <div class="contact-item reveal">
+              <span class="contact-icon">📧</span>
+              <div>
+                <div class="contact-label">Email</div>
+                <div class="contact-value">info@eaglesailab.org<br>research@eaglesailab.org<br>partnerships@eaglesailab.org</div>
+              </div>
+            </div>
+            <div class="contact-item reveal">
+              <span class="contact-icon">🕒</span>
+              <div>
+                <div class="contact-label">Office Hours</div>
+                <div class="contact-value">Monday – Friday: 8:00 AM – 6:00 PM<br>Saturday: 9:00 AM – 2:00 PM<br>Sunday: Closed</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;">
+            <a href="https://wa.me/2349012345678" class="btn btn-primary" style="background:#25d366;box-shadow:0 0 20px rgba(37,211,102,0.4);">💬 WhatsApp Us</a>
+            <a href="mailto:info@eaglesailab.org" class="btn btn-outline">✉️ Email Us</a>
+          </div>
+
+          <div class="social-links reveal" style="margin-top:2rem;">
+            <a href="#" class="social-btn">🐦 Twitter</a>
+            <a href="#" class="social-btn">💼 LinkedIn</a>
+            <a href="#" class="social-btn">📘 Facebook</a>
+            <a href="#" class="social-btn">▶️ YouTube</a>
+            <a href="#" class="social-btn">📸 Instagram</a>
+          </div>
+        </div>
+
+        <!-- Right: Form -->
+        <div class="reveal">
+          <div class="section-label">Send a Message</div>
+          <h2 class="section-title" style="font-size:clamp(1.4rem,3vw,2rem);">Drop Us a <span>Line</span></h2>
+          <form class="contact-form" onsubmit="handleSubmit(event)" style="margin-top:1.5rem;">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">First Name</label>
+                <input class="form-input" type="text" placeholder="John" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Last Name</label>
+                <input class="form-input" type="text" placeholder="Doe" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input class="form-input" type="email" placeholder="john@example.com" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone Number</label>
+              <input class="form-input" type="tel" placeholder="+234 ...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Organisation (Optional)</label>
+              <input class="form-input" type="text" placeholder="Company / School / NGO">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Subject</label>
+              <select class="form-select">
+                <option value="">Select a topic...</option>
+                <option>Training &amp; Enrollment</option>
+                <option>Research Collaboration</option>
+                <option>Partnership &amp; Sponsorship</option>
+                <option>Donation</option>
+                <option>Incubation / Startup</option>
+                <option>Media &amp; Press</option>
+                <option>STEM for Schools</option>
+                <option>General Inquiry</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Message</label>
+              <textarea class="form-textarea" placeholder="Tell us how we can help you..." style="min-height:140px;"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;">Send Message →</button>
+          </form>
+        </div>
+
       </div>
     </div>
   </section>
 
+  <!-- Location & Map -->
+  <section id="location" class="page-section" style="background:var(--bg2);">
+    <div class="container">
+      <div class="section-label">Find Us</div>
+      <h2 class="section-title">Location &amp; <span>Map</span></h2>
+      <p class="section-desc">We are located in the heart of Abuja's Tech Hub District — easily accessible by road from all major areas of the FCT.</p>
+
+      <div class="two-col" style="margin-top:2rem;gap:2rem;">
+        <div>
+          <ul class="icon-list reveal">
+            <li><span class="li-icon">🏢</span><div><strong>Eagles AI Lab Campus</strong><span>Innovation Drive, Tech Hub District, Abuja, FCT, Nigeria. Near Central Business District.</span></div></li>
+            <li><span class="li-icon">🚗</span><div><strong>By Road</strong><span>From Maitama: 10 mins. From Wuse 2: 8 mins. From Garki: 12 mins. Parking available on-site.</span></div></li>
+            <li><span class="li-icon">🚌</span><div><strong>Public Transport</strong><span>BRT buses stop at Tech Hub Junction, 3 mins walk. Keke/taxi available from Berger Junction.</span></div></li>
+            <li><span class="li-icon">✈️</span><div><strong>From the Airport</strong><span>Nnamdi Azikiwe International Airport is 35 mins by road. Uber and Bolt available directly.</span></div></li>
+          </ul>
+          <div style="margin-top:2rem;">
+            <a href="https://maps.google.com" target="_blank" class="btn btn-outline">📍 Open in Google Maps →</a>
+          </div>
+        </div>
+
+        <div class="map-box reveal">
+          <div class="map-pin">📍</div>
+          <div class="map-label">Eagles AI Lab</div>
+          <div class="map-addr">Innovation Drive, Tech Hub District<br>Abuja, FCT, Nigeria</div>
+          <div class="map-coords">9.0579° N, 7.4951° E</div>
+        </div>
+      </div>
+
+      <!-- Branch offices -->
+      <div style="margin-top:3rem;">
+        <div class="section-label" style="margin-bottom:1.2rem;">Branch Offices</div>
+        <div class="cards-grid">
+          <div class="card reveal">
+            <div class="card-icon">🏙️</div>
+            <div class="card-title">Lagos Office</div>
+            <div class="card-desc">Victoria Island, Lagos State.<br>For training programs and industry partnerships in Southwest Nigeria.</div>
+            <span class="card-tag">Southwest Hub</span>
+          </div>
+          <div class="card reveal">
+            <div class="card-icon">🏙️</div>
+            <div class="card-title">Enugu Office</div>
+            <div class="card-desc">Independence Layout, Enugu State.<br>Serving agricultural robotics research and Southeast training programs.</div>
+            <span class="card-tag">Southeast Hub</span>
+          </div>
+          <div class="card reveal">
+            <div class="card-icon">🏙️</div>
+            <div class="card-title">Kano Office</div>
+            <div class="card-desc">Nassarawa GRA, Kano State.<br>Serving Northern Nigeria STEM outreach and NLP research for Hausa language.</div>
+            <span class="card-tag">North Hub</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Specific Contact Channels -->
   <section class="page-section">
     <div class="container">
-      <div class="section-label">Featured Projects</div>
-      <h2 class="section-title">Our <span>Innovations</span></h2>
-      <div class="featured-projects">
-        <div class="proj-card reveal"><div class="proj-visual" style="background:linear-gradient(135deg,rgba(0,245,255,0.1),rgba(123,47,255,0.1))">🌾</div><div class="proj-body"><div class="proj-title">AgroBot — Smart Farming Robot</div><div class="proj-desc">Autonomous robot for planting, irrigation, pest detection, and harvest in Nigerian farms.</div><span class="proj-tag">Robotics</span></div></div>
-        <div class="proj-card reveal"><div class="proj-visual" style="background:linear-gradient(135deg,rgba(123,47,255,0.1),rgba(255,107,0,0.1))">💬</div><div class="proj-body"><div class="proj-title">NaijaBot — Yoruba NLP Model</div><div class="proj-desc">A language model trained on Yoruba, Hausa, and Igbo to power African-language chatbots.</div><span class="proj-tag">AI Research</span></div></div>
-        <div class="proj-card reveal"><div class="proj-visual" style="background:linear-gradient(135deg,rgba(255,107,0,0.1),rgba(0,245,255,0.1))">🚁</div><div class="proj-body"><div class="proj-title">SkyEagle — Delivery Drone</div><div class="proj-desc">Custom UAV built for last-mile delivery in underserved areas with AI-guided navigation.</div><span class="proj-tag">Drone Dev</span></div></div>
+      <div class="section-label">Direct Channels</div>
+      <h2 class="section-title">Contact the <span>Right Team</span></h2>
+      <p class="section-desc">Get faster responses by reaching out to the specific team that handles your inquiry.</p>
+      <div class="cards-grid" style="margin-top:2rem;">
+        <div class="card reveal">
+          <div class="card-icon">🎓</div>
+          <div class="card-title">Training &amp; Admissions</div>
+          <div class="card-desc">Enroll in bootcamps, SIWES, STEM programs, and hackathons. Get course information and schedules.</div>
+          <div style="margin-top:1rem;font-size:0.8rem;color:var(--neon);">training@eaglesailab.org</div>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🔬</div>
+          <div class="card-title">Research &amp; Collaboration</div>
+          <div class="card-desc">Joint research proposals, publications, grants, and academic partnerships with universities.</div>
+          <div style="margin-top:1rem;font-size:0.8rem;color:var(--neon);">research@eaglesailab.org</div>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🤝</div>
+          <div class="card-title">Partnerships &amp; Sponsorship</div>
+          <div class="card-desc">Corporate partnerships, MOU discussions, event sponsorships, and brand collaborations.</div>
+          <div style="margin-top:1rem;font-size:0.8rem;color:var(--neon);">partnerships@eaglesailab.org</div>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🚀</div>
+          <div class="card-title">Innovation Hub</div>
+          <div class="card-desc">Startup incubation applications, accelerator inquiries, and funding access support.</div>
+          <div style="margin-top:1rem;font-size:0.8rem;color:var(--neon);">innovation@eaglesailab.org</div>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">📰</div>
+          <div class="card-title">Media &amp; Press</div>
+          <div class="card-desc">Interview requests, press releases, media kits, and official statements for journalists.</div>
+          <div style="margin-top:1rem;font-size:0.8rem;color:var(--neon);">media@eaglesailab.org</div>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">💰</div>
+          <div class="card-title">Donations &amp; Giving</div>
+          <div class="card-desc">Support our mission through financial donations, equipment donations, or scholarship funding.</div>
+          <div style="margin-top:1rem;font-size:0.8rem;color:var(--neon);">donate@eaglesailab.org</div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="page-section" style="background:var(--bg2);">
+  <!-- FAQ -->
+  <section id="faq" class="page-section" style="background:var(--bg2);">
     <div class="container">
-      <div class="section-label">What People Say</div>
-      <h2 class="section-title">Testimonials</h2>
-      <div class="testimonials">
-        <div class="testimonial reveal"><p class="testimonial-text">Eagles AI Lab completely transformed how I understand robotics. The hands-on approach gave me the confidence to build my own startup.</p><div class="testimonial-author"><div class="author-avatar">AO</div><div><div class="author-name">Adaeze Okonkwo</div><div class="author-role">Robotics Startup Founder, Enugu</div></div></div></div>
-        <div class="testimonial reveal"><p class="testimonial-text">The AI bootcamp was intense, practical, and career-changing. Within 3 months I landed a machine learning role at a top fintech firm.</p><div class="testimonial-author"><div class="author-avatar">EI</div><div><div class="author-name">Emmanuel Ibe</div><div class="author-role">ML Engineer, Lagos</div></div></div></div>
-        <div class="testimonial reveal"><p class="testimonial-text">As a school principal, partnering with Eagles AI Lab for our STEM program has been remarkable. Our students now think like engineers.</p><div class="testimonial-author"><div class="author-avatar">NC</div><div><div class="author-name">Ngozi Chukwu</div><div class="author-role">Principal, Federal Government College</div></div></div></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="page-section">
-    <div class="container">
-      <div class="section-label">Collaborations</div>
-      <h2 class="section-title">Partners &amp; <span>Sponsors</span></h2>
-      <div class="partners-logos reveal">
-        <div class="partner-logo">Federal Ministry of Science</div>
-        <div class="partner-logo">NITDA Nigeria</div>
-        <div class="partner-logo">University of Nigeria</div>
-        <div class="partner-logo">STEM Nigeria</div>
-        <div class="partner-logo">NCC</div>
-        <div class="partner-logo">NNPC Ltd</div>
-        <div class="partner-logo">World Bank Group</div>
-        <div class="partner-logo">Tony Elumelu Foundation</div>
-        <div class="partner-logo">Google Africa</div>
-        <div class="partner-logo">Microsoft Africa</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="page-section" style="background:var(--bg2);">
-    <div class="container">
-      <div class="section-label">Explore</div>
-      <h2 class="section-title">Quick <span>Links</span></h2>
-      <div class="quick-links">
-        <a href="research.html" class="ql-card reveal"><span class="ql-icon">🧠</span><div class="ql-title">Research</div><div class="ql-desc">Explore our AI &amp; Robotics research units</div></a>
-        <a href="training.html" class="ql-card reveal"><span class="ql-icon">🎓</span><div class="ql-title">Training</div><div class="ql-desc">Bootcamps, SIWES, STEM programs</div></a>
-        <a href="products.html" class="ql-card reveal"><span class="ql-icon">🤖</span><div class="ql-title">Products</div><div class="ql-desc">Our robotics and software solutions</div></a>
-        <a href="about.html" class="ql-card reveal"><span class="ql-icon">🏛️</span><div class="ql-title">About Us</div><div class="ql-desc">Our story, mission, team &amp; values</div></a>
-        <a href="innovation.html" class="ql-card reveal"><span class="ql-icon">🚀</span><div class="ql-title">Innovation Hub</div><div class="ql-desc">Incubate your startup with us</div></a>
-        <a href="contact.html" class="ql-card reveal"><span class="ql-icon">📬</span><div class="ql-title">Contact</div><div class="ql-desc">Get in touch or visit our office</div></a>
+      <div class="section-label">Common Questions</div>
+      <h2 class="section-title">Frequently Asked <span>Questions</span></h2>
+      <p class="section-desc">Can't find what you're looking for? Reach out to us directly and we'll get back to you within 24 hours.</p>
+      <div class="faq-list reveal">
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">How do I enroll in an Eagles AI Lab training program? <span class="faq-chevron">▾</span></div>
+          <div class="faq-a">You can enroll by filling the contact form above, emailing training@eaglesailab.org, or visiting our Training page and clicking Register. Our admissions team will reach out within 48 hours to confirm your spot and provide payment details.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">Do you offer online or hybrid training programs? <span class="faq-chevron">▾</span></div>
+          <div class="faq-a">Yes. Several of our programs — including AI for Youth and some short courses — are available in hybrid format (online + physical). Bootcamps and SIWES programs are primarily on-site at our Abuja campus, with some sessions streamed live.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">How can my school partner with Eagles AI Lab for STEM programs? <span class="faq-chevron">▾</span></div>
+          <div class="faq-a">Schools can partner with us by contacting partnerships@eaglesailab.org or filling the form above with "STEM for Schools" as the subject. We'll schedule a meeting to discuss your school's needs, student numbers, and program options — many of which are subsidised for public schools.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">What are the requirements to apply to the Innovation Hub incubation program? <span class="faq-chevron">▾</span></div>
+          <div class="faq-a">Applicants must have an early-stage AI or Robotics startup concept or MVP, be based in Nigeria or Africa, and be able to commit to the 6-month program. Teams of 2–5 people are preferred. Applications are reviewed quarterly — visit our Innovation Hub page to apply.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">How can I donate or financially support Eagles AI Lab? <span class="faq-chevron">▾</span></div>
+          <div class="faq-a">We welcome donations from individuals, corporations, and foundations. You can donate via bank transfer, online payment, or equipment donation. Email donate@eaglesailab.org for our bank details and to discuss how your contribution will be used.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">Are your training certificates recognised by employers and universities? <span class="faq-chevron">▾</span></div>
+          <div class="faq-a">Yes. Our certificates are co-signed by our partner universities and have been accepted by major employers including banks, fintechs, and tech companies across Nigeria. SIWES certificates follow the official ITF format and are accepted for university credit.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">Can I visit the Eagles AI Lab campus for a tour? <span class="faq-chevron">▾</span></div>
+          <div class="faq-a">Absolutely! We welcome visitors, students, researchers, and potential partners. Book a facility tour by emailing info@eaglesailab.org or using the contact form above. Tours are available Monday–Friday between 10 AM – 4 PM by appointment.</div>
+        </div>
       </div>
     </div>
   </section>
 
   <script>
-    function animateCount(el, target) {
-      let count = 0; const step = target / 60;
-      const timer = setInterval(() => {
-        count = Math.min(count + step, target);
-        el.textContent = Math.floor(count) + (target >= 100 ? '+' : '');
-        if (count >= target) clearInterval(timer);
-      }, 25);
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      document.getElementById('scrollProgress').style.width = (window.scrollY / h * 100) + '%';
+    });
+    const ro = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+    function openMobile() { document.getElementById('mobileMenu').classList.add('open'); document.body.style.overflow='hidden'; }
+    function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); document.body.style.overflow=''; }
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.nav-links > li > a').forEach(a => {
+      const href = a.getAttribute('href');
+      if(href && href.split('#')[0] === currentPage) a.classList.add('active');
+    });
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = a.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth',block:'start'}); }
+      });
+    });
+    function toggleMobile(header) {
+      const sub = header.nextElementSibling;
+      const isOpen = sub.classList.contains('open');
+      // close all open subs
+      document.querySelectorAll('.m-sub.open').forEach(s => s.classList.remove('open'));
+      document.querySelectorAll('.m-header.active').forEach(h => h.classList.remove('active'));
+      if (!isOpen) { sub.classList.add('open'); header.classList.add('active'); }
     }
-    const statsObserver = new IntersectionObserver(entries => {
-      entries.forEach(e => { if(e.isIntersecting){ document.querySelectorAll('[data-count]').forEach(el => animateCount(el, parseInt(el.dataset.count))); statsObserver.disconnect(); } });
-    }, { threshold: 0.5 });
-    const statsRow = document.querySelector('.stats-row');
-    if(statsRow) statsObserver.observe(statsRow);
+  </script>
+  <script>
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('button[type=submit]');
+      const orig = btn.textContent;
+      btn.textContent = '✅ Message Sent!';
+      btn.style.background = '#25d366';
+      btn.style.boxShadow = '0 0 20px rgba(37,211,102,0.4)';
+      setTimeout(() => { btn.textContent = orig; btn.style.background = ''; btn.style.boxShadow = ''; e.target.reset(); }, 3500);
+    }
+    function toggleFaq(q) {
+      const item = q.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
   </script>
 
   <footer>
@@ -672,14 +859,6 @@
         if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth',block:'start'}); }
       });
     });
-    function toggleMobile(header) {
-      const sub = header.nextElementSibling;
-      const isOpen = sub.classList.contains('open');
-      // close all open subs
-      document.querySelectorAll('.m-sub.open').forEach(s => s.classList.remove('open'));
-      document.querySelectorAll('.m-header.active').forEach(h => h.classList.remove('active'));
-      if (!isOpen) { sub.classList.add('open'); header.classList.add('active'); }
-    }
   </script>
 </body>
 </html>
